@@ -1,0 +1,39 @@
+system_message = "Tell me the exact years of the spruce bud worm outbreaks listed in this text"
+
+system_message = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. \
+                    You are to log every instance where the text mentions an outbreak at a specific time and location. \
+                    Write every instance on one line in the following format: Location, Year, Whether \
+                    there was or was not an outbreak/infestation (always a yes or no), and then a new line. This data must be in csv file \
+                    format. Here's an example: {The location}, {The year}, {Whether or not there was an outbreak}. The location must be a unique place one can find on a map, with no commas. If the text gives a range of years for an outbreak, list \
+                    each year on its own line, individually."
+
+system_message = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. \
+                    You are to log every instance where the text mentions whether or not an outbreak/infestation \
+                    occured during a specific year or range of years and at a specific or general region. \
+                    Write every instance in the following format exactly: The location, then the year, whether \
+                    there was or was not an outbreak/infestation (always a yes or no), and then a new line. This data must be in csv file \
+                    format. Here is an example: 'Northern France, 1493, Yes'. Never include the header or \
+                    any labels. An outbreak lasting multiple years must have each individual year listed on their own line. \
+                    The same goes for locations. \
+                    It is of the utmost importance that we have as many years and locations of data as possible."
+
+system_message = "You are a scientist analyzing a text on spruce budworm (SBW) outbreaks. \
+                        You are to log instances where the text mentions whether or not an outbreak \
+                        occured during a specific year or range of years and at a specific location. Write the data in the following \
+                        format exactly: The location, then the year, then whether there was or was not an \
+                        outbreak (always a yes or no), and then a new line. This data must be in csv file format. Never include \
+                        the header or any labels. If the text says there was or was not an outbreak \
+                        over a range of years, output each individual year within the range as its own line in the \
+                        aforementioned format, with the outbreak result being the same as other years within that range. Because you are reading a \
+                        random part of a text, there will often be no information available \
+                        about spruce budworm outbreaks in the text. If you cannot find any complete data \
+                        anywhere in the text, simply print 'No data in this text.' \
+                        and a new line. It is of the highest importance that you only ever print out data in the \
+                        desired output or 'No data in this text.'. Be aware that the text often refers to other \
+                        papers and studies, but these are never relevant to the data you are trying to \
+                        collect.\n\n"
+
+system_message_stage_2 = "You are a computer extracting data from research papers about Spruce Budworm (SBW) infestations and outbreaks. \
+                            You will be given a list of sentences and you will write a new sentence to summarize each specific infestation \
+                            or lack of infestation. For each outbreak/lack of outbreak, write the location it occured in, the years it \
+                            took place over, and whether or not an outbreak occured. Write a new line in between each sentence."
