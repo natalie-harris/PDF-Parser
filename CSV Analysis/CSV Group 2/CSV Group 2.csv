@@ -1,553 +1,991 @@
-area,latitude,longitude,year,outbreak,file_name,study
-southern quebec canada,45.5031824,-73.5698065,1905,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1906,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1907,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1908,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1909,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1910,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1911,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1912,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1913,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1914,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1915,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1916,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1917,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1918,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1919,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1920,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1921,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1922,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1923,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1924,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1925,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1926,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1927,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1928,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1929,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1930,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1935,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1936,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1937,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1938,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1939,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1940,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1941,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1942,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1943,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1944,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1945,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1946,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1947,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1948,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1949,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1950,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1951,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1952,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1953,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1954,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1955,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1956,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1957,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1958,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1959,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1960,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1961,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1962,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1963,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1964,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1965,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1968,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1969,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1970,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1971,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1972,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1973,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1974,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1975,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1976,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1977,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1978,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1979,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1980,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1981,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1982,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1983,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1984,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1985,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1986,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1987,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-southern quebec canada,45.5031824,-73.5698065,1988,yes,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
-quebec,45.5031824,-73.5698065,1905,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1906,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1907,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1908,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1909,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1910,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1911,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1912,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1913,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1914,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1915,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1916,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1917,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1918,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1919,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1920,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1921,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1922,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1923,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1924,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1925,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1926,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1927,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1928,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1929,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1930,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1935,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1936,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1937,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1938,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1939,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1940,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1941,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1942,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1943,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1944,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1945,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1946,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1947,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1948,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1949,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1950,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1951,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1952,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1953,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1954,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1955,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1956,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1957,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1958,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1959,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1960,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1961,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1962,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1963,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1964,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1965,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1968,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1969,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1970,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1971,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1972,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1973,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1974,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1975,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1976,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1977,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1978,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1979,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1980,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1981,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1982,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1983,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1984,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1985,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1986,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1987,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-quebec,45.5031824,-73.5698065,1988,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1905,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1906,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1907,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1908,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1909,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1910,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1911,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1912,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1913,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1914,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1915,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1916,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1917,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1918,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1919,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1920,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1921,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1922,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1923,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1924,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1925,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1926,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1927,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1928,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1929,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1930,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1935,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1936,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1937,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1938,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1939,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1940,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1941,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1942,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1943,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1944,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1945,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1946,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1947,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1948,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1949,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1950,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1951,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1952,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1953,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1954,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1955,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1956,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1957,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1958,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1959,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1960,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1961,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1962,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1963,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1964,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1965,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1968,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1969,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1970,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1971,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1972,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1973,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1974,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1975,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1976,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1977,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1978,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1979,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1980,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1981,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1982,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1983,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1984,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1985,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1986,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1987,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-eastern canadian forests,45.94845575,-66.6530224218406,1988,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1968,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1969,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1970,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1971,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1972,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1973,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1974,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1975,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1976,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1977,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1978,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1979,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1980,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1981,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1982,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1983,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1984,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1985,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1986,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1987,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-north shore region,42.5195292,-70.8967226,1988,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1968,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1969,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1970,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1971,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1972,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1973,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1974,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1975,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1976,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1977,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1978,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1979,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1980,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1981,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1982,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1983,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1984,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1985,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1986,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1987,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-gaspé peninsula,48.6146774,-66.066572550089,1988,yes,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
-northwestern ontario,49.809661,-88.4811791,1937,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1938,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1939,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1940,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1941,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1942,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1943,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1944,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1945,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1946,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1947,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1948,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1949,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1950,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1951,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1952,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1953,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1954,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1955,yes,outbreak_data_Elliot 1960.csv,5
-lake nipigon region,49.5998657,-87.9576817,1937,yes,outbreak_data_Elliot 1960.csv,5
-lake nipigon region,49.5998657,-87.9576817,1938,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1943,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1944,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1945,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1946,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1947,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1948,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1949,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1950,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1951,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1952,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1953,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1954,yes,outbreak_data_Elliot 1960.csv,5
-northwestern ontario,49.809661,-88.4811791,1955,yes,outbreak_data_Elliot 1960.csv,5
-port arthur and areas to the east and north,29.8988618,-93.9288723,1943,yes,outbreak_data_Elliot 1960.csv,5
-port arthur and areas to the east and north,29.8988618,-93.9288723,1944,yes,outbreak_data_Elliot 1960.csv,5
-port arthur and areas to the east and north,29.8988618,-93.9288723,1945,yes,outbreak_data_Elliot 1960.csv,5
-port arthur and areas to the east and north,29.8988618,-93.9288723,1946,yes,outbreak_data_Elliot 1960.csv,5
-port arthur and areas to the east and north,29.8988618,-93.9288723,1947,yes,outbreak_data_Elliot 1960.csv,5
-port arthur and areas to the east and north,29.8988618,-93.9288723,1948,yes,outbreak_data_Elliot 1960.csv,5
-sibley and black bay peninsulas,46.7729322,-92.1251218,1948,yes,outbreak_data_Elliot 1960.csv,5
-sibley and black bay peninsulas,46.7729322,-92.1251218,1949,yes,outbreak_data_Elliot 1960.csv,5
-sibley and black bay peninsulas,46.7729322,-92.1251218,1950,yes,outbreak_data_Elliot 1960.csv,5
-sibley and black bay peninsulas,46.7729322,-92.1251218,1951,yes,outbreak_data_Elliot 1960.csv,5
-sibley and black bay peninsulas,46.7729322,-92.1251218,1952,yes,outbreak_data_Elliot 1960.csv,5
-sibley and black bay peninsulas,46.7729322,-92.1251218,1953,yes,outbreak_data_Elliot 1960.csv,5
-sibley and black bay peninsulas,46.7729322,-92.1251218,1954,yes,outbreak_data_Elliot 1960.csv,5
-sibley and black bay peninsulas,46.7729322,-92.1251218,1955,yes,outbreak_data_Elliot 1960.csv,5
-lake nipigon,49.5998657,-87.9576817,1937,yes,outbreak_data_Elliot 1960.csv,5
-lake nipigon,49.5998657,-87.9576817,1938,yes,outbreak_data_Elliot 1960.csv,5
-quebec,46.8137431,-71.2084061,1976,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1977,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1978,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1979,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1980,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1981,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1982,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1983,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1984,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1985,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1986,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1987,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1988,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1989,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1990,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1991,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1946,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1947,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1948,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1949,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1950,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1951,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1952,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1953,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1954,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1955,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1956,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1957,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1958,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1959,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1915,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1916,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1917,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1918,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1919,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1920,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1921,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1922,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1923,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1924,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1925,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1926,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1927,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1928,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1929,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1872,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1873,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1874,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1875,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1876,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1877,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1878,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1879,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1880,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1881,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1882,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1883,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1884,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1885,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1886,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1887,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1888,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1889,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1890,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1891,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1892,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1893,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1894,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1895,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1896,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1897,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1898,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1899,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1900,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1901,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1902,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1903,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1807,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1808,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1809,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1810,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1811,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1812,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1813,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1814,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1815,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1816,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1817,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1754,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1755,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1756,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1757,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1758,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1759,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1760,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1761,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1762,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1763,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1764,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1765,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1706,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1707,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1708,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1709,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1710,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1711,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1712,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1713,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1714,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1715,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1716,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1717,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1664,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1665,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1666,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1667,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1668,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1669,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1670,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1630,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1631,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1632,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1633,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1634,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1635,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1636,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1637,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,46.8137431,-71.2084061,1638,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1976,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1977,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1978,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1979,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1980,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1981,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1982,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1983,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1984,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1985,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1986,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1943,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1944,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1945,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1946,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1947,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1948,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1949,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1950,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1951,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1952,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1953,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1954,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1955,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1956,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1957,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1958,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-northeastern north america,43.6610277,-70.2548596,1959,yes,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
-quebec,45.5031824,-73.5698065,1753,yes,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
-quebec,45.5031824,-73.5698065,1754,yes,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
-quebec,45.5031824,-73.5698065,1755,yes,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
-quebec,45.5031824,-73.5698065,1756,yes,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
-quebec,45.5031824,-73.5698065,1757,yes,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
-quebec,45.5031824,-73.5698065,1758,yes,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
-quebec,45.5031824,-73.5698065,1759,yes,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
-québec,46.8137431,-71.2084061,1986,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,1987,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,1988,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,1989,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,1990,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,1991,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,1992,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,1993,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,1994,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,1995,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,1996,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,1997,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,1998,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,1999,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2000,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2001,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2002,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2003,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2004,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2005,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2006,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2007,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2008,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2009,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2010,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2011,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2012,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2013,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-québec,46.8137431,-71.2084061,2014,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1939,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1940,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1941,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1942,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1943,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1944,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1945,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1946,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1947,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1948,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1949,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1950,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1951,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1952,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1953,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1954,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1955,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-quebec,46.8137431,-71.2084061,1956,yes,outbreak_data_Bouchard et al. 2018 -1.csv,1
-sioux lookout,50.11345465,-92.19624322619076,1867,yes,outbreak_data_Blais 1954.csv,6
-sioux lookout,50.11345465,-92.19624322619076,1868,yes,outbreak_data_Blais 1954.csv,6
-sioux lookout,50.11345465,-92.19624322619076,1869,yes,outbreak_data_Blais 1954.csv,6
-sioux lookout,50.11345465,-92.19624322619076,1870,yes,outbreak_data_Blais 1954.csv,6
-sioux lookout,50.11345465,-92.19624322619076,1871,yes,outbreak_data_Blais 1954.csv,6
-sioux lookout,50.11345465,-92.19624322619076,1872,yes,outbreak_data_Blais 1954.csv,6
-sioux lookout,50.11345465,-92.19624322619076,1873,yes,outbreak_data_Blais 1954.csv,6
-sioux lookout,50.11345465,-92.19624322619076,1874,yes,outbreak_data_Blais 1954.csv,6
-sioux lookout,50.11345465,-92.19624322619076,1875,yes,outbreak_data_Blais 1954.csv,6
-sioux lookout,50.11345465,-92.19624322619076,1876,yes,outbreak_data_Blais 1954.csv,6
-sioux lookout,50.11345465,-92.19624322619076,1877,yes,outbreak_data_Blais 1954.csv,6
-cedar lake,41.3647578,-87.4411473,1867,yes,outbreak_data_Blais 1954.csv,6
-cedar lake,41.3647578,-87.4411473,1868,yes,outbreak_data_Blais 1954.csv,6
-cedar lake,41.3647578,-87.4411473,1869,yes,outbreak_data_Blais 1954.csv,6
-cedar lake,41.3647578,-87.4411473,1870,yes,outbreak_data_Blais 1954.csv,6
-cedar lake,41.3647578,-87.4411473,1871,yes,outbreak_data_Blais 1954.csv,6
+year,area,latitude,longitude,outbreak,file_name,study
+1900,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1901,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1902,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1903,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1904,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1905,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1906,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1907,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1908,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1909,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1910,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1911,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1912,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1913,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1914,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1915,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1916,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1917,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1918,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1919,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1920,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1921,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1922,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1923,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1924,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1925,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1926,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1927,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1928,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1929,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1930,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1931,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1932,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1933,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1934,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1935,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1936,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1937,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1938,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1939,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1940,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1941,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1942,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1943,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1944,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1945,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1946,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1947,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1948,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1949,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1950,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1951,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1952,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1953,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1954,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1955,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1956,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1957,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1958,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1959,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1960,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1961,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1962,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1963,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1964,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1965,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1966,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1967,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1968,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1969,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1970,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1971,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1972,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1973,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1974,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1975,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1976,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1977,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1978,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1979,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1980,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1981,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1982,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1983,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1984,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1985,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1986,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1987,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1988,southern quebec canada,45.5031824,-73.5698065,1,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1989,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1990,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1991,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1992,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1993,southern quebec canada,45.5031824,-73.5698065,0,outbreak_data_Berguet et al. 2021 spatiotemp dyn 20th cent sbw.csv,9
+1900,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1901,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1902,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1903,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1904,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1905,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1906,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1907,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1908,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1909,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1910,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1911,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1912,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1913,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1914,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1915,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1916,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1917,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1918,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1919,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1920,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1921,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1922,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1923,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1924,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1925,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1926,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1927,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1928,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1929,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1930,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1931,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1932,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1933,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1934,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1935,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1936,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1937,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1938,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1939,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1940,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1941,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1942,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1943,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1944,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1945,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1946,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1947,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1948,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1949,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1950,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1951,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1952,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1953,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1954,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1955,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1956,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1957,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1958,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1959,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1960,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1961,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1962,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1963,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1964,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1965,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1966,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1967,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1968,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1969,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1970,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1971,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1972,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1973,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1974,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1975,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1976,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1977,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1978,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1979,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1980,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1981,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1982,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1983,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1984,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1985,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1986,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1987,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1988,eastern canadian forests,45.94845575,-66.6530224218406,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1989,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1990,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1991,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1992,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1993,eastern canadian forests,45.94845575,-66.6530224218406,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1963,gaspé peninsula,48.6146774,-66.066572550089,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1964,gaspé peninsula,48.6146774,-66.066572550089,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1965,gaspé peninsula,48.6146774,-66.066572550089,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1966,gaspé peninsula,48.6146774,-66.066572550089,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1967,gaspé peninsula,48.6146774,-66.066572550089,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1968,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1969,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1970,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1971,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1972,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1973,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1974,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1975,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1976,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1977,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1978,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1979,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1980,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1981,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1982,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1983,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1984,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1985,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1986,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1987,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1988,gaspé peninsula,48.6146774,-66.066572550089,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1989,gaspé peninsula,48.6146774,-66.066572550089,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1990,gaspé peninsula,48.6146774,-66.066572550089,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1991,gaspé peninsula,48.6146774,-66.066572550089,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1992,gaspé peninsula,48.6146774,-66.066572550089,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1993,gaspé peninsula,48.6146774,-66.066572550089,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1963,north shore region,42.5195292,-70.8967226,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1964,north shore region,42.5195292,-70.8967226,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1965,north shore region,42.5195292,-70.8967226,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1966,north shore region,42.5195292,-70.8967226,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1967,north shore region,42.5195292,-70.8967226,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1968,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1969,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1970,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1971,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1972,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1973,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1974,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1975,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1976,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1977,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1978,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1979,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1980,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1981,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1982,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1983,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1984,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1985,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1986,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1987,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1988,north shore region,42.5195292,-70.8967226,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1989,north shore region,42.5195292,-70.8967226,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1990,north shore region,42.5195292,-70.8967226,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1991,north shore region,42.5195292,-70.8967226,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1992,north shore region,42.5195292,-70.8967226,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1993,north shore region,42.5195292,-70.8967226,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1900,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1901,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1902,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1903,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1904,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1905,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1906,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1907,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1908,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1909,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1910,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1911,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1912,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1913,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1914,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1915,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1916,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1917,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1918,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1919,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1920,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1921,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1922,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1923,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1924,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1925,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1926,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1927,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1928,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1929,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1930,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1931,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1932,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1933,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1934,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1935,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1936,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1937,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1938,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1939,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1940,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1941,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1942,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1943,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1944,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1945,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1946,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1947,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1948,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1949,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1950,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1951,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1952,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1953,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1954,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1955,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1956,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1957,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1958,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1959,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1960,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1961,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1962,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1963,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1964,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1965,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1966,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1967,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1968,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1969,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1970,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1971,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1972,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1973,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1974,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1975,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1976,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1977,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1978,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1979,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1980,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1981,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1982,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1983,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1984,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1985,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1986,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1987,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1988,quebec,45.5031824,-73.5698065,1,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1989,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1990,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1991,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1992,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1993,quebec,45.5031824,-73.5698065,0,outbreak_data_Navarro et al. 2018 space time SBW.csv,4
+1932,lake nipigon,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1933,lake nipigon,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1934,lake nipigon,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1935,lake nipigon,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1936,lake nipigon,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1937,lake nipigon,49.5998657,-87.9576817,1,outbreak_data_Elliot 1960.csv,5
+1938,lake nipigon,49.5998657,-87.9576817,1,outbreak_data_Elliot 1960.csv,5
+1939,lake nipigon,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1940,lake nipigon,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1941,lake nipigon,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1942,lake nipigon,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1943,lake nipigon,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1932,lake nipigon region,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1933,lake nipigon region,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1934,lake nipigon region,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1935,lake nipigon region,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1936,lake nipigon region,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1937,lake nipigon region,49.5998657,-87.9576817,1,outbreak_data_Elliot 1960.csv,5
+1938,lake nipigon region,49.5998657,-87.9576817,1,outbreak_data_Elliot 1960.csv,5
+1939,lake nipigon region,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1940,lake nipigon region,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1941,lake nipigon region,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1942,lake nipigon region,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1943,lake nipigon region,49.5998657,-87.9576817,0,outbreak_data_Elliot 1960.csv,5
+1932,northwestern ontario,49.809661,-88.4811791,0,outbreak_data_Elliot 1960.csv,5
+1933,northwestern ontario,49.809661,-88.4811791,0,outbreak_data_Elliot 1960.csv,5
+1934,northwestern ontario,49.809661,-88.4811791,0,outbreak_data_Elliot 1960.csv,5
+1935,northwestern ontario,49.809661,-88.4811791,0,outbreak_data_Elliot 1960.csv,5
+1936,northwestern ontario,49.809661,-88.4811791,0,outbreak_data_Elliot 1960.csv,5
+1937,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1938,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1939,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1940,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1941,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1942,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1943,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1943,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1944,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1944,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1945,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1945,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1946,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1946,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1947,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1947,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1948,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1948,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1949,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1949,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1950,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1950,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1951,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1951,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1952,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1952,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1953,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1953,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1954,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1954,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1955,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1955,northwestern ontario,49.809661,-88.4811791,1,outbreak_data_Elliot 1960.csv,5
+1956,northwestern ontario,49.809661,-88.4811791,0,outbreak_data_Elliot 1960.csv,5
+1957,northwestern ontario,49.809661,-88.4811791,0,outbreak_data_Elliot 1960.csv,5
+1958,northwestern ontario,49.809661,-88.4811791,0,outbreak_data_Elliot 1960.csv,5
+1959,northwestern ontario,49.809661,-88.4811791,0,outbreak_data_Elliot 1960.csv,5
+1960,northwestern ontario,49.809661,-88.4811791,0,outbreak_data_Elliot 1960.csv,5
+1938,port arthur and areas to the east and north,29.8988618,-93.9288723,0,outbreak_data_Elliot 1960.csv,5
+1939,port arthur and areas to the east and north,29.8988618,-93.9288723,0,outbreak_data_Elliot 1960.csv,5
+1940,port arthur and areas to the east and north,29.8988618,-93.9288723,0,outbreak_data_Elliot 1960.csv,5
+1941,port arthur and areas to the east and north,29.8988618,-93.9288723,0,outbreak_data_Elliot 1960.csv,5
+1942,port arthur and areas to the east and north,29.8988618,-93.9288723,0,outbreak_data_Elliot 1960.csv,5
+1943,port arthur and areas to the east and north,29.8988618,-93.9288723,1,outbreak_data_Elliot 1960.csv,5
+1944,port arthur and areas to the east and north,29.8988618,-93.9288723,1,outbreak_data_Elliot 1960.csv,5
+1945,port arthur and areas to the east and north,29.8988618,-93.9288723,1,outbreak_data_Elliot 1960.csv,5
+1946,port arthur and areas to the east and north,29.8988618,-93.9288723,1,outbreak_data_Elliot 1960.csv,5
+1947,port arthur and areas to the east and north,29.8988618,-93.9288723,1,outbreak_data_Elliot 1960.csv,5
+1948,port arthur and areas to the east and north,29.8988618,-93.9288723,1,outbreak_data_Elliot 1960.csv,5
+1949,port arthur and areas to the east and north,29.8988618,-93.9288723,0,outbreak_data_Elliot 1960.csv,5
+1950,port arthur and areas to the east and north,29.8988618,-93.9288723,0,outbreak_data_Elliot 1960.csv,5
+1951,port arthur and areas to the east and north,29.8988618,-93.9288723,0,outbreak_data_Elliot 1960.csv,5
+1952,port arthur and areas to the east and north,29.8988618,-93.9288723,0,outbreak_data_Elliot 1960.csv,5
+1953,port arthur and areas to the east and north,29.8988618,-93.9288723,0,outbreak_data_Elliot 1960.csv,5
+1943,sibley and black bay peninsulas,46.7729322,-92.1251218,0,outbreak_data_Elliot 1960.csv,5
+1944,sibley and black bay peninsulas,46.7729322,-92.1251218,0,outbreak_data_Elliot 1960.csv,5
+1945,sibley and black bay peninsulas,46.7729322,-92.1251218,0,outbreak_data_Elliot 1960.csv,5
+1946,sibley and black bay peninsulas,46.7729322,-92.1251218,0,outbreak_data_Elliot 1960.csv,5
+1947,sibley and black bay peninsulas,46.7729322,-92.1251218,0,outbreak_data_Elliot 1960.csv,5
+1948,sibley and black bay peninsulas,46.7729322,-92.1251218,1,outbreak_data_Elliot 1960.csv,5
+1949,sibley and black bay peninsulas,46.7729322,-92.1251218,1,outbreak_data_Elliot 1960.csv,5
+1950,sibley and black bay peninsulas,46.7729322,-92.1251218,1,outbreak_data_Elliot 1960.csv,5
+1951,sibley and black bay peninsulas,46.7729322,-92.1251218,1,outbreak_data_Elliot 1960.csv,5
+1952,sibley and black bay peninsulas,46.7729322,-92.1251218,1,outbreak_data_Elliot 1960.csv,5
+1953,sibley and black bay peninsulas,46.7729322,-92.1251218,1,outbreak_data_Elliot 1960.csv,5
+1954,sibley and black bay peninsulas,46.7729322,-92.1251218,1,outbreak_data_Elliot 1960.csv,5
+1955,sibley and black bay peninsulas,46.7729322,-92.1251218,1,outbreak_data_Elliot 1960.csv,5
+1956,sibley and black bay peninsulas,46.7729322,-92.1251218,0,outbreak_data_Elliot 1960.csv,5
+1957,sibley and black bay peninsulas,46.7729322,-92.1251218,0,outbreak_data_Elliot 1960.csv,5
+1958,sibley and black bay peninsulas,46.7729322,-92.1251218,0,outbreak_data_Elliot 1960.csv,5
+1959,sibley and black bay peninsulas,46.7729322,-92.1251218,0,outbreak_data_Elliot 1960.csv,5
+1960,sibley and black bay peninsulas,46.7729322,-92.1251218,0,outbreak_data_Elliot 1960.csv,5
+1938,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1939,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1940,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1941,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1942,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1943,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1944,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1945,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1946,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1947,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1948,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1949,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1950,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1951,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1952,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1953,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1954,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1955,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1956,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1957,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1958,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1959,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1960,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1961,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1962,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1963,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1964,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1965,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1966,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1967,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1968,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1969,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1970,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1971,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1972,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1973,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1974,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1975,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1976,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1977,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1978,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1979,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1980,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1981,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1982,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1983,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1984,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1985,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1986,northeastern north america,43.6610277,-70.2548596,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1987,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1988,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1989,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1990,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1991,northeastern north america,43.6610277,-70.2548596,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1625,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1626,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1627,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1628,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1629,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1630,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1631,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1632,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1633,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1634,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1635,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1636,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1637,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1638,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1639,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1640,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1641,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1642,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1643,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1644,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1645,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1646,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1647,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1648,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1649,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1650,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1651,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1652,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1653,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1654,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1655,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1656,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1657,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1658,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1659,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1660,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1661,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1662,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1663,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1664,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1665,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1666,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1667,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1668,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1669,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1670,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1671,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1672,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1673,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1674,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1675,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1676,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1677,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1678,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1679,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1680,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1681,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1682,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1683,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1684,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1685,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1686,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1687,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1688,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1689,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1690,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1691,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1692,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1693,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1694,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1695,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1696,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1697,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1698,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1699,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1700,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1701,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1702,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1703,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1704,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1705,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1706,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1707,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1708,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1709,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1710,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1711,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1712,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1713,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1714,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1715,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1716,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1717,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1718,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1719,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1720,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1721,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1722,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1723,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1724,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1725,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1726,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1727,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1728,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1729,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1730,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1731,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1732,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1733,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1734,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1735,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1736,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1737,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1738,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1739,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1740,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1741,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1742,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1743,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1744,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1745,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1746,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1747,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1748,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1749,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1750,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1751,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1752,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1753,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1754,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1755,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1756,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1757,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1758,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1759,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1760,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1761,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1762,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1763,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1764,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1765,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1766,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1767,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1768,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1769,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1770,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1771,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1772,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1773,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1774,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1775,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1776,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1777,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1778,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1779,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1780,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1781,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1782,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1783,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1784,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1785,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1786,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1787,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1788,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1789,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1790,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1791,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1792,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1793,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1794,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1795,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1796,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1797,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1798,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1799,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1800,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1801,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1802,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1803,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1804,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1805,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1806,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1807,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1808,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1809,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1810,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1811,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1812,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1813,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1814,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1815,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1816,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1817,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1818,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1819,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1820,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1821,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1822,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1823,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1824,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1825,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1826,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1827,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1828,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1829,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1830,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1831,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1832,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1833,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1834,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1835,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1836,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1837,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1838,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1839,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1840,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1841,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1842,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1843,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1844,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1845,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1846,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1847,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1848,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1849,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1850,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1851,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1852,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1853,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1854,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1855,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1856,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1857,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1858,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1859,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1860,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1861,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1862,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1863,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1864,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1865,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1866,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1867,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1868,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1869,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1870,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1871,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1872,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1873,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1874,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1875,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1876,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1877,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1878,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1879,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1880,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1881,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1882,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1883,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1884,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1885,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1886,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1887,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1888,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1889,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1890,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1891,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1892,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1893,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1894,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1895,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1896,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1897,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1898,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1899,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1900,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1901,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1902,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1903,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1904,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1905,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1906,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1907,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1908,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1909,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1910,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1911,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1912,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1913,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1914,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1915,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1916,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1917,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1918,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1919,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1920,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1921,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1922,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1923,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1924,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1925,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1926,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1927,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1928,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1929,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1930,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1931,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1932,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1933,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1934,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1935,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1936,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1937,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1938,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1939,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1940,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1941,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1942,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1943,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1944,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1945,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1946,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1947,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1948,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1949,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1950,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1951,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1952,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1953,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1954,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1955,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1956,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1957,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1958,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1959,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1960,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1961,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1962,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1963,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1964,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1965,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1966,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1967,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1968,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1969,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1970,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1971,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1972,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1973,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1974,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1975,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1976,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1977,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1978,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1979,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1980,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1981,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1982,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1983,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1984,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1985,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1986,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1987,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1988,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1989,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1990,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1991,quebec,46.8137431,-71.2084061,1,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1992,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1993,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1994,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1995,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1996,quebec,46.8137431,-71.2084061,0,outbreak_data_Boulanger et al. 2012 SBW outbreaks 400 yrs.csv,2
+1748,quebec,45.5031824,-73.5698065,0,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1749,quebec,45.5031824,-73.5698065,0,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1750,quebec,45.5031824,-73.5698065,0,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1751,quebec,45.5031824,-73.5698065,0,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1752,quebec,45.5031824,-73.5698065,0,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1753,quebec,45.5031824,-73.5698065,1,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1754,quebec,45.5031824,-73.5698065,1,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1755,quebec,45.5031824,-73.5698065,1,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1756,quebec,45.5031824,-73.5698065,1,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1757,quebec,45.5031824,-73.5698065,1,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1758,quebec,45.5031824,-73.5698065,1,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1759,quebec,45.5031824,-73.5698065,1,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1760,quebec,45.5031824,-73.5698065,0,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1761,quebec,45.5031824,-73.5698065,0,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1762,quebec,45.5031824,-73.5698065,0,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1763,quebec,45.5031824,-73.5698065,0,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1764,quebec,45.5031824,-73.5698065,0,outbreak_data_Fraver et al. 2006 time series SBW Maine.csv,3
+1934,quebec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1935,quebec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1936,quebec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1937,quebec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1938,quebec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1939,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1940,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1941,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1942,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1943,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1944,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1945,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1946,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1947,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1948,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1949,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1950,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1951,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1952,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1953,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1954,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1955,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1956,quebec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1957,quebec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1958,quebec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1959,quebec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1960,quebec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1961,quebec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1981,québec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1982,québec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1983,québec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1984,québec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1985,québec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1986,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1987,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1988,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1989,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1990,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1991,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1992,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1993,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1994,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1995,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1996,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1997,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1998,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1999,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2000,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2001,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2002,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2003,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2004,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2005,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2006,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2007,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2008,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2009,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2010,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2011,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2012,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2013,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2014,québec,46.8137431,-71.2084061,1,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2015,québec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2016,québec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2017,québec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2018,québec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+2019,québec,46.8137431,-71.2084061,0,outbreak_data_Bouchard et al. 2018 -1.csv,1
+1862,cedar lake,41.3647578,-87.4411473,0,outbreak_data_Blais 1954.csv,6
+1863,cedar lake,41.3647578,-87.4411473,0,outbreak_data_Blais 1954.csv,6
+1864,cedar lake,41.3647578,-87.4411473,0,outbreak_data_Blais 1954.csv,6
+1865,cedar lake,41.3647578,-87.4411473,0,outbreak_data_Blais 1954.csv,6
+1866,cedar lake,41.3647578,-87.4411473,0,outbreak_data_Blais 1954.csv,6
+1867,cedar lake,41.3647578,-87.4411473,1,outbreak_data_Blais 1954.csv,6
+1868,cedar lake,41.3647578,-87.4411473,1,outbreak_data_Blais 1954.csv,6
+1869,cedar lake,41.3647578,-87.4411473,1,outbreak_data_Blais 1954.csv,6
+1870,cedar lake,41.3647578,-87.4411473,1,outbreak_data_Blais 1954.csv,6
+1871,cedar lake,41.3647578,-87.4411473,1,outbreak_data_Blais 1954.csv,6
+1872,cedar lake,41.3647578,-87.4411473,0,outbreak_data_Blais 1954.csv,6
+1873,cedar lake,41.3647578,-87.4411473,0,outbreak_data_Blais 1954.csv,6
+1874,cedar lake,41.3647578,-87.4411473,0,outbreak_data_Blais 1954.csv,6
+1875,cedar lake,41.3647578,-87.4411473,0,outbreak_data_Blais 1954.csv,6
+1876,cedar lake,41.3647578,-87.4411473,0,outbreak_data_Blais 1954.csv,6
+1862,sioux lookout,50.11345465,-92.19624322619076,0,outbreak_data_Blais 1954.csv,6
+1863,sioux lookout,50.11345465,-92.19624322619076,0,outbreak_data_Blais 1954.csv,6
+1864,sioux lookout,50.11345465,-92.19624322619076,0,outbreak_data_Blais 1954.csv,6
+1865,sioux lookout,50.11345465,-92.19624322619076,0,outbreak_data_Blais 1954.csv,6
+1866,sioux lookout,50.11345465,-92.19624322619076,0,outbreak_data_Blais 1954.csv,6
+1867,sioux lookout,50.11345465,-92.19624322619076,1,outbreak_data_Blais 1954.csv,6
+1868,sioux lookout,50.11345465,-92.19624322619076,1,outbreak_data_Blais 1954.csv,6
+1869,sioux lookout,50.11345465,-92.19624322619076,1,outbreak_data_Blais 1954.csv,6
+1870,sioux lookout,50.11345465,-92.19624322619076,1,outbreak_data_Blais 1954.csv,6
+1871,sioux lookout,50.11345465,-92.19624322619076,1,outbreak_data_Blais 1954.csv,6
+1872,sioux lookout,50.11345465,-92.19624322619076,1,outbreak_data_Blais 1954.csv,6
+1873,sioux lookout,50.11345465,-92.19624322619076,1,outbreak_data_Blais 1954.csv,6
+1874,sioux lookout,50.11345465,-92.19624322619076,1,outbreak_data_Blais 1954.csv,6
+1875,sioux lookout,50.11345465,-92.19624322619076,1,outbreak_data_Blais 1954.csv,6
+1876,sioux lookout,50.11345465,-92.19624322619076,1,outbreak_data_Blais 1954.csv,6
+1877,sioux lookout,50.11345465,-92.19624322619076,1,outbreak_data_Blais 1954.csv,6
+1878,sioux lookout,50.11345465,-92.19624322619076,0,outbreak_data_Blais 1954.csv,6
+1879,sioux lookout,50.11345465,-92.19624322619076,0,outbreak_data_Blais 1954.csv,6
+1880,sioux lookout,50.11345465,-92.19624322619076,0,outbreak_data_Blais 1954.csv,6
+1881,sioux lookout,50.11345465,-92.19624322619076,0,outbreak_data_Blais 1954.csv,6
+1882,sioux lookout,50.11345465,-92.19624322619076,0,outbreak_data_Blais 1954.csv,6
