@@ -50,6 +50,10 @@ def get_chatgpt_response(system_message, user_message, temp):
         except openai.error.Timeout as err:
             print("Request timed out. Retrying...")
 
+        except openai.error.ServiceUnavailableError as err:
+            num_seconds = 3
+            print(f"Server overloaded. Waiting {num_seconds} and retrying request.")
+
 def get_latitude_longitude(town, state, country):
     geolocater = Nominatim(user_agent = "research_paper_parser")
     has_coords = False
@@ -94,16 +98,17 @@ def make_csv_format(line):
     split_line = line.lower().strip().split(',')
     length = len(split_line)
 
-    if length < 4:
+    if length < 5:
         return line
     
     line = ""
 
     line += split_line[0]
-    for i in range(1, length - 2):
+    for i in range(1, length - 3):
         line += ' '
         line += split_line[i].strip()
 
+    line += (", " + split_line[length - 3])
     line += (", " + split_line[length - 2])
     line += (", " + split_line[length - 1])
 
@@ -115,6 +120,7 @@ def list_each_year(original_line):
     location = split_line[0].strip()
     years = split_line[1].strip()
     outbreak = split_line[2].strip()
+    source = split_line[3] .strip()
     first_year = years[:4]
     last_year = years[-4:]
 
@@ -124,12 +130,12 @@ def list_each_year(original_line):
     
     first_year = int(first_year)
     last_year = int(last_year)
-    if first_year >= last_year or last_year - first_year > 50: #filtering out invalid year values and when difference between two years > 50
+    if first_year >= last_year or last_year - first_year > 50 or first_year > 2022 or last_year > 2023: #filtering out invalid year values and when difference between two years > 50
         return [original_line]
     
     new_list = []
     for i in range(first_year, last_year + 1):
-        strings = [location, str(i), outbreak]
+        strings = [location, str(i), outbreak, source]
         new_line = ", ".join(strings)
         new_list.append(new_line)
 
@@ -152,12 +158,14 @@ def parse_response(response, outbreak_df, system_message_stage_3):
         print(f"Slightly more formatted: {line}")
         split_line = line.split(',')
 
-        if len(split_line) != 3:
+        if len(split_line) != 4:
             continue
 
         location = split_line[0].lower().strip()
         year = split_line[1].lower().strip()
         outbreak = split_line[2].lower().strip()
+        source = split_line[3].lower().strip()
+
 
         if outbreak != 'yes' and outbreak != 'no' and outbreak != 'uncertain':
             continue
@@ -166,6 +174,8 @@ def parse_response(response, outbreak_df, system_message_stage_3):
         if len(year) != 4 and len(year) != 9:
             continue
         if len(location) <= 3:
+            continue
+        if len(source) <= 3:
             continue
 
         # if data given as range of years, add every year to new list
@@ -203,8 +213,8 @@ def parse_response(response, outbreak_df, system_message_stage_3):
         # add latitude and longitude to dataframe
         split_line.append(latitude)
         split_line.append(longitude)
-        print(f"{location}, {latitude}, {longitude}, {year}, {outbreak}")
-        outbreak_df.loc[len(outbreak_df)] = [location, latitude, longitude, year, outbreak]
+        print(f"{location}, {latitude}, {longitude}, {year}, {outbreak}, {source}")
+        outbreak_df.loc[len(outbreak_df)] = [location, latitude, longitude, year, outbreak, source]
 
 
 
@@ -250,12 +260,56 @@ def build_chunk_group(system_message, text, end_message):
 
 #_________________________________________________________________________
 
+file_name = "Testing/testing_data/test3"
+
 # set system_messages for each stage
-system_message_stage_1 = "You are a scientist extracting data from research papers about Spruce Budworm (SBW) infestations and outbreaks. You are to log every instance in which the text refers to a Spruce Budworm outbreak during any years and region. You must include the range of years and specific region data. The region must be locatable on a map. Be as specific as possible. General locations like 'study site' or 'tree stand #3' are not relevant. Include outbreaks whose existence is uncertain. Never include research citations from the text. It is of the utmost importance that you only output verbatim sentences from the text, and nothing else."
+system_message_stage_0 = "You are a list-maker making a comma-separated list of sources for research papers about spruce budworms. \
+                            You are given an excerpt from the text and must determine where the data is coming from. Your possible list items are: \
+                            Dendrochronological samples from tree cores, Dendrochronological samples from historical buildings, \
+                            Pheromone traps, Aerial defoliation survey, Survey from insect laboratory, or Personal Communication with \
+                            the Department of Lands and Forest representative. If the paper uses multiple sources, list each one separately, \
+                            using commas as delimiters. If no information about the \
+                            methods of data collection are given, simple output 'Unknown'. It is of the utmost importance that your output \
+                            is a comma-separated list. Do not write headers or any additional information. Preface \
+                            the information with 'Data collection method: '."
 
-system_message_stage_2 = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbreak/infestation occured during a specific year or range of years and at a specific or general region. Write every instance in the following format exactly: The location, then the year, whether there was or was not an outbreak/infestation (always a yes or no), and then a new line. This data must be in csv file format. Never include the header or any labels. If an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'. It is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks. If the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'"
+system_message_stage_1 = "You are a scientist extracting data from research papers about Spruce Budworm (SBW) infestations \
+                            and outbreaks. You are to log every instance in which the text refers to a Spruce Budworm outbreak \
+                            during any years and region. You must include the range of years, the specific region data, and the origin of \
+                            the data for the outbreak came from. Valid origins are: Dendrochronological samples from tree cores, \
+                            Dendrochronological samples from historical buildings, Pheromone traps, Aerial defoliation survey, \
+                            Survey from insect laboratory, or Personal Communication with the Department of Lands and Forest \
+                            representative. The \
+                            region must be locatable on a map. Be as specific as possible. General locations like 'study site' \
+                            or 'tree stand #3' are not relevant. Include outbreaks whose existence is uncertain. Never include \
+                            research citations from the text. It is of the utmost importance that you only output verbatim \
+                            sentences from the text, and nothing else."
 
-system_message_stage_3 = "You are a computer made to give scientists town names within an area. You will be given a location in North America. Your task is to give a town that belongs at that location to be used as a locality string for GEOLocate software. If the area is very remote, give the nearest town. Put it in csv format as the following: \"city, state, country\". It is of the utmost importance that you print only the one piece of data, and absolutely nothing else. You must output a city name, even if the given area is very large or very remote."
+system_message_stage_2 = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. \
+                            You are to log every instance where the text mentions whether or not an outbreak/infestation \
+                            occured during a specific year or range of years and at a specific geographic location. Write every \
+                            instance in the following format exactly: The geographic location, then the year, whether there was or was \
+                            not an outbreak/infestation (always a yes or no), the origin of the data, and then \
+                            a new line. This data must be in csv \
+                            file format. Never include the header or any labels. Valid origins for the data are: Dendrochronological \
+                            samples from tree cores, \
+                            Dendrochronological samples from historical buildings, Pheromone traps, Aerial defoliation survey, \
+                            Survey from insect laboratory, or Personal Communication with the Department of Lands and Forest \
+                            representative. The geographic location must be something like a city, \
+                            a county, a specific lake, or anything that is locatable on a map. If an outbreak lasts multiple years, \
+                            write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The \
+                            year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' \
+                            or 'unknown'. It is of the utmost importance that we have as many years and locations of data as \
+                            possible. References to other authors and papers are irrelevant. Only log specific instances of \
+                            SBW outbreaks. If the authors are uncertain of an outbreak's existence, the 'outbreak' column for \
+                            that outbreak should be 'uncertain'"
+
+system_message_stage_3 = "You are a computer made to give scientists town names within an area. You will be given a location \
+                            in North America. Your task is to give a town that belongs at that location to be used as a \
+                            locality string for GEOLocate software. If the area is very remote, give the nearest town. Put \
+                            it in csv format as the following: \"city, state, country\". It is of the utmost importance that \
+                            you print only the one piece of data, and absolutely nothing else. You must output a city name, \
+                            even if the given area is very large or very remote."
 
 end_message = "END\n\n"
 
@@ -272,6 +326,15 @@ study_indices = {
     "Berguet et al. 2021 spatiotemp dyn 20th cent sbw.pdf": 9
     }
 
+valid_sources = [
+    'dendrochronological samples from tree cores', 
+    'dendrochronological samples from historical buildings', 
+    'pheromone traps', 
+    'aerial defoliation survey',
+    'survey from insect laboratory', 
+    'personal communication with the department of lands and forest representative'
+]
+
 outbreak_occurence_values = {
     'no': 0,
     'yes': 1,
@@ -282,11 +345,11 @@ outbreak_occurence_values = {
 data_list = []
 
 # get folder path and file name of pdf, create pdf reader instance
-pdf_files = glob.glob("*.pdf")
+pdf_files = glob.glob("papers/*.pdf")
 print("Processing all files in this directory. This may take a while!")
 for file in pdf_files:
 
-    # if file != 'Blais 1981.pdf':
+    # if file != 'papers/Boulanger et al. 2012 SBW outbreaks 400 yrs.pdf':
     #     continue
 
     print(f"Currently Processing: {file}")
@@ -307,8 +370,41 @@ for file in pdf_files:
     openai.api_key = openai_key
     model_list = openai.Model.list()
 
+    # test source determination
+    # build chunks
+    source_chunk_group = build_chunk_group(system_message_stage_0, pdf_text, end_message)
+    source_chunk_groups = [source_chunk_group]
+    source_prefix = "data collection method: "
+
+    # iterate through each chunk until source is found
+    source = 'unknown'
+    for index, chunk_group in enumerate(source_chunk_groups):
+        j = 0
+        while j < len(chunk_group) and source == 'unknown':
+            chunk = chunk_group[j]
+            user_message = chunk
+            temperature = 0
+            generated_text = get_chatgpt_response("", user_message, temperature).lower()
+            if generated_text.startswith(source_prefix):
+                generated_text = generated_text[len(source_prefix):]
+            if generated_text.endswith('.'):
+                generated_text = generated_text[0:len(generated_text) - 1]
+            if not generated_text.startswith('unknown'):
+                print(generated_text)
+                source = generated_text
+            j += 1
+
+    valid_source_outputs = []
+    source = source.split(',')
+    for i in range(len(source)):
+        source[i] = source[i].strip().lower()
+        if source[i] in valid_sources:
+            valid_source_outputs.append(source[i])
+    
+    print(valid_source_outputs)
+
     # set up dataframe for csv output
-    outbreak_df = pd.DataFrame(columns=['area', 'latitude', 'longitude', 'year', 'outbreak'])
+    outbreak_df = pd.DataFrame(columns=['area', 'Latitude', 'Longitude', 'Year', 'Outbreak', 'Source'])
 
     # build prompt chunks (two chunk groups of different slices are built to increase chance that gpt will understand context of text)
     chunk_group = build_chunk_group(system_message_stage_1, pdf_text, end_message)
@@ -328,45 +424,65 @@ for file in pdf_files:
             outbreak_df = parse_response(generated_text, outbreak_df, system_message_stage_3)
             j += 1
 
+    
+
     # if there was data to be found, add it to dataframe list
     if not outbreak_df.empty:
+        outbreak_df['File Name'] = os.path.basename(file)
+        outbreak_df['Study'] = outbreak_df['File Name'].map(study_indices)
+
+        # Append the dataframe to the list
         data_list.append(outbreak_df)
+
+        # Create individual csv file for this study
         # file_name_no_extension = os.path.splitext(file)[0]
         # csv_file_name = 'outbreak_data_' + file_name_no_extension + '.csv'
         # excel_file_name = 'outbreak_data_' + file_name_no_extension + '.xlsx'
         # outbreak_df.to_csv(csv_file_name, index=False)
         # outbreak_df.to_excel(excel_file_name, index=False)
 
-    # concatenate all dataframes
-    final_data = []
-    for df in data_list:
+# concatenate all dataframes
+final_data = []
+for df in data_list:
 
-        data = df
-        list_data_filled = []
-        data = data.sort_values(['area', 'year'])
-        for area in data['area'].unique():
-            area_data = data[data['area'] == area].copy()  # Make a copy of the data to avoid the warning
-            area_data.loc[:, 'year'] = area_data['year'].astype(int)  # Use .loc[] to specify the location of the data            
-            min_year = area_data['year'].min()
-            max_year = area_data['year'].max()
-            latitude = area_data['latitude'].iloc[0]
-            longitude = area_data['longitude'].iloc[0]
-            all_years = pd.DataFrame({'year': range(min_year - 1, max_year + 2)}) # includes one year before and after outbreaks since we can assume they didn't have outbreaks
-            all_years['area'] = area
-            all_years['latitude'] = latitude
-            all_years['longitude'] = longitude
-            merged_data = pd.merge(all_years, area_data, how='left', on=['year', 'area', 'latitude', 'longitude'])
-            merged_data['outbreak'].fillna('no', inplace=True)
-            list_data_filled.append(merged_data)
+    data = df
+    filename = data['File Name'].iloc[0]
+    study = data['Study'].iloc[0]
+    list_data_filled = []
+    data = data.sort_values(['area', 'Year'])
+    
+    for area in data['area'].unique():
+        area_data = data[data['area'] == area].copy()
+        
+        # Convert 'Year' column to int
+        area_data['Year'] = area_data['Year'].astype(int)
+        
+        min_year = int(area_data['Year'].min())
+        max_year = int(area_data['Year'].max())
+        latitude = area_data['Latitude'].iloc[0]
+        longitude = area_data['Longitude'].iloc[0]
+        
+        all_years = pd.DataFrame({'Year': range(min_year - 1, max_year + 2)})
+        all_years['area'] = area
+        all_years['Latitude'] = latitude
+        all_years['Longitude'] = longitude
+        
+        # Convert 'area', 'Latitude', and 'Longitude' in both DataFrames to the same data type if needed
+        # e.g., all_years['area'] = all_years['area'].astype(str)
+        #       area_data['area'] = area_data['area'].astype(str)
+        
+        merged_data = pd.merge(all_years, area_data, how='left', on=['Year', 'area', 'Latitude', 'Longitude'])
+        merged_data['Outbreak'].fillna('no', inplace=True)
+        merged_data['Study'] = study
+        merged_data['File Name'] = filename
+        list_data_filled.append(merged_data)
 
-        data = pd.concat(list_data_filled, ignore_index=True)
+    data = pd.concat(list_data_filled, ignore_index=True)
 
-        data['file_name'] = os.path.basename(file)
-        data['study'] = data['file_name'].map(study_indices)
-        data['outbreak'] = data['outbreak'].map(outbreak_occurence_values)
-        final_data.append(data)
+    data['Outbreak'] = data['Outbreak'].map(outbreak_occurence_values)
+    final_data.append(data)
 
 if len(final_data) > 0:
     all_data = pd.concat(final_data, ignore_index=True)
-    all_data.to_csv("Outbreak Data" + '.csv', index=False)
-    all_data.to_excel("Outbreak Data" + '.xlsx', index=False)
+    all_data.to_csv(file_name + '.csv', index=False)
+    all_data.to_excel(file_name + '.xlsx', index=False)
