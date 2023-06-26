@@ -15,6 +15,7 @@ import tiktoken
 import glob
 from geopy.geocoders import Nominatim
 from geopy.adapters import AdapterHTTPError
+from geopy.exc import GeocoderUnavailable
 import pandas as pd
 
 # helper function to get chatgpt output from set of inputs
@@ -64,7 +65,9 @@ def get_latitude_longitude(town, state, country):
             has_coords = True
         except (AdapterHTTPError, socket.timeout) as err:
             print("There was an HTTP error getting coordinates. Retrying...")
-        
+        except GeocoderUnavailable as e:
+            print("Geopy error. Waiting 5 seconds.")
+            time.sleep(5)
     
     if location is None:
         return None, None # must handle when location is not found
@@ -164,7 +167,7 @@ def parse_response(response, outbreak_df, system_message_stage_3):
         location = split_line[0].lower().strip()
         year = split_line[1].lower().strip()
         outbreak = split_line[2].lower().strip()
-        source = split_line[3].lower().strip()
+        evidence = split_line[3].lower().strip()
 
 
         if outbreak != 'yes' and outbreak != 'no' and outbreak != 'uncertain':
@@ -175,7 +178,7 @@ def parse_response(response, outbreak_df, system_message_stage_3):
             continue
         if len(location) <= 3:
             continue
-        if len(source) <= 3:
+        if len(evidence) <= 3:
             continue
 
         # if data given as range of years, add every year to new list
@@ -198,6 +201,7 @@ def parse_response(response, outbreak_df, system_message_stage_3):
         location = split_line[0].lower().strip()
         year = split_line[1].lower().strip()
         outbreak = split_line[2].lower().strip()
+        evidence = split_line[3].lower().strip()
 
         # search for location in cache, otherwise get coordinates and store in cache
         if location in cached_location_coords:
@@ -213,8 +217,9 @@ def parse_response(response, outbreak_df, system_message_stage_3):
         # add latitude and longitude to dataframe
         split_line.append(latitude)
         split_line.append(longitude)
-        print(f"{location}, {latitude}, {longitude}, {year}, {outbreak}, {source}")
-        outbreak_df.loc[len(outbreak_df)] = [location, latitude, longitude, year, outbreak, source]
+        print(f"{location}, {latitude}, {longitude}, {year}, {outbreak}, {evidence}")
+        # print(outbreak_df)
+        outbreak_df.loc[len(outbreak_df)] = [location, latitude, longitude, year, outbreak, evidence, '']
 
 
 
@@ -257,10 +262,17 @@ def build_chunk_group(system_message, text, end_message):
 
     return chunk_group
 
+# returns a df with zeros put in between correct values
+# also fixes conflicts where two entries with the same coordinates, and year have different outbreak values
+def build_dataframe(df):
+    
+
+
+    return df
 
 #_________________________________________________________________________
 
-file_name = "Testing/testing_data/test3"
+file_name = "Testing/testing_data/test9"
 
 # set system_messages for each stage
 system_message_stage_0 = "You are a list-maker making a comma-separated list of sources for research papers about spruce budworms. \
@@ -275,11 +287,7 @@ system_message_stage_0 = "You are a list-maker making a comma-separated list of 
 
 system_message_stage_1 = "You are a scientist extracting data from research papers about Spruce Budworm (SBW) infestations \
                             and outbreaks. You are to log every instance in which the text refers to a Spruce Budworm outbreak \
-                            during any years and region. You must include the range of years, the specific region data, and the origin of \
-                            the data for the outbreak came from. Valid origins are: Dendrochronological samples from tree cores, \
-                            Dendrochronological samples from historical buildings, Pheromone traps, Aerial defoliation survey, \
-                            Survey from insect laboratory, or Personal Communication with the Department of Lands and Forest \
-                            representative. The \
+                            during any years and region. You must include the range of years and the specific region of the data. The \
                             region must be locatable on a map. Be as specific as possible. General locations like 'study site' \
                             or 'tree stand #3' are not relevant. Include outbreaks whose existence is uncertain. Never include \
                             research citations from the text. It is of the utmost importance that you only output verbatim \
@@ -289,13 +297,9 @@ system_message_stage_2 = "You are a computer analyzing a text for scientists on 
                             You are to log every instance where the text mentions whether or not an outbreak/infestation \
                             occured during a specific year or range of years and at a specific geographic location. Write every \
                             instance in the following format exactly: The geographic location, then the year, whether there was or was \
-                            not an outbreak/infestation (always a yes or no), the origin of the data, and then \
-                            a new line. This data must be in csv \
-                            file format. Never include the header or any labels. Valid origins for the data are: Dendrochronological \
-                            samples from tree cores, \
-                            Dendrochronological samples from historical buildings, Pheromone traps, Aerial defoliation survey, \
-                            Survey from insect laboratory, or Personal Communication with the Department of Lands and Forest \
-                            representative. The geographic location must be something like a city, \
+                            not an outbreak/infestation (always a yes or no), a sentence from the excerpt that gives evidence for the \
+                            outbreak with NO commas, and then a new line. This data must be in csv \
+                            file format. Never include the header or any labels. The geographic location must be something like a city, \
                             a county, a specific lake, or anything that is locatable on a map. If an outbreak lasts multiple years, \
                             write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The \
                             year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' \
@@ -345,11 +349,11 @@ outbreak_occurence_values = {
 data_list = []
 
 # get folder path and file name of pdf, create pdf reader instance
-pdf_files = glob.glob("papers/*.pdf")
+pdf_files = glob.glob("Michael Papers/*.pdf")
 print("Processing all files in this directory. This may take a while!")
 for file in pdf_files:
 
-    # if file != 'papers/Boulanger et al. 2012 SBW outbreaks 400 yrs.pdf':
+    # if file != 'PMC Papers/Accurate dating of spruce budworm infestation using tree growth anomalies.pdf':
     #     continue
 
     print(f"Currently Processing: {file}")
@@ -394,17 +398,17 @@ for file in pdf_files:
                 source = generated_text
             j += 1
 
-    valid_source_outputs = []
+    found_valid_sources = []
     source = source.split(',')
     for i in range(len(source)):
         source[i] = source[i].strip().lower()
         if source[i] in valid_sources:
-            valid_source_outputs.append(source[i])
+            found_valid_sources.append(source[i])
     
-    print(valid_source_outputs)
+    print(found_valid_sources)
 
     # set up dataframe for csv output
-    outbreak_df = pd.DataFrame(columns=['area', 'Latitude', 'Longitude', 'Year', 'Outbreak', 'Source'])
+    outbreak_df = pd.DataFrame(columns=['area', 'Latitude', 'Longitude', 'Year', 'Outbreak', 'Evidence', 'Source'])
 
     # build prompt chunks (two chunk groups of different slices are built to increase chance that gpt will understand context of text)
     chunk_group = build_chunk_group(system_message_stage_1, pdf_text, end_message)
@@ -421,7 +425,13 @@ for file in pdf_files:
             print(f"\nStage 1: {generated_text}")
             generated_text = get_chatgpt_response(system_message_stage_2, generated_text, 0)
             print(f"Stage 2:\n{generated_text}\n\n")
-            outbreak_df = parse_response(generated_text, outbreak_df, system_message_stage_3)
+            parsed_response = parse_response(generated_text, outbreak_df, system_message_stage_3)
+            if parsed_response is not None:
+                outbreak_df = parsed_response
+            else:
+                # Handle the case where parse_response returned None, if necessary
+                # For example, you might want to log an error message, or break out of the loop.
+                print("Error: Could not parse the response.")
             j += 1
 
     
@@ -430,9 +440,17 @@ for file in pdf_files:
     if not outbreak_df.empty:
         outbreak_df['File Name'] = os.path.basename(file)
         outbreak_df['Study'] = outbreak_df['File Name'].map(study_indices)
+        print(found_valid_sources)
+        if len(found_valid_sources) > 0:
+            outbreak_df['Source'] = ' | '.join(found_valid_sources)
+        else:
+            outbreak_df['Source'] = 'No identified sources'
+        print(outbreak_df.iloc[0]['Source'])
+
 
         # Append the dataframe to the list
         data_list.append(outbreak_df)
+
 
         # Create individual csv file for this study
         # file_name_no_extension = os.path.splitext(file)[0]
@@ -447,6 +465,7 @@ for df in data_list:
 
     data = df
     filename = data['File Name'].iloc[0]
+    source = data['Source'].iloc[0]
     study = data['Study'].iloc[0]
     list_data_filled = []
     data = data.sort_values(['area', 'Year'])
@@ -469,12 +488,13 @@ for df in data_list:
         
         # Convert 'area', 'Latitude', and 'Longitude' in both DataFrames to the same data type if needed
         # e.g., all_years['area'] = all_years['area'].astype(str)
-        #       area_data['area'] = area_data['area'].astype(str)
+        # area_data['area'] = area_data['area'].astype(str)
         
         merged_data = pd.merge(all_years, area_data, how='left', on=['Year', 'area', 'Latitude', 'Longitude'])
         merged_data['Outbreak'].fillna('no', inplace=True)
         merged_data['Study'] = study
         merged_data['File Name'] = filename
+        merged_data['Source'] = source
         list_data_filled.append(merged_data)
 
     data = pd.concat(list_data_filled, ignore_index=True)
