@@ -167,7 +167,7 @@ def parse_response(response, outbreak_df, system_message_stage_3):
         location = split_line[0].lower().strip()
         year = split_line[1].lower().strip()
         outbreak = split_line[2].lower().strip()
-        evidence = split_line[3].lower().strip()
+        reliability = split_line[3].lower().strip()
 
 
         if outbreak != 'yes' and outbreak != 'no' and outbreak != 'uncertain':
@@ -178,7 +178,7 @@ def parse_response(response, outbreak_df, system_message_stage_3):
             continue
         if len(location) <= 3:
             continue
-        if len(evidence) <= 3:
+        if len(reliability) <= 1:
             continue
 
         # if data given as range of years, add every year to new list
@@ -217,9 +217,9 @@ def parse_response(response, outbreak_df, system_message_stage_3):
         # add latitude and longitude to dataframe
         split_line.append(latitude)
         split_line.append(longitude)
-        print(f"{location}, {latitude}, {longitude}, {year}, {outbreak}, {evidence}")
+        print(f"{location}, {latitude}, {longitude}, {year}, {outbreak}, {reliability}")
         # print(outbreak_df)
-        outbreak_df.loc[len(outbreak_df)] = [location, latitude, longitude, year, outbreak, evidence, '']
+        outbreak_df.loc[len(outbreak_df)] = [location, latitude, longitude, year, outbreak, reliability, '']
 
 
 
@@ -272,7 +272,7 @@ def build_dataframe(df):
 
 #_________________________________________________________________________
 
-file_name = "Testing/testing_data/test9"
+file_name = "Testing/testing_data/test11"
 
 # set system_messages for each stage
 system_message_stage_0 = "You are a list-maker making a comma-separated list of sources for research papers about spruce budworms. \
@@ -297,8 +297,8 @@ system_message_stage_2 = "You are a computer analyzing a text for scientists on 
                             You are to log every instance where the text mentions whether or not an outbreak/infestation \
                             occured during a specific year or range of years and at a specific geographic location. Write every \
                             instance in the following format exactly: The geographic location, then the year, whether there was or was \
-                            not an outbreak/infestation (always a yes or no), a sentence from the excerpt that gives evidence for the \
-                            outbreak with NO commas, and then a new line. This data must be in csv \
+                            not an outbreak/infestation (always a yes or no), a reliability score estimating the reliability of the data \
+                            between 0 and 100%, and then a new line. This data must be in csv \
                             file format. Never include the header or any labels. The geographic location must be something like a city, \
                             a county, a specific lake, or anything that is locatable on a map. If an outbreak lasts multiple years, \
                             write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The \
@@ -349,7 +349,7 @@ outbreak_occurence_values = {
 data_list = []
 
 # get folder path and file name of pdf, create pdf reader instance
-pdf_files = glob.glob("Michael Papers/*.pdf")
+pdf_files = glob.glob("New Papers/*.pdf")
 print("Processing all files in this directory. This may take a while!")
 for file in pdf_files:
 
@@ -408,7 +408,7 @@ for file in pdf_files:
     print(found_valid_sources)
 
     # set up dataframe for csv output
-    outbreak_df = pd.DataFrame(columns=['area', 'Latitude', 'Longitude', 'Year', 'Outbreak', 'Evidence', 'Source'])
+    outbreak_df = pd.DataFrame(columns=['area', 'Latitude', 'Longitude', 'Year', 'Outbreak', 'Reliability', 'Source'])
 
     # build prompt chunks (two chunk groups of different slices are built to increase chance that gpt will understand context of text)
     chunk_group = build_chunk_group(system_message_stage_1, pdf_text, end_message)
