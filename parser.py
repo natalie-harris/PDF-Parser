@@ -20,7 +20,7 @@ import pandas as pd
 
 # helper function to get chatgpt output from set of inputs
 def get_chatgpt_response(system_message, user_message, temp):
-    gpt_model = 'gpt-3.5-turbo'
+    gpt_model = 'gpt-4-0613'
 
     got_response = False
     while not got_response:
@@ -234,7 +234,7 @@ def get_tokenized_length(text):
 # returns chunk group of required lengths so as to stay under openai token limit
 def build_chunk_group(system_message, text, end_message):
     system_message_length = len(system_message) + len(end_message)
-    max_token_length = 4097
+    max_token_length = 8100
     base_multiplier = 4
     safety_multiplier = .8 # used just in case local tokenizer works differently than openai's
     chunk_group = []
@@ -272,7 +272,7 @@ def build_dataframe(df):
 
 #_________________________________________________________________________
 
-file_name = "Testing/testing_data/test11"
+file_name = "Testing/testing_data/test13"
 
 # set system_messages for each stage
 system_message_stage_0 = "You are a list-maker making a comma-separated list of sources for research papers about spruce budworms. \
@@ -349,7 +349,7 @@ outbreak_occurence_values = {
 data_list = []
 
 # get folder path and file name of pdf, create pdf reader instance
-pdf_files = glob.glob("New Papers/*.pdf")
+pdf_files = glob.glob("papers/*.pdf")
 print("Processing all files in this directory. This may take a while!")
 for file in pdf_files:
 
@@ -367,7 +367,7 @@ for file in pdf_files:
     pdf_text = ''
     for page_number in range(num_pages):
         page = pdf_reader.pages[page_number]
-        pdf_text += page.extract_text()
+        pdf_text += page.extract_text().replace("-\n", "").replace("\n", " ").replace(" -", "-")
 
     # set up openai api
     openai_key = "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"
