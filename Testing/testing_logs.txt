@@ -388,7 +388,7 @@ system_message_stage_3 = "You are a computer made to give scientists town names 
                             even if the given area is very large or very remote."
 
 Test 15:
-Idea: Same thing as Test 14, but without reliability scores
+Idea: Same thing as Test 14, but without reliability scores. Also using chatgpt4
 system_message_stage_0 = "You are a list-maker making a comma-separated list of sources for research papers about spruce budworms. \
                             You are given an excerpt from the text and must determine where the data is coming from. Your possible list items are: \
                             Dendrochronological samples from tree cores, Dendrochronological samples from historical buildings, \
@@ -431,3 +431,6 @@ system_message_stage_3 = "You are a computer made to give scientists town names 
                             it in csv format as the following: \"city, state, country\". It is of the utmost importance that \
                             you print only the one piece of data, and absolutely nothing else. You must output a city name, \
                             even if the given area is very large or very remote."
+
+Test 16:
+Exact same test as test 15 but only using gpt 3.5 turbo. Used for comparing data between gpt3.5 and gpt4
