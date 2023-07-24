@@ -536,7 +536,7 @@ def main():
 
     file_name = "Testing/testing_data/test17"
 
-    use_gpt4 = True
+    use_gpt4 = False
 
     # for concatenating dataframes
     data_list = []
@@ -546,7 +546,10 @@ def main():
     print("Processing all files in this directory. This may take a while!")
     for file in pdf_files:
 
-        if file != 'papers/Boulanger et al. 2012 SBW outbreaks 400 yrs.pdf' and file != 'papers/Bouchard et al. 2018 -1.pdf':
+        # if file != 'papers/Boulanger et al. 2012 SBW outbreaks 400 yrs.pdf' and file != 'papers/Bouchard et al. 2018 -1.pdf':
+        #     continue
+
+        if file != 'papers/Elliot 1960.pdf':
             continue
 
         print(f"Currently Processing: {file}")
