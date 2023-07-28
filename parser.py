@@ -16,16 +16,21 @@ import PyPDF2
 import openai
 import tiktoken
 import glob
+import shlex
+import pandas as pd
 from geopy.geocoders import Nominatim
 from geopy.adapters import AdapterHTTPError
 from geopy.exc import GeocoderUnavailable
 from geopy.exc import GeocoderServiceError
 from geographiclib.geodesic import Geodesic
 from geopy.distance import geodesic
-import pandas as pd
 
 # used for checking how long a text would be in chatgpt tokens
-def get_tokenized_length(text, model):
+def get_tokenized_length(text, model, examples=[]):
+
+    for example in examples:
+        text += example["content"]
+
     encoding = tiktoken.encoding_for_model(model)
     num_tokens = len(encoding.encode(text))
     return num_tokens
@@ -33,34 +38,45 @@ def get_tokenized_length(text, model):
 # helper function to get chatgpt output from set of inputs
 # note on temperature from OpenAI: "OpenAI models are non-deterministic, meaning that identical inputs can yield different outputs. Setting temperature to 0 will make the outputs mostly deterministic, but a small amount of variability may remain."
 # see https://community.openai.com/t/the-system-role-how-it-influences-the-chat-behavior/87353 for suggested ideal system message placement
-def get_chatgpt_response(system_message, user_message, temp, use_gpt4=False):
+def get_chatgpt_response(system_message, user_message, temp, use_gpt4=False, examples=[]):
     gpt_model = ''
     total_message = system_message + user_message
     if use_gpt4:
-        num_tokens = get_tokenized_length(total_message, 'gpt-4')
+        num_tokens = get_tokenized_length(total_message, 'gpt-4', examples)
         gpt_model = 'gpt-4'
         # if num_tokens < 8192:
         #     gpt_model = 'gpt-4'
         # else:
         #     gpt_model = 'gpt-4-32k'
     else:
-        num_tokens = get_tokenized_length(total_message, 'gpt-3.5-turbo')
+        num_tokens = get_tokenized_length(total_message, 'gpt-3.5-turbo', examples)
         if num_tokens < 4096:
             gpt_model = 'gpt-3.5-turbo'
         else:
             gpt_model = 'gpt-3.5-turbo-16k'
 
+    new_messages = []    
+    if len(examples) > 0:
+        new_messages.append({"role": "system", "content": system_message})
+        for example in examples:
+            new_messages.append(example)
+        new_messages.append({"role": "user", "content": user_message})
+    else:
+        new_messages.append({"role": "user", "content": user_message})
+        new_messages.append({"role": "system", "content": system_message})
+
+    # print(len(new_messages))
+
     got_response = False
     while not got_response:
         try:
-            response = openai.ChatCompletion.create(
+
+            response = openai.ChatCompletion.create (
                 model = gpt_model,
-                messages = [
-                    {"role": "user", "content": user_message},
-                    {"role": "system", "content": system_message}
-                ],
+                messages = new_messages,
                 temperature = temp
             )
+
             generated_text = response['choices'][0]['message']['content']
             got_response = True
             return generated_text
@@ -144,14 +160,23 @@ def get_location_by_coordinates(lat, long):
     state = address.get('state', "")
     return state
 
+def split_with_quotes(line):
+    lexer = shlex.shlex(line, posix=True)
+    lexer.whitespace_split = True
+    lexer.whitespace += ','
+    lexer.wordchars += '-'
+    return list(lexer)
+
 # helper function to remove commas from location values
 def make_csv_format(line):
-    split_line = line.lower().strip().split(',')
+    split_line = split_with_quotes(line.lower().strip())
     length = len(split_line)
 
-    if length < 5:
+    if length <= 3:
         return line
     
+    # look at all this later
+
     line = ""
 
     line += split_line[0]
@@ -167,8 +192,10 @@ def make_csv_format(line):
 
 # returns a list of outbreak data at a location for each year if it is delivered as a range of years
 def list_each_year(original_line, publish_year=None):
-    print(f"original line: {original_line} Got here!")
-    split_line = original_line.split(',')
+    print(f"original line: {original_line}")
+    split_line = split_with_quotes(original_line)
+    print(f"split_with_quotes: {split_line}")
+
     location = split_line[0].strip()
     years = split_line[1].strip()
     outbreak = split_line[2].strip()
@@ -190,13 +217,36 @@ def list_each_year(original_line, publish_year=None):
     
     new_list = []
     for i in range(first_year, last_year + 1):
-        strings = [location, str(i), outbreak]
+        strings = [f'"{location}"', str(i), outbreak]
         new_line = ", ".join(strings)
         new_list.append(new_line)
 
     print(new_list)
 
     return new_list
+
+# convert calibrated years before present (cal year bp) to regular year
+def bp_to_bc_ad(bp_date):
+    try:
+        bp_year = int(re.match(r"(\d+)\s*cal\s*yr\s*bp", bp_date.replace(' ', '').lower()).groups()[0])
+        year = 1950 - bp_year
+        return year
+    except Exception as e:
+        print(f"Error occurred: {str(e)}")
+        return None
+
+# helper function to remove nonnumerics
+def remove_nonnumeric_chars(input_string):
+    cleaned_string = re.sub(r'^0-9.', '', input_string)
+    return cleaned_string
+
+# currently just used for removing redundant year signifiers
+def clean_dates(date):
+    date = str(date).replace("ca.", "")
+    date = date.replace("s", "") # example: 1970s -> 1970 
+                                 # note: the year ^ is unclear but we can still get one year of data out of this line
+    date = date.strip()
+    return date
 
 # parse gpt output to convert location to lat/long and reduce output clutter
 def parse_response(response, outbreak_df, system_message_stage_3, general_latitude=0.0, general_longitude=0.0, general_state='None', state_cache={}, publish_year=None):
@@ -213,13 +263,15 @@ def parse_response(response, outbreak_df, system_message_stage_3, general_latitu
 
         # make sure line is in the correct format, otherwise move to next line
         line = make_csv_format(line)
-        split_line = line.split(',')
+        split_line = split_with_quotes(line)
+        # split_line = line.split(',')
+        print(split_line)
 
         if len(split_line) != 3:
             continue
 
         location = split_line[0].strip().lower().strip('"')
-        year = split_line[1].strip().lower().strip('"')
+        year = clean_dates(split_line[1].strip().lower().strip('"'))
         outbreak = split_line[2].strip().lower().strip('"')
 
         print(f"Slightly more formatted: {line}\nLocation: {location}, Year: {year}, Outbreak: {outbreak}")
@@ -234,24 +286,51 @@ def parse_response(response, outbreak_df, system_message_stage_3, general_latitu
             continue
         if any(char.isalpha() for char in year):
             continue
-        if len(year) != 4 and len(year) != 9:
+        if len(year) != 4 and len(year) != 9 and 'cal' not in year.lower():
             continue
         if len(location) <= 3:
             continue
 
-        print("Got here")
+        print("Got here") 
 
-        new_line = ", ".join([location, year, outbreak])
+        # if cal yr bp is in years, convert them to regular years
+        if 'cal' in year.lower():
+            if year.count('-') == 1:
+                before_dash, after_dash = year.split('-')
+                before_dash = before_dash.strip().lower()
+                after_dash = after_dash.strip().lower()
 
+                if 'cal' in before_dash:
+                    before_dash = bp_to_bc_ad(before_dash)
+                if 'cal' in after_dash:
+                    after_dash = bp_to_bc_ad(after_dash)
+
+                if not str(before_dash).isnumeric() or not str(after_dash).isnumeric():
+                    continue
+
+                year = f"{before_dash}-{after_dash}"
+
+            elif year.count('-') == 0:
+                year = bp_to_bc_ad(year)
+                if not str(year).isnumeric():
+                    continue
+
+            else:
+                continue
+
+        new_line = ", ".join([f"'{location}'", year, outbreak])
+
+        print("before range")
         # if data given as range of years, add every year to new list
         print(year)
         if len(year) == 9 and year[4] == '-':
             every_year = list_each_year(new_line, publish_year)
-            print(every_year[0])
+            print(every_year)
             if len(every_year) > 1:
                 print(every_year)
                 for single_year in every_year:
                     new_split_response.append(single_year)
+
         elif publish_year is not None:
             if int(year) <= publish_year:
                 new_split_response.append(new_line)
@@ -259,9 +338,12 @@ def parse_response(response, outbreak_df, system_message_stage_3, general_latitu
             if int(year) <= 2023:
                 new_split_response.append(new_line)
 
+        print("after range")
+        print(new_split_response)
+
     for line in new_split_response:
 
-        split_line = line.split(',')
+        split_line = split_with_quotes(line)
         print(split_line)
         location = split_line[0].lower().strip()
         year = split_line[1].lower().strip()
@@ -308,7 +390,7 @@ def parse_response(response, outbreak_df, system_message_stage_3, general_latitu
     return outbreak_df, state_cache
 
 # returns chunk group of required lengths so as to stay under openai token limit
-def build_chunk_group(system_message, text, end_message, use_gpt4=False):
+def build_chunk_group(system_message, text, end_message="\n\nEND\n\n", use_gpt4=False, examples=[]):
     system_message_length = len(system_message) + len(end_message)
     max_token_length = 16000
     if use_gpt4:
@@ -324,14 +406,14 @@ def build_chunk_group(system_message, text, end_message, use_gpt4=False):
         multiplier = base_multiplier
         user_message_length = int(max_token_length * multiplier) - system_message_length
         message = system_message + text[i:i+user_message_length] + end_message
-        token_length = get_tokenized_length(message, 'gpt-3.5-turbo')
+        token_length = get_tokenized_length(message, 'gpt-3.5-turbo', examples)
         
         # while text is too long for openai model, keep reducing size and try again
         while token_length > int(max_token_length * safety_multiplier):
             multiplier *= .95
             user_message_length = int(max_token_length * multiplier) - system_message_length
             message = system_message + text[i:i+user_message_length] + end_message
-            token_length = get_tokenized_length(message, 'gpt-3.5-turbo')
+            token_length = get_tokenized_length(message, 'gpt-3.5-turbo', examples)
         
         # add chunk to chunk set, move on
         chunk_group.append([system_message, text[i:i+user_message_length] + end_message])
@@ -506,6 +588,15 @@ system_message_year_guesser = 'You are a text analysis machine that is inferring
 
 system_message_stage_1 = "You are a scientist extracting data from research papers about Spruce Budworm (SBW) infestations and outbreaks. You are to log every instance in which the text refers to a Spruce Budworm outbreak during any years and region. You must only include the SPECIFIC ranges of years and the SPECIFIC region of the data. The region must be locatable on a map. Be as specific as possible. General locations like 'study site' or 'tree stand #3' are not relevant. Include outbreaks whose existence is uncertain. Never include research citations from the text. Only report information related to specific SBW outbreaks in specific years and locations."
 
+stage_1_few_shot_examples = [
+    {"role": "user", "content": "We reconstructed the SBW outbreak history at the northern limit of the temperate forest in southern Quebec using dendrochronological material from old buildings and five old-growth stands. Nine potential outbreaks were identified (1976–1991, 1946–1959, 1915–1929, 1872–1903, 1807–1817, 1754–1765, 1706–1717, 1664–1670, and 1630–1638) with three additional uncertain outbreaks (1647–1661, 1606–1619, and 1564–1578)."},
+    {"role": "assistant", "content": "-Outbreak: 1976-1991\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1946-1959\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1915-1929\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1872-1903\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1807-1817\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1754-1765\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1706-1717\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1664-1670\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1630-1638\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1647-1661 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1606-1619 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1564-1578 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec"},
+    {"role": "user", "content": "Earlier potential outbreaks were identified using dendro-\nchronological material from old buildings only. Three addi-\ntional and distinct growth reductions occurred between the\nbeginning of the 18th and the early 19th centuries in 1807–\n1817 (O5), 1754–1765 (O6), and 1706–1717 (O7) (Fig. 2). (Berguet 1954)"},
+    {"role": "assistant", "content": "No specific instances of SBW outbreaks with geographic locations and years were mentioned in the text."},
+    {"role": "user", "content": "Several points\n in the neighbourhood of Sioux Lookout and the\n eastern portion of Lac Seul show 1866 as the\n first year of suppression, indicating that the in-\n festation had its origin in this vicinity. Within\n this area, the first apparent year of suppression\n was as early as 1862 in two localities. However,\n in both these localities the white spruce trees\n sampled were very old and showed poor diameter\n growth for approximately the last 100 years, thus\nobscuring to some extent the initiation of suppres-\n sion caused by the spruce budworm (see data for\n Minnitaki Lake, Fig. 3). From this area of\n origin the infestation spread mostly westward un-\n til by 1870 and 1871 it reached points close to\n the Manitoba boundary."},
+    {"role": "assistant", "content": "1. Region: Sioux Lookout and the eastern portion of Lac Seul\n  Years: 1862-1871\n"}
+]
+
 system_message_stage_2 = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbreak/infestation occured during a specific year or range of years and at a specific geographic location. Write every instance in the following format exactly: The geographic location, then the year, whether there was or was not an outbreak/infestation (always a yes or no), and then a new line. This data must be in csv file format, with commas in between and double quotes around each feature. Never include the header or any labels. The geographic location must be something like a city, a county, a specific lake, or anything that is locatable on a map. If an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'. It is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks. If the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'"
 
 system_message_stage_2 = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbreak/infestation occured during a specific year or range of years and at a specific geographic location. Present your findings in the following consistent format: '\"Geographic location\"', '\"Year or Year range\"', '\"Outbreak presence (Yes/No/Uncertain)\"'. For each instance, output should be a new line in this format, with no headers or labels included. The geographic location, encapsulated within double quotation marks, must be identifiable on a map and can be a city, county, specific lake, etc. It is of the utmost importance that the location must be provincial/state level level or smaller, AKA ONLY INCLUDE locations that are the size of provinces/states or SMALLER. Do not include nonspecific or nonidentifiable locations like 'study site'. If an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'. It is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks. If the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'."
@@ -517,6 +608,15 @@ The geographic location must be identifiable on a map and can be a city, county,
 If an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'.\n\n\
 If the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'.\n\n\
 It is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks.\n"
+
+stage_2_few_shot_examples = [
+    {"role": "user", "content": "Specific SBW Outbreaks:\n\n1. Outbreak: O1 (1905-1930)\n-Region: Eastern Quebec, east of the St. Lawrence River\n\n2. Outbreak: O2 (1935-1965)\n  -Region: Northern reach of southern Quebec\n\n3. Outbreak: O3 (1968-1988)\n-Region: Southwestern Quebec, along a southwest-northeast transect across central southern Quebec"},
+    {"role": "assistant", "content": 'Stage 2:\n"Eastern Quebec, east of the St. Lawrence River", "1905-1930", "Yes"\n"Northern reach of southern Quebec", "1935-1965", "Yes"\n"Southwestern Quebec, along a southwest-northeast transect across central southern Quebec", "1968-1988", "Yes"'},
+    {"role": "user", "content": "Stage 1:\n-Outbreak: 1976-1991\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1946-1959\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1915-1929\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1872-1903\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1807-1817\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1754-1765\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1706-1717\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1664-1670\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1630-1638\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1647-1661 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1606-1619 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1564-1578 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec"},
+    {"role": "assistant", "content": '"Northern limit of the temperate forest in southern Quebec", "1976-1991", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1946-1959", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1915-1929", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1872-1903", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1807-1817", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1754-1765", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1706-1717", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1664-1670", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1630-1638", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1647-1661", "Uncertain"\n"Northern limit of the temperate forest in southern Quebec", "1606-1619", "Uncertain"\n"Northern limit of the temperate forest in southern Quebec", "1564-1578", "Uncertain"'},
+    {"role": "user", "content": "Specific SBW outbreaks in specific years and locations mentioned in the text are as follows:\n\n1. Outbreak in 1989: Two epicenters were identified during this outbreak.\n2. Outbreak in 1991: Four epicenters were identified during this outbreak.\n3. Outbreak in 1996: One epicenter was identified during this outbreak.\n4. Outbreak in 2006: Four epicenters were identified during this outbreak.\n5. Outbreak in 2011: One epicenter was identified during this outbreak.\n\nPlease note that the specific locations of these epicenters were not provided in the text."},
+    {"role": "assistant", "content": "No specific instances of SBW outbreaks with geographic locations and years were mentioned in the text."}
+]
 
 system_message_stage_3 = "You are a computer made to give scientists town names within an area. You will be given a location in North America. Your task is to give a town that belongs at that location to be used as a locality string for GEOLocate software. If the area is very remote, give the nearest town. Put it in csv format as the following: \"city, state, country\". It is of the utmost importance that you print only the one piece of data, and absolutely nothing else. You must output a city name, even if the given area is very large or very remote."
 
@@ -568,7 +668,7 @@ def main():
 
     max_boundary_percentage = .5
 
-    file_name = "Testing/testing_data/test18"
+    file_name = "Testing/testing_data/test20"
 
     use_gpt4 = False
 
@@ -580,7 +680,7 @@ def main():
     print("Processing all files in this directory. This may take a while!")
     for file in pdf_files:
 
-        # if file != 'papers/Boulanger et al. 2012 SBW outbreaks 400 yrs.pdf' and file != 'papers/Bouchard et al. 2018 -1.pdf':
+        # if file != r'papers\Fraver et al. 2006 time series SBW Maine.pdf':
         #     continue
 
         print(f"Currently Processing: {file}")
@@ -651,13 +751,16 @@ def main():
         gen_coords = get_val_from_dict(study_index, general_coords)
 
         if gen_coords is None:
-            while i < len(stage0b_chunks) and location == 'unknown':
+            while i < len(stage0b_chunks) and 'unknown' in location.lower():
                 chunk = stage0b_chunks[i]
                 system_message = chunk[0]
                 user_message = chunk[1]
-                temperature = 0
+                temperature = 0             
 
                 generated_text = get_chatgpt_response(system_message, user_message, temperature).lower()
+                print(generated_text)
+
+
 
                 if generated_text.startswith(location_prefix):
                     generated_text = generated_text[len(location_prefix):]
@@ -752,8 +855,12 @@ def main():
         # set up dataframe for csv output
         outbreak_df = pd.DataFrame(columns=['area', 'Latitude', 'Longitude', 'Year', 'Outbreak', 'Source'])
 
+        location_backup = ""
+        if 'unknown' not in location.lower():
+            location_backup = f"\n\nIn case the text doesn't provide a location for an outbreak, we've found that the outbreaks in this text take place at {location}"
+
         # build prompt chunks
-        chunk_group = build_chunk_group(system_message_stage_1, pdf_text, end_message, use_gpt4)
+        chunk_group = build_chunk_group(system_message_stage_1 + location_backup, pdf_text, end_message, use_gpt4, stage_1_few_shot_examples)
 
         stage1_results = ''
 
@@ -765,13 +872,16 @@ def main():
 
             print(f'Text chunk: {user_message}')
 
+            # while True:
+            #     time.sleep(1)
+
             generated_text = get_chatgpt_response(system_message, user_message, temperature, use_gpt4)
             generated_text = cleanup_text(generated_text)
             stage1_results += f'\n{generated_text}'
 
         print(f"\nStage 1: {stage1_results}\n\n")
 
-        generated_text = get_chatgpt_response(system_message_stage_2, stage1_results, 0, use_gpt4)
+        generated_text = get_chatgpt_response(system_message_stage_2, stage1_results, 0, use_gpt4, stage_2_few_shot_examples)
         print(f"Stage 2:\n{generated_text}\n\n")    
         
         parsed_response, state_cache = parse_response(generated_text, outbreak_df, system_message_stage_3, general_state=state, state_cache=state_cache, publish_year=year_guess)
