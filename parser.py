@@ -1,4 +1,4 @@
-2"""
+"""
 Natalie Harris, NIMBioS
 5/23/23
 
@@ -208,7 +208,10 @@ def list_each_year(original_line, publish_year=None):
     
     first_year = int(first_year)
     last_year = int(last_year)
-    if first_year >= last_year or last_year - first_year > 50 or first_year > 2022 or last_year > 2023: #filtering out invalid year values and when difference between two years > 50
+    
+    # increased max outbreak duration to 60 years
+    # report of 54 year long outbreak in Minnesota in D'amato et al. 2011
+    if first_year >= last_year or last_year - first_year > 60 or first_year > 2022 or last_year > 2023: #filtering out invalid year values and when difference between two years > 50
         return [original_line]
     
     if publish_year is not None:
@@ -668,7 +671,7 @@ def main():
 
     max_boundary_percentage = .5
 
-    file_name = "Testing/testing_data/test20"
+    file_name = "Testing/testing_data/test21"
 
     use_gpt4 = False
 
@@ -677,10 +680,19 @@ def main():
 
     # get folder path and file name of pdf, create pdf reader instance
     pdf_files = glob.glob("papers/*.pdf")
+    pdf_files = []
+
+    with open('for_analysis.txt', 'r') as f:
+        lines = [line.strip() for line in f]
+        for line in lines:
+            pdf_files.append(line)
+
+    print(pdf_files)
+
     print("Processing all files in this directory. This may take a while!")
     for file in pdf_files:
 
-        # if file != r'papers\Fraver et al. 2006 time series SBW Maine.pdf':
+        # if file != r'C:\Users\natal\OneDrive\Documents\GitHub\PDF-Parser\papers\Blais 1954.pdf':
         #     continue
 
         print(f"Currently Processing: {file}")
@@ -699,6 +711,9 @@ def main():
         # remove everything before abstract and after/on references page
         pdf_text = extract_abstract_to_references(pdf_text)
         pdf_text = cleanup_text(pdf_text)
+
+        print(pdf_text)
+
 
         # set up openai api
         openai_key = "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"
