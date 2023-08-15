@@ -25,164 +25,313 @@ from geopy.exc import GeocoderServiceError
 from geographiclib.geodesic import Geodesic
 from geopy.distance import geodesic
 
-# used for checking how long a text would be in chatgpt tokens
-def get_tokenized_length(text, model, examples=[]):
+import pytesseract
+from PIL import Image
+import pdf2image
 
+def get_tokenized_length(text, model, examples=[]):
+    """
+    Calculate the number of tokens that a text string will be tokenized into 
+    by a specific model. Optionally, additional content can be appended to the 
+    text from a list of example dictionaries.
+    
+    Parameters:
+    text (str): The input text string to be tokenized.
+    model (str): The name or identifier of the model whose tokenizer will be used.
+    examples (list of dict, optional): A list of dictionaries where each dictionary 
+                                       should have a key "content" with text to append 
+                                       to the input text string. Defaults to an empty list.
+    
+    Returns:
+    int: The number of tokens the input text (plus additional content, if provided) 
+         is tokenized into by the specified model.
+    """
+    
+    # Loop through the list of example dictionaries (if provided)
+    # and append the content of each example to the input text.
     for example in examples:
         text += example["content"]
-
+    
+    # Get the encoding (tokenizer) associated with the specified model.
     encoding = tiktoken.encoding_for_model(model)
+    
+    # Use the encoding (tokenizer) to tokenize the text
+    # and then calculate the number of tokens in the tokenized text.
     num_tokens = len(encoding.encode(text))
+    
+    # Return the number of tokens in the tokenized text.
     return num_tokens
 
-# helper function to get chatgpt output from set of inputs
-# note on temperature from OpenAI: "OpenAI models are non-deterministic, meaning that identical inputs can yield different outputs. Setting temperature to 0 will make the outputs mostly deterministic, but a small amount of variability may remain."
-# see https://community.openai.com/t/the-system-role-how-it-influences-the-chat-behavior/87353 for suggested ideal system message placement
-def get_chatgpt_response(system_message, user_message, temp, use_gpt4=False, examples=[]):
-    gpt_model = ''
+def get_chatgpt_response(system_message, user_message, temp=0, use_gpt4=False, examples=[]):
+    """
+    Get a response from ChatGPT based on the user and system messages.
+
+    Parameters:
+    - system_message (str): The system message to set the behavior of the chat model.
+    - user_message (str): The message from the user that the model will respond to.
+    - temp (float, optional): Controls the randomness of the model's output (default is 0).
+    - use_gpt4 (bool, optional): Flag to use GPT-4 model (default is False).
+    - examples (list, optional): Additional example messages for training the model (default is an empty list).
+
+    Returns:
+    - str: The generated response from the GPT model.
+    """
+    
+    # Combine the system and user messages to evaluate their total tokenized length
     total_message = system_message + user_message
+    
+    # Select the appropriate GPT model based on the use_gpt4 flag and tokenized length
     if use_gpt4:
         num_tokens = get_tokenized_length(total_message, 'gpt-4', examples)
         gpt_model = 'gpt-4'
-        # if num_tokens < 8192:
-        #     gpt_model = 'gpt-4'
-        # else:
-        #     gpt_model = 'gpt-4-32k'
     else:
         num_tokens = get_tokenized_length(total_message, 'gpt-3.5-turbo', examples)
-        if num_tokens < 4096:
-            gpt_model = 'gpt-3.5-turbo'
-        else:
-            gpt_model = 'gpt-3.5-turbo-16k'
-
-    new_messages = []    
+        gpt_model = 'gpt-3.5-turbo' if num_tokens < 4096 else 'gpt-3.5-turbo-16k'
+    
+    # Prepare the messages to send to the Chat API
+    new_messages = [{"role": "system", "content": system_message}]
     if len(examples) > 0:
-        new_messages.append({"role": "system", "content": system_message})
-        for example in examples:
-            new_messages.append(example)
-        new_messages.append({"role": "user", "content": user_message})
-    else:
-        new_messages.append({"role": "user", "content": user_message})
-        new_messages.append({"role": "system", "content": system_message})
-
-    # print(len(new_messages))
-
+        new_messages.extend(examples)
+    new_messages.append({"role": "user", "content": user_message})
+    
+    # Flag to indicate whether a response has been successfully generated
     got_response = False
+    
+    # Continue trying until a response is generated
     while not got_response:
         try:
-
-            response = openai.ChatCompletion.create (
-                model = gpt_model,
-                messages = new_messages,
-                temperature = temp
+            # Attempt to get a response from the GPT model
+            response = openai.ChatCompletion.create(
+                model=gpt_model,
+                messages=new_messages,
+                temperature=temp
             )
-
+            
+            # Extract the generated text from the API response
             generated_text = response['choices'][0]['message']['content']
             got_response = True
             return generated_text
-
+            
         except openai.error.RateLimitError as err:
+            # Handle rate limit errors
             if 'You exceeded your current quota' in str(err):
                 print("You've exceeded your current billing quota. Go check on that!")
-                exit()
+                end_runtime()  # Function to end the current runtime
             num_seconds = 3
             print(f"Waiting {num_seconds} seconds due to high volume of {gpt_model} users.")
             time.sleep(3)
-
+            
         except openai.error.APIError as err:
-            print("An error occured. Retrying request.")
-
+            # Handle generic API errors
+            print("An error occurred. Retrying request.")
+            
         except openai.error.Timeout as err:
+            # Handle request timeouts
             print("Request timed out. Retrying...")
-
+            
         except openai.error.ServiceUnavailableError as err:
+            # Handle service unavailability errors
             num_seconds = 3
             print(f"Server overloaded. Waiting {num_seconds} seconds and retrying request.")
+            time.sleep(num_seconds)
 
 def get_latitude_longitude(town, state, country):
-    geolocator = Nominatim(user_agent = "research_paper_parser mzg857@vols.utk.edu")
+    """
+    Get the latitude and longitude of a given location using the Nominatim geolocator.
+    
+    Parameters:
+    - town (str): The name of the town/city.
+    - state (str): The name of the state.
+    - country (str): The name of the country.
+    
+    Returns:
+    - tuple: (latitude, longitude) of the given location, or (None, None) if not found.
+    """
+    
+    # Initialize the geolocator with a custom user_agent
+    geolocator = Nominatim(user_agent="research_paper_parser mzg857@vols.utk.edu")
+    
+    # Flag to indicate if the coordinates have been found
     has_coords = False
+    
+    # Counter for the number of retries
     retries = 0
+    
+    # Container for the location object that will be returned by the geolocator
+    location = None
+    
     while not has_coords:
         try:
+            # Introduce a delay before making a request to respect usage limits
             time.sleep(1)
+            
+            # Attempt to geolocate the query based on town, state, and country
             location = geolocator.geocode(query=f"{town}, {state}, {country}")
             has_coords = True
+            
         except (AdapterHTTPError, socket.timeout) as e:
+            # Handle HTTP and timeout errors
             retries += 1
             if retries > 5:
                 print(f"Attempted {retries} retries. Moving on...")
+                end_runtime()  # Function to end the current runtime (assumed to be defined elsewhere)
                 return None, None
             print("There was an HTTP error getting coordinates. Retrying...")
+            
         except GeocoderUnavailable as e:
+            # Handle geolocator unavailability errors
             retries += 1
             if retries > 5:
                 print(f"Attempted {retries} retries. Moving on...")
+                end_runtime()
                 return None, None
             print("Geopy error. Waiting 5 seconds.")
             time.sleep(5)
-        except GeocoderServiceError as e:
-            print("Geopy error. Moving on...")
-            return None, None
             
-    if location is None:
-        return None, None # must handle when location is not found
-
-    latitude = location.latitude
-    longitude = location.longitude
-
-    return latitude, longitude
+        except GeocoderServiceError as e:
+            # Handle geolocator service errors
+            print("Geopy error. Moving on...")
+            end_runtime()
+            return None, None
+        
+    # If a location is found, return its latitude and longitude
+    if location is not None:
+        return location.latitude, location.longitude
+    else:
+        # If the location is not found, return None for both latitude and longitude
+        return None, None
 
 def location_to_coordinates(location, system_message):
-    user_message = 'The boreal forest in ' + location 
+    """
+    Convert a location name to latitude and longitude coordinates using ChatGPT to
+    resolve the location to a more specific city, state, and country format,
+    and then use a geolocator to fetch the coordinates.
+    
+    Parameters:
+    - location (str): A general name of a location, e.g., 'California'
+    - system_message (str): The system message to set the behavior of the ChatGPT model.
+    
+    Returns:
+    - tuple: (latitude, longitude) of the given location, or (None, None) if not found or invalid.
+    """
+    
+    # Construct the user message by appending the specific context ('The boreal forest in') to the location
+    user_message = 'The boreal forest in ' + location
+    
+    # Set the temperature parameter for the ChatGPT response (controls randomness)
     temperature = 0
-
+    
+    # Debugging print statement
     print("location to coords")
-
+    
+    # Get a more specific location (e.g., "city, state, country") from ChatGPT
     generated_text = get_chatgpt_response(system_message, user_message, temperature)
+    
+    # Debugging print statement for the generated text
     print(f"More specific location: {generated_text}")
+    
+    # Process the ChatGPT response: 
+    # 1. Convert to lowercase
+    # 2. Remove leading/trailing whitespace
+    # 3. Split it into parts based on the comma separator
     generated_text = generated_text.lower().strip().split(',')
+    
+    # Check that the response has the expected format ("city, state, country")
     if len(generated_text) != 3:
+        # If not, return None for both latitude and longitude
         return None, None
-    city = generated_text[0]
-    state = generated_text[1]
-    country = generated_text[2]
-
+    
+    # Extract the city, state, and country from the response
+    city = generated_text[0].strip()
+    state = generated_text[1].strip()
+    country = generated_text[2].strip()
+    
+    # Fetch the latitude and longitude for the specific location using a geolocator function
     latitude, longitude = get_latitude_longitude(city, state, country)
+    
+    # Return the latitude and longitude
     return latitude, longitude
 
 def get_location_by_coordinates(lat, long):
-    geolocator = Nominatim(user_agent = "research_paper_parser mzg857@vols.utk.edu")
-
+    """
+    Get the state name for a given latitude and longitude using the Nominatim geolocator.
+    
+    Parameters:
+    - lat (float): The latitude of the location.
+    - long (float): The longitude of the location.
+    
+    Returns:
+    - str: The state name of the given coordinates, or an empty string if not found.
+    """
+    
+    # Initialize the geolocator with a custom user_agent
+    geolocator = Nominatim(user_agent="research_paper_parser mzg857@vols.utk.edu")
+    
+    # Introduce a delay before making a request to respect usage limits
     time.sleep(1)
-    location = geolocator.reverse([lat, long], exactly_one=True)
-    address = location.raw['address']
-    state = address.get('state', "")
-    return state
+    
+    # Counter for the number of retries
+    retries = 0
+    
+    # Attempt to get the location up to 5 times if GeocoderUnavailable exception occurs
+    while retries < 5:
+        try:
+            # Attempt to get the location data from the coordinates
+            location = geolocator.reverse([lat, long], exactly_one=True)
+            
+            # Extract the 'address' field from the raw response
+            address = location.raw['address']
+            
+            # Get the 'state' field from the address, defaulting to an empty string if not found
+            state = address.get('state', "")
+            
+            return state
+            
+        except GeocoderUnavailable as e:
+            print("Geocoder is unavailable. Retrying...")
+            retries += 1
+            
+    # If 5 retries have been attempted without success, end the runtime
+    end_runtime()
 
 def split_with_quotes(line):
+    """
+    Splits a line into segments based on whitespace and commas, 
+    preserving contents inside quotes as a single segment.
+    
+    Parameters:
+    - line (str): The input string to be split.
+    
+    Returns:
+    - list: Segments from the input string.
+    """
     lexer = shlex.shlex(line, posix=True)
     lexer.whitespace_split = True
     lexer.whitespace += ','
     lexer.wordchars += '-'
+    
     return list(lexer)
 
-# helper function to remove commas from location values
 def make_csv_format(line):
+    """
+    Convert a line into CSV format: If line has more than 3 segments, last three segments are separated by commas, 
+    the rest by spaces. If line has 3 or fewer segments, it returns the line as is.
+    
+    Parameters:
+    - line (str): The input string to be formatted.
+    
+    Returns:
+    - str: The formatted line.
+    """
     split_line = split_with_quotes(line.lower().strip())
     length = len(split_line)
 
     if length <= 3:
         return line
     
-    # look at all this later
-
-    line = ""
-
-    line += split_line[0]
+    line = split_line[0]
     for i in range(1, length - 3):
-        line += ' '
-        line += split_line[i].strip()
+        line += ' ' + split_line[i].strip()
 
     line += (", " + split_line[length - 3])
     line += (", " + split_line[length - 2])
@@ -190,8 +339,18 @@ def make_csv_format(line):
 
     return line
 
-# returns a list of outbreak data at a location for each year if it is delivered as a range of years
 def list_each_year(original_line, publish_year=None):
+    """
+    Generate a list of outbreak data for each year within a given range of years.
+    
+    Parameters:
+    - original_line (str): The input string containing location, year(s), and outbreak info.
+    - publish_year (int, optional): The year the data was published.
+    
+    Returns:
+    - list: A list of outbreak data for each year within the specified range, 
+            or the original line if the year range is invalid.
+    """
     print(f"original line: {original_line}")
     split_line = split_with_quotes(original_line)
     print(f"split_with_quotes: {split_line}")
@@ -202,57 +361,110 @@ def list_each_year(original_line, publish_year=None):
     first_year = years[:4]
     last_year = years[-4:]
 
-    # error handling
-    if not first_year.isdigit() or not last_year.isdigit():
+    # Error Handling: Check if years are digits
+    if not first_year.isdigit() or (len(years) > 5 and not last_year.isdigit()):
         return [original_line]
-    
+
     first_year = int(first_year)
-    last_year = int(last_year)
-    
-    # increased max outbreak duration to 60 years
-    # report of 54 year long outbreak in Minnesota in D'amato et al. 2011
-    if first_year >= last_year or last_year - first_year > 60 or first_year > 2022 or last_year > 2023: #filtering out invalid year values and when difference between two years > 50
+
+    # Define last_year based on input format or publish_year
+    if len(years) == 5 and publish_year is not None:
+        last_year = int(publish_year)
+    elif len(years) == 9:
+        last_year = int(last_year)
+    else:
         return [original_line]
     
-    if publish_year is not None:
-        if first_year > publish_year-1 or last_year > publish_year: 
-            return [original_line]
+    # Validate the year range
+    if first_year >= last_year or last_year - first_year > 60 or first_year > 2022 or last_year > 2023:
+        return [original_line]
+
+    # Check against publish_year if provided
+    if publish_year is not None and (first_year > publish_year - 1 or last_year > publish_year):
+        return [original_line]
     
+    # Generate a list of outbreak data for each year in the range
     new_list = []
     for i in range(first_year, last_year + 1):
         strings = [f'"{location}"', str(i), outbreak]
         new_line = ", ".join(strings)
         new_list.append(new_line)
 
-    print(new_list)
-
     return new_list
 
-# convert calibrated years before present (cal year bp) to regular year
 def bp_to_bc_ad(bp_date):
+    """
+    Convert calibrated years before present (e.g., "5000 cal yr BP") to a regular year (BC/AD).
+    
+    Parameters:
+    - bp_date (str): The input string containing the calibrated years before present.
+    
+    Returns:
+    - int: The calculated regular year (BC/AD), or None if conversion fails.
+    """
     try:
+        # Extract numeric part of bp_date using regex and calculate the regular year
         bp_year = int(re.match(r"(\d+)\s*cal\s*yr\s*bp", bp_date.replace(' ', '').lower()).groups()[0])
         year = 1950 - bp_year
         return year
     except Exception as e:
+        # Print an error message and return None if conversion fails
         print(f"Error occurred: {str(e)}")
         return None
 
-# helper function to remove nonnumerics
 def remove_nonnumeric_chars(input_string):
-    cleaned_string = re.sub(r'^0-9.', '', input_string)
+    """
+    Remove non-numeric characters from the input string.
+    
+    Parameters:
+    - input_string (str): The input string that may contain non-numeric characters.
+    
+    Returns:
+    - str: The cleaned string containing only numeric characters.
+    """
+    cleaned_string = re.sub(r'[^0-9]', '', input_string)
     return cleaned_string
 
-# currently just used for removing redundant year signifiers
 def clean_dates(date):
-    date = str(date).replace("ca.", "")
-    date = date.replace("s", "") # example: 1970s -> 1970 
-                                 # note: the year ^ is unclear but we can still get one year of data out of this line
-    date = date.strip()
+    """
+    Clean date strings by removing certain redundant or unclear year signifiers.
+    
+    Parameters:
+    - date (str): The input date string that may contain extra characters or words.
+    
+    Returns:
+    - str: The cleaned date string.
+    """
+    date = str(date).replace("ca.", "")  # Remove "ca." prefix, which stands for "circa"
+    date = date.replace("s", "")         # Remove 's' suffix to transform decade references (e.g., "1970s" becomes "1970")
+    date = date.strip()                  # Remove leading and trailing whitespace
     return date
 
-# parse gpt output to convert location to lat/long and reduce output clutter
-def parse_response(response, outbreak_df, system_message_stage_3, general_latitude=0.0, general_longitude=0.0, general_state='None', state_cache={}, publish_year=None):
+def parse_response(response, outbreak_df, system_message_stage_4, general_latitude=0.0, general_longitude=0.0, general_state='None', state_cache={}, publish_year=None):
+
+    """
+    Parse GPT output to convert location names to coordinates and filter data.
+    
+    This function takes the response from GPT and performs various clean-up operations, 
+    including formatting the data, converting 'cal yr bp' to regular years, handling ranges 
+    of years, checking a cache for previously found location coordinates, and updating 
+    a DataFrame with the cleaned and formatted outbreak data.
+    
+    Args:
+    - response (str): The raw output from GPT.
+    - outbreak_df (DataFrame): The DataFrame to be updated with the cleaned data.
+    - system_message_stage_4 (obj): A placeholder for a system message object.
+    - general_latitude (float, optional): Defaults to 0.0. General latitude to use if specific coordinates are not found.
+    - general_longitude (float, optional): Defaults to 0.0. General longitude to use if specific coordinates are not found.
+    - general_state (str, optional): Defaults to 'None'. The general state of the location.
+    - state_cache (dict, optional): A cache for storing state information to avoid redundant API calls.
+    - publish_year (int, optional): The publication year of the data, used for additional filtering.
+    
+    Returns:
+    - DataFrame: The updated outbreak DataFrame.
+    - dict: The updated state cache.
+    """
+
     split_response = response.splitlines()
     new_split_response = [] # used for adding additional lines when chatgpt gives range of years
     latitude = None
@@ -268,7 +480,7 @@ def parse_response(response, outbreak_df, system_message_stage_3, general_latitu
         line = make_csv_format(line)
         split_line = split_with_quotes(line)
         # split_line = line.split(',')
-        print(split_line)
+        print(f"\n\nbeginning split line: {split_line}")
 
         if len(split_line) != 3:
             continue
@@ -283,13 +495,12 @@ def parse_response(response, outbreak_df, system_message_stage_3, general_latitu
         # print(any(char.isalpha() for char in year))
         # print(len(year) != 4 and len(year) != 9)
         # print(len(location) <= 3)
-        print("\n")
 
         if outbreak != 'yes' and outbreak != 'no' and outbreak != 'uncertain':
             continue
         if any(char.isalpha() for char in year):
             continue
-        if len(year) != 4 and len(year) != 9 and 'cal' not in year.lower():
+        if len(year) != 4 and len(year) != 5 and len(year) != 9 and 'cal' not in year.lower():
             continue
         if len(location) <= 3:
             continue
@@ -326,11 +537,9 @@ def parse_response(response, outbreak_df, system_message_stage_3, general_latitu
         print("before range")
         # if data given as range of years, add every year to new list
         print(year)
-        if len(year) == 9 and year[4] == '-':
+        if (len(year) == 5 or len(year) == 9) and year[4] == '-':
             every_year = list_each_year(new_line, publish_year)
-            print(every_year)
             if len(every_year) > 1:
-                print(every_year)
                 for single_year in every_year:
                     new_split_response.append(single_year)
 
@@ -342,9 +551,10 @@ def parse_response(response, outbreak_df, system_message_stage_3, general_latitu
                 new_split_response.append(new_line)
 
         print("after range")
-        print(new_split_response)
+        print(f"New Split Response: {new_split_response}")
 
     for line in new_split_response:
+        print(f"line from NSR: {line}")
 
         split_line = split_with_quotes(line)
         print(split_line)
@@ -357,10 +567,9 @@ def parse_response(response, outbreak_df, system_message_stage_3, general_latitu
             latitude = cached_location_coords[location][0]
             longitude = cached_location_coords[location][1]
         else:
-            latitude, longitude = location_to_coordinates(location, system_message_stage_3)
+            latitude, longitude = location_to_coordinates(location, system_message_stage_4)
             print(latitude, longitude)
             if latitude == None or longitude == None:
-
                 # need to implement replacing with coordinates if possible
                 if general_latitude != 0.0 and general_longitude != 0.0:
                     latitude = general_latitude
@@ -378,8 +587,10 @@ def parse_response(response, outbreak_df, system_message_stage_3, general_latitu
             new_state = get_location_by_coordinates(latitude, longitude).lower()
             state_cache[(latitude, longitude)] = new_state
 
-        if general_state != new_state:
-            return outbreak_df, state_cache
+        # if general_state != new_state:
+        #     return outbreak_df, state_cache
+        
+        print("got here")
 
         # add latitude and longitude to dataframe
         split_line.append(latitude)
@@ -392,107 +603,221 @@ def parse_response(response, outbreak_df, system_message_stage_3, general_latitu
 
     return outbreak_df, state_cache
 
-# returns chunk group of required lengths so as to stay under openai token limit
-def build_chunk_group(system_message, text, end_message="\n\nEND\n\n", use_gpt4=False, examples=[]):
-    system_message_length = len(system_message) + len(end_message)
-    max_token_length = 16000
-    if use_gpt4:
-        max_token_length = 8000
-    base_multiplier = 4
-    safety_multiplier = .8 # used just in case local tokenizer works differently than openai's
-    chunk_group = []
+def build_chunk_group(system_message, text, end_message="\n\nEND\n\n", use_gpt4=False, examples=[], just_one_chunk=False, always_4k_context=False):
+    """
+    Returns chunks of text that stay within a specified token limit.
+    
+    Args:
+    - system_message (str): The message to prepend to each chunk of text.
+    - text (str): The full text that needs to be split into chunks.
+    - end_message (str, optional): The message to append to each chunk of text.
+    - use_gpt4 (bool, optional): If true, use the token limit for GPT-4.
+    - examples (list, optional): List of examples for tokenization.
+    - just_one_chunk (bool, optional): If true, return only one chunk.
+    - always_4k_context (bool, optional): If true, use a 4096 token limit.
 
-    i = 0
+    Returns:
+    - list: A list of chunks, where each chunk is a list containing the system message, a segment of the text, and the end message.
+    """
+
+    # Define initial setup values
+    system_message_length = len(system_message) + len(end_message)
+    max_token_length = 16000  # Default max token length for GPT-3
+    if use_gpt4:
+        max_token_length = 8000  # GPT-4 token limit
+    if always_4k_context:
+        max_token_length = 4096  # Explicit 4k token limit
+    
+    base_multiplier = 4
+    safety_multiplier = 0.9  # Reduce token size to avoid potential overflows due to local tokenizer differences
+
+    chunk_group = []  # Will hold the resulting chunks of text
+
+    i = 0  # Start index for slicing the text
     while i < len(text):
 
-        # get initial text length values
+        # Calculate the length of a user message chunk
         multiplier = base_multiplier
         user_message_length = int(max_token_length * multiplier) - system_message_length
+
+        # Build initial message
         message = system_message + text[i:i+user_message_length] + end_message
+
+        # Assume 'get_tokenized_length' is a function that returns the token count of a message
         token_length = get_tokenized_length(message, 'gpt-3.5-turbo', examples)
         
-        # while text is too long for openai model, keep reducing size and try again
+        # If the token length exceeds the max allowed, reduce the message length and recheck
         while token_length > int(max_token_length * safety_multiplier):
-            multiplier *= .95
+            multiplier *= 0.95
             user_message_length = int(max_token_length * multiplier) - system_message_length
             message = system_message + text[i:i+user_message_length] + end_message
             token_length = get_tokenized_length(message, 'gpt-3.5-turbo', examples)
         
-        # add chunk to chunk set, move on
+        # Save the chunk and move to the next segment of text
         chunk_group.append([system_message, text[i:i+user_message_length] + end_message])
         i += user_message_length
 
+        # Stop if only one chunk is needed
+        if just_one_chunk:
+            break
+
     return chunk_group
 
-# returns a df with zeros put in between correct values
-# also fixes conflicts where two entries with the same coordinates, and year have different outbreak values
-def build_dataframe(df):
-    
-
-
-    return df
-
 def dms_to_dd(dms):
-    # Check if input is in decimal degree format
-    if re.match(r"[-+]?[0-9]*\.?[0-9]+°[NSWE]", dms):
+    """
+    Convert a string representing a latitude or longitude in either DD or DMS format to DD format.
+
+    Args:
+    - dms (str): A string representing a latitude or longitude in either DD or DMS format.
+
+    Returns:
+    - float: The latitude or longitude in DD format.
+
+    Raises:
+    - ValueError: If the input string is not in a valid format.
+    """
+
+    # Check if input is in decimal degree format (e.g., "45.5°N")
+    match = re.match(r"[-+]?[0-9]*\.?[0-9]+°[NSWE]", dms)
+    if match:
+        # Extract degree value and direction (N/S/E/W) from the string
         degree, direction = re.match(r"([-+]?[0-9]*\.?[0-9]+)°([NSWE])", dms).groups()
+
+        # Convert the degree string to float
         dd = float(degree)
+
+        # If the direction is South (S) or West (W), make the degree value negative
         if direction in 'SW':
             dd *= -1
+
         return dd
-    # If not, assume it's in DMS format
-    else:
-        degrees, minutes, seconds, direction = re.match(r"(\d+)°(\d+)?'?(?:([0-9.]+)?\"?)?([NSWE])", dms).groups()
+
+    # If the input is not in DD format, assume it's in DMS format (e.g., "45°30'15\"N")
+    match = re.match(r"(\d+)°(\d+)?'?(?:([0-9.]+)?\"?)?([NSWE])", dms)
+    if match:
+        # Extract degrees, minutes, seconds, and direction from the string
+        degrees, minutes, seconds, direction = match.groups()
+
+        # Convert the DMS values to DD format
         dd = float(degrees) + (float(minutes) if minutes else 0)/60 + (float(seconds) if seconds else 0)/3600
+
+        # If the direction is South (S) or West (W), make the degree value negative
         if direction in 'SW':
             dd *= -1
+
         return dd
+
+    # If input string is not in a recognized format, raise a ValueError with a message
+    raise ValueError("Invalid DMS or DD format. Please enter a valid format (e.g., '45.5°N' or '45°30'15\"N')")
 
 def get_centroid_of_bb(bounding_box):
-    try:
-        print(bounding_box)
-        lat1_str, lat2_str, lon1_str, lon2_str = re.match(r"(.+?)-(.+?),\s*(.+?)-(.+)", bounding_box).groups()
-        lat1 = dms_to_dd(lat1_str)
-        lat2 = dms_to_dd(lat2_str)
-        lon1 = dms_to_dd(lon1_str)
-        lon2 = dms_to_dd(lon2_str)
+    """
+    Compute the centroid of a bounding box defined by coordinates in degrees,
+    minutes, and seconds (DMS) or decimal degrees (DD).
+    
+    Args:
+    - bounding_box (str): A string describing the bounding box in the format 
+      'lat1-lat2, lon1-lon2'. Coordinates may be in DMS or DD.
+    
+    Returns:
+    - tuple: A tuple (latitude, longitude) representing the centroid of the bounding box, or
+      None if computation fails after 5 attempts.
+    """
 
-        line = Geodesic.WGS84.InverseLine(lat1, lon1, lat2, lon2)
-        midpoint = line.Position(0.5 * line.s13)
-        return (midpoint["lat2"], midpoint["lon2"])
+    retries = 0  # Keep track of the number of attempts to compute the centroid
 
-    except Exception as e:
-        print(f"Error occurred: {str(e)}")
-        return (None, None)
+    while retries < 5:  # Allow up to 5 attempts
+        try:
+            # Print the bounding box for debugging
+            print(bounding_box)
+
+            # Extract coordinates from the bounding box string using regex
+            lat1_str, lat2_str, lon1_str, lon2_str = re.match(r"(.+?)-(.+?),\s*(.+?)-(.+)", bounding_box).groups()
+            
+            # Convert coordinate strings from DMS to decimal degrees (assumes a function dms_to_dd is defined)
+            lat1 = dms_to_dd(lat1_str)
+            lat2 = dms_to_dd(lat2_str)
+            lon1 = dms_to_dd(lon1_str)
+            lon2 = dms_to_dd(lon2_str)
+
+            # Compute the geodesic line between the two corners of the bounding box
+            line = Geodesic.WGS84.InverseLine(lat1, lon1, lat2, lon2)
+
+            # Compute the midpoint (centroid) of the geodesic line
+            midpoint = line.Position(0.5 * line.s13)
+
+            # Return the latitude and longitude of the midpoint
+            return (midpoint["lat2"], midpoint["lon2"])
+
+        except Exception as e:
+            # Print an error message and retry after waiting for 1 second
+            print(f"Error occurred: {str(e)}. Retrying.")
+            time.sleep(1)
+            retries += 1  # Increment the retry count
+
+    # End the runtime if all attempts fail
+    end_runtime()
 
 def parse_coordinates(coordinates):
+    """
+    Parse a string containing latitude and longitude coordinates,
+    and convert them from DMS format to decimal degrees.
+    
+    Args:
+    - coordinates (str): A string in the format 'latitude, longitude'. 
+    
+    Returns:
+    - tuple: A tuple (latitude, longitude) in decimal degrees, or (None, None) if parsing or conversion fails.
+    """
+    
     try:
+        # Split input into latitude and longitude strings
         lat_str, lon_str = re.match(r"(.+),\s*(.+)", coordinates).groups()
+        
+        # Convert latitude and longitude from DMS to decimal degrees
         lat = dms_to_dd(lat_str)
         lon = dms_to_dd(lon_str)
-
+        
         return lat, lon
+
     except Exception as e:
+        # Print error and return None for both latitude and longitude
         print(f"Error occurred: {str(e)}")
         return None, None
 
 def clean_coordinates(coordinates):
+    """
+    Parses various coordinate formats to extract latitude and longitude.
+    
+    This function checks the format of the input coordinates, processes the input
+    accordingly, and returns cleaned latitude and longitude values, or None if
+    parsing fails.
+
+    Parameters:
+    coordinates (str): The input string containing coordinate information.
+    
+    Returns:
+    latitude (float or None): The parsed latitude value.
+    longitude (float or None): The parsed longitude value.
+    """
+
     latitude, longitude = None, None
     temperature = 0
-
+    
     if not coordinates.startswith('unknown'):
-
-        # print(f"{i+1}/{len(stage0b_chunks)} {generated_text}")            
+        # Check if the input contains any digits
         contains_numbers = any(char.isdigit() for char in coordinates)
 
-        if not contains_numbers: # just incase there aren't even any numbers in the coordinates
+        if not contains_numbers:  # Skip input without any numbers
             return latitude, longitude
 
+        # Get the classification of the coordinates format (e.g., bounding box, DMS, etc.)
         coord_classification = get_chatgpt_response(system_message_stage_0c, coordinates, temperature).lower().strip()
-        # print(f"Coordinate classification: {coord_classification}")
 
-        if coord_classification in ['bounding box', 'degrees/minutes', 'degrees/minutes/seconds', 'decimal degrees']: # begin coordinate verification
+        if coord_classification in ['bounding box', 'degrees/minutes', 'degrees/minutes/seconds', 'decimal degrees']:
             formatted_coords = 'unknown'
+
+            # Parse coordinates based on their classification
             if coord_classification == 'bounding box':
                 formatted_coords = get_chatgpt_response(system_message_stage_0c_boundingbox, coordinates, temperature)
                 latitude, longitude = get_centroid_of_bb(formatted_coords)
@@ -509,83 +834,573 @@ def clean_coordinates(coordinates):
     return latitude, longitude
 
 def extract_abstract_to_references(text):
-    # convert to lowercase for case-insensitive search
+    """
+    Extracts the content of a paper from the 'abstract' section to the 'references' section.
+    
+    If 'abstract' or 'references' section is not found, it defaults to the beginning or end of the text, respectively.
+
+    Parameters:
+    text (str): The input string containing the entire content of the paper.
+    
+    Returns:
+    str: The extracted content from 'abstract' to 'references'.
+    """
+    # Convert to lowercase for case-insensitive search
     lower_case_text = text.lower()
 
     try:
-        # find the first occurrence of 'abstract'
+        # Find the first occurrence of 'abstract'
         start = lower_case_text.index('abstract')
     except ValueError:
-        # if 'abstract' is not found, start from the beginning of the text
+        # If 'abstract' is not found, start from the beginning of the text
         start = 0
 
+    # Override to always start from the beginning of the text
+    start = 0
+
     try:
-        # find the last occurrence of 'references' and adjust to the end of the word
+        # Find the last occurrence of 'references' and adjust to the end of the word
         end = lower_case_text.rindex('references') + len('references')
     except ValueError:
-        # if 'references' is not found, end at the last character of the text
+        # If 'references' is not found, end at the last character of the text
         end = len(text)
 
-    # extract the substring from 'abstract' to 'references' (or the beginning/end of the text if either is not found)
+    # Extract the substring from 'abstract' to 'references' 
+    # (or the beginning/end of the text if either is not found)
     extracted_text = text[start:end]
+    
     return extracted_text
 
-# removes unneccesary tabs, newlines, spaces
 def cleanup_text(text):
+    """
+    Cleans up the input text by removing unnecessary tabs, newlines, and spaces,
+    and by normalizing dashes and apostrophes.
 
-    to_replace = [[' \t', ' '], [' \n', ' '], [' \'', '\''], ['-   ', '-'], ['-  ', '-'], ['- ', '-'], ['  ', ' '], [' –', '-']]
+    Parameters:
+    text (str): The input string that needs to be cleaned up.
+    
+    Returns:
+    str: The cleaned-up version of the input text.
+    """
+    # List of pairs where each pair contains a pattern to find and its replacement
+    to_replace = [
+        [' \t', ' '], 
+        [' \n', ' '], 
+        [' \'', '\''], 
+        ['-   ', '-'], 
+        ['-  ', '-'], 
+        ['- ', '-'], 
+        ['  ', ' '], 
+        [' –', '-']
+    ]
 
+    # Iteratively replace all unwanted patterns in the text
     for pair in to_replace:
         text = text.replace(pair[0], pair[1])
 
     return text
 
 def get_study_index(file, study_indices):
+    """
+    Retrieve the study index associated with a given file from a dictionary of study indices.
+    
+    Parameters:
+    file (str): The full path of the file whose study index needs to be retrieved.
+    study_indices (dict): A dictionary containing file names as keys and their associated study indices as values.
+    
+    Returns:
+    int or None: The study index associated with the file, or None if the file is not found in the study_indices dictionary.
+    """
+    
+    # Extract the file name from the full file path
     file = file.rsplit('/', 1)[-1]
+    
+    # Check if the file name exists in the study_indices dictionary and return the corresponding value if it does
     if file in study_indices:
         return study_indices[file]
+    
+    # Return None if the file name is not found in the study_indices dictionary
     return None
 
 def get_val_from_dict(key, dict):
+    # helper function that makes things a little more concise
     if key in dict:
         return dict[key]
     return None
 
-"""# returns max distance from general 
-def get_max_boundary_distance(province, boundary_percent):
+def wait():
+    # for debugging
+    input("Waiting...")
+
+def yes_or_no(response):
+    # for determining the response from chatgpt on yes/no tasks
+    print(response)
+    if 'yes' in response.lower():
+        return True
+    return False
+
+def find_unused_filename(base_dir="Testing/testing_data", file_prefix="test"):
+    """
+    Generate a unique file name by appending an incrementing integer until an unused name is found.
     
-    return 100
+    Parameters:
+    base_dir (str): The directory where the file is intended to be saved.
+    file_prefix (str): The prefix of the file name.
+    
+    Returns:
+    str: A unique file name that does not currently exist in the specified directory.
+    """
+    
+    i = 1
+    while True:
+        # Generate a potential file name using the given directory, prefix, and current index
+        potential_name = f"{base_dir}/{file_prefix}{i}"
+        
+        # Check if a file with the generated name already exists
+        if not os.path.exists(potential_name + ".csv"):
+            # If not, return the unique file name
+            return potential_name
+        
+        # Increment the index and try the next potential name
+        i += 1
 
-def is_within_boundary_distance(boundary_percent, gen_lat, gen_long, new_lat, new_long):
-    distance = geodesic((gen_lat, gen_long), (new_lat, new_long)).km
-    print(distance)
+def end_runtime():
+    """
+    Consolidate and process dataframes, and save to CSV and Excel files.
+    Expects dataframes in data_list with specific columns.
+    Writes output to files named according to the global variable file_name.
+    Maps 'Outbreak' values using the global variable outbreak_occurence_values.
+    """
+    global data_list
+    global file_name
+    global outbreak_occurence_values
 
-    # find out what province/state these coordinates are in
-    province = 'Quebec'
+    print(data_list)
+
+    final_df = []  # Initialize list to store the final processed dataframes
+
+    # Iterate through each dataframe in data_list
+    for df in data_list:
+        data = df.copy()
+        filename = data['File Name'].iloc[0]
+        source = data['Source'].iloc[0]
+        study = data['Study'].iloc[0]
+        list_data_filled = []
+
+        data = data.sort_values(['area', 'Year'])  # Sort by area and year
+        
+        # Iterate through each unique area in the current dataframe
+        for area in data['area'].unique():
+            area_data = data[data['area'] == area].copy()
+            area_data['Year'] = area_data['Year'].astype(int)  # Convert 'Year' column to int
+            
+            min_year = int(area_data['Year'].min())
+            max_year = int(area_data['Year'].max())
+            latitude = area_data['Latitude'].iloc[0]
+            longitude = area_data['Longitude'].iloc[0]
+            
+            # Create DataFrame for all years within min and max range for this area
+            all_years = pd.DataFrame({'Year': range(min_year - 1, max_year + 2)})
+            all_years['area'] = area
+            all_years['Latitude'] = latitude
+            all_years['Longitude'] = longitude
+            
+            # Merge all_years with the specific area data from area_data
+            merged_data = pd.merge(all_years, area_data, how='left', on=['Year', 'area', 'Latitude', 'Longitude'])
+            merged_data['Outbreak'].fillna('no', inplace=True)  # Fill NA 'Outbreak' with 'no'
+            merged_data['Study'] = study
+            merged_data['File Name'] = filename
+            merged_data['Source'] = source
+            
+            list_data_filled.append(merged_data)  # Append processed data for this area
+
+        # Concatenate processed data of all areas
+        data = pd.concat(list_data_filled, ignore_index=True)
+        
+        # Map 'Outbreak' column values using predefined mapping
+        data['Outbreak'] = data['Outbreak'].map(outbreak_occurence_values)
+        
+        final_df.append(data)  # Append the fully processed dataframe to final_df list
+
+    # Save data to CSV and Excel if there are any processed dataframes
+    if len(final_df) > 0:
+        all_data = pd.concat(final_df, ignore_index=True)  # Concatenate all processed dataframes
+        all_data.to_csv(file_name + '.csv', index=False)  # Save to CSV
+        all_data.to_excel(file_name + '.xlsx', index=False)  # Save to Excel
+        print(f"Written to {file_name}.csv/.xlsx")  # Print confirmation
+
+    # Exit the program
+    exit()
+
+def extract_text(pdf_path):
+    """
+    Extract and concatenate text content from all pages of a PDF file.
+    
+    Args:
+    pdf_path (str): Path to the input PDF file.
+    
+    Returns:
+    str: Concatenated text content of the PDF.
+    """
+    
+    with open(pdf_path, 'rb') as file:
+        pdf = PyPDF2.PdfReader(file)  # Create PdfReader object to read the PDF
+        text = " ".join(page.extract_text() for page in pdf.pages)  # Concatenate text extracted from all pages
+
+    return text
+
+def extract_text_from_scanned_pdf(file_path, poppler_bin_path):
+    """
+    Extract and concatenate text content from all pages of a scanned PDF file.
+
+    Args:
+    file_path (str): Path to the input scanned PDF file.
+    poppler_bin_path (str): Path to the Poppler binary.
+
+    Returns:
+    str: Concatenated text content of the scanned PDF.
+    """
+    
+    # Convert PDF to list of images
+    images = pdf2image.convert_from_path(file_path, poppler_path=poppler_bin_path)
+
+    # Extract text from each image using pytesseract
+    texts = [pytesseract.image_to_string(img) for img in images]
+    
+    return "\n".join(texts)  # Join and return the extracted text from all pages
+
+def set_metadata():
+    study_indices = {
+        "Bouchard et al. 2018 -1.pdf": 1, 
+        "Boulanger et al. 2012 SBW outbreaks 400 yrs.pdf": 2,
+        "Fraver et al. 2006 time series SBW Maine.pdf": 3,
+        "Navarro et al. 2018 space time SBW.pdf": 4,
+        "Elliot 1960.pdf": 5,
+        "Blais 1954.pdf": 6,
+        "Blais 1981.pdf": 7,
+        # "Berguet et al. 2021 spatiotemp dyn 20th cent sbw.pdf": 9,
+        "Morin et al. 1993 outbreak data from Quebec.pdf": 9,
+        "Morin & LaPrise 1990 outbreaks in Quebec.pdf": 10,
+        "Blais 1965 outbreaks in Quebec.pdf": 11,
+        "Krause 1997 tree rings & budworm outbreaks.pdf": 12
+        }
+    valid_sources = [
+        'dendrochronological samples from tree cores', 
+        'dendrochronological samples from historical buildings',
+        'dendroarcheological material', 
+        'pheromone traps', 
+        'aerial defoliation survey',
+        'survey from insect laboratory', 
+        'personal communication with the department of lands and forest representative'
+    ]
+    general_locations = {
+        1: 'quebec, canada',
+        2: 'southern quebec'
+    }
+    general_coords = {
+        1: (46.907330, -71.389520),
+        2: (46.505566, -73.347985)
+    }
+    max_boundary_percentage = .5
+    use_gpt4 = False
+    return study_indices, valid_sources, general_locations, general_coords, max_boundary_percentage, use_gpt4
+
+def set_ocr_metadata():
+
+    # get global data_list var
+    global data_list
+
+    # set up OCR variables
+    poppler_bin_path = r'C:\Users\natal\OneDrive\Documents\GitHub\References_Finder\windows_venv\poppler-23.08.0\Library\bin'
+    tesseract_path = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    pytesseract.pytesseract.tesseract_cmd = tesseract_path
+
+    return poppler_bin_path, tesseract_path
+
+def process_file(file):
+    print(f"Currently Processing: {file}")
+
+    global data_list
+    global state_cache
+    global location_coordinates
+
+    # not including 5a, 6a, 8 because they are all Hardy et al.
+    # ChatGPT cannot read the pictures in Hardy et al. so we can't compare data
+    study_indices, valid_sources, general_locations, general_coords, max_boundary_percentage, use_gpt4 = set_metadata()
+
+    # get info for OCR analysis
+    poppler_bin_path, tesseract_path = set_ocr_metadata()
+
+    # file_name = input('Input the name of the file you would like to parse: ')
+    # file = open(file_name, 'rb')
+    pdf_text = extract_text(file)
+
+    # if extracted text is short, try OCR
+    if len(pdf_text) < 100:
+        pdf_text = extract_text_from_scanned_pdf(file, poppler_bin_path)
+
+    # remove everything before abstract and after/on references page
+    pdf_text = extract_abstract_to_references(pdf_text)
+    pdf_text = cleanup_text(pdf_text)
+
+    print(pdf_text)
+
+    # set up openai api
+    openai_key = "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"
+    openai.api_key = openai_key
+    model_list = openai.Model.list()
+
+    # 0.5. get relevance of text
+    relevance_chunk = build_chunk_group(system_message_topic_checker, pdf_text, just_one_chunk=True, always_4k_context=True)[0][1]
+    print('\n\n\n\n\n\n\n')
+    print(relevance_chunk)
+    print(relevance_chunk)
+    relevance_response = get_chatgpt_response(system_message_topic_checker, relevance_chunk, use_gpt4=True)
+    is_relevant = yes_or_no(relevance_response)
+    print(f"Identified relevance: {is_relevant}")
+    if not is_relevant:
+        return
+
+    # 1. get source of data
+    # build chunks
+    source_chunk_group = build_chunk_group(system_message_stage_0, pdf_text, end_message)
+    source_prefix = "data collection method: "
+
+    # iterate through each chunk until source is found
+    source = 'unknown'
+    for chunk in source_chunk_group:
+        system_message = chunk[0]
+        user_message = chunk[1]
+        temperature = 0
+        generated_text = get_chatgpt_response(system_message, user_message, temperature).lower()
+        if generated_text.startswith(source_prefix):
+            generated_text = generated_text[len(source_prefix):]
+        if generated_text.endswith('.'):
+            generated_text = generated_text[0:len(generated_text) - 1]
+        if not generated_text.startswith('unknown'):
+            print(generated_text)
+            source = generated_text
+        if source != 'unknown':
+            break
+
+    found_valid_sources = []
+    source = source.split(',')
+    for i in range(len(source)):
+        source[i] = source[i].strip().lower()
+        if source[i] in valid_sources:
+            found_valid_sources.append(source[i])
+    
+    print(found_valid_sources)
+
+    # 2. get location of data to use in case location cannot be found
+    stage0b_chunks = build_chunk_group(system_message_stage_0b, pdf_text, end_message)
+    location_prefix = 'location: '
+
+    found_coordinates = False
+    location = 'unknown'
+    latitude, longitude = None, None
+    coord_classification = ''
+    i = 0
+
+    study_index = get_study_index(file, study_indices)
+    gen_location = get_val_from_dict(study_index, general_locations)
+    gen_coords = get_val_from_dict(study_index, general_coords)
+
+    if gen_coords is None:
+        while i < len(stage0b_chunks) and 'unknown' in location.lower():
+            chunk = stage0b_chunks[i]
+            system_message = chunk[0]
+            user_message = chunk[1]
+            temperature = 0             
+
+            generated_text = get_chatgpt_response(system_message, user_message, temperature).lower()
+            print(generated_text)
 
 
-    return distance <= get_max_boundary_distance(province, boundary_percent)
-"""
+
+            if generated_text.startswith(location_prefix):
+                generated_text = generated_text[len(location_prefix):]
+            if generated_text.endswith('.'):
+                generated_text = generated_text[0:len(generated_text) - 1]
+            
+            latitude, longitude = clean_coordinates(generated_text)
+            if latitude is not None and longitude is not None:
+                found_coordinates = True
+
+            i += 1
+
+        # if the coords are bounding boxes, we get the centroid
+        if coord_classification == 'bounding box':
+            latitude, longitude = get_centroid_of_bb(location)
+        if latitude is not None and longitude is not None:
+            print(f'\n\nBOUNDING BOX CENTROID: {latitude}, {longitude}\n')
+
+    else:
+        coord_classification = 'decimal degrees'
+        found_coordinates = True
+        latitude = gen_coords[0]
+        longitude = gen_coords[1]
+
+
+    # 2.25. try to guess the year the work was published to limit years we can record data from it
+    year_guess = None
+    year_guesser_chunk_group = build_chunk_group(system_message_year_guesser, pdf_text, end_message)
+    if len(year_guesser_chunk_group) > 0:
+        user_message = year_guesser_chunk_group[0][1]
+    
+        generated_text = get_chatgpt_response(system_message_year_guesser, user_message, temperature)
+
+        # Remove non-numeric characters from generated_text
+        generated_text = re.sub(r'\D', '', generated_text)
+
+        # Check if the resulting value is a 4 digit number
+        if len(generated_text) == 4:
+            year_guess = int(generated_text)
+            print(f"Inferred year: {year_guess}")
+
+
+    # 2.5. try to find the general area of the study and get coordinates from geopy if coordinates are not already found
+    if gen_location is None:
+
+        stage0c_chunks = build_chunk_group(system_message_stage_0d, pdf_text, end_message, use_gpt4)
+        location_prefix = 'location: '
+
+        location = 'unknown'
+        i = 0
+        while i < len(stage0c_chunks) and location == 'unknown':
+            chunk = stage0c_chunks[i]
+            system_message = chunk[0]
+            user_message = chunk[1]
+            temperature = 0
+
+            generated_text = get_chatgpt_response(system_message, user_message, temperature, use_gpt4).lower()
+            print(f'Generated General Location: {generated_text}')
+
+            if generated_text.startswith(location_prefix):
+                generated_text = generated_text[len(location_prefix):]
+            if generated_text.endswith('.'):
+                generated_text = generated_text[0:len(generated_text) - 1]
+            if 'unknown' not in generated_text:
+                location = f'"{generated_text}"'
+                if latitude is None or longitude is None:
+                    if location not in location_coordinates:
+                        latitude, longitude = location_to_coordinates(location, system_message_stage_4)
+                        if latitude is not None and longitude is not None:
+                            location_coordinates[location] = (latitude, longitude)
+                            found_coordinates = True
+                    else:
+                        latitude, longitude = location_coordinates[location][0], location_coordinates[location][1]
+                    latitude, longitude = location_to_coordinates(location, system_message_stage_4)
+                    if latitude is not None and longitude is not None:
+                        found_coordinates = True
+
+            i += 1
+    else:
+        location = gen_location
+
+    state = None
+    if found_coordinates:
+        print(latitude, longitude)
+        state = get_location_by_coordinates(latitude, longitude).lower()
+        print(state)
+    print(location)
+
+
+    # if not found_coordinates, then we need to do the chatgpt process to get coordinates from geopy
+
+    # set up dataframe for csv output
+    outbreak_df = pd.DataFrame(columns=['area', 'Latitude', 'Longitude', 'Year', 'Outbreak', 'Source'])
+
+    location_backup = ""
+    if 'unknown' not in location.lower():
+        location_backup = f"\n\nIn case the text doesn't provide a location for an outbreak, we've found that the outbreaks in this text take place at {location}"
+
+    # build prompt chunks
+    chunk_group = build_chunk_group(system_message_stage_1 + location_backup, pdf_text, end_message, use_gpt4, stage_1_few_shot_examples)
+
+    stage1_results = ''
+
+    # make api call for each chunk in each chunk_group, print response
+    for chunk in chunk_group:
+        system_message = chunk[0]
+        user_message = chunk[1]
+        temperature = 0
+
+        print(f'Text chunk: {user_message}')
+
+        # while True:
+        #     time.sleep(1)
+
+        generated_text = get_chatgpt_response(system_message, user_message, temperature, use_gpt4)
+        generated_text = cleanup_text(generated_text)
+        stage1_results += f'\n{generated_text}'
+
+    print(f"\nStage 1: {stage1_results}\n\n")
+
+    generated_text = get_chatgpt_response(system_message_stage_2, stage1_results, 0, use_gpt4, stage_2_few_shot_examples)
+    print(f"Stage 2:\n{generated_text}\n\n") 
+
+    if year_guess is not None:
+        addition = f"\nIn case this is helpful, the data that your input comes from was published in {year_guess}"
+        generated_text = get_chatgpt_response(system_message_stage_3 + addition, generated_text, 0, use_gpt4=False, examples=stage_3_few_shot_examples)
+    else:
+        generated_text = get_chatgpt_response(system_message_stage_3, generated_text, 0, use_gpt4=False, examples=stage_3_few_shot_examples)
+
+    print(f"Stage 3: \n{generated_text}")
+
+    # wait()
+
+    parsed_response, state_cache = parse_response(generated_text, outbreak_df, system_message_stage_4, general_state=state, state_cache=state_cache, publish_year=year_guess)
+    print(f"Parsed response: {parsed_response}")
+    if parsed_response is not None:
+        outbreak_df = parsed_response
+    else:
+        print("Error: Could not parse the response.")
+
+    # if there was data to be found, add it to dataframe list
+    if not outbreak_df.empty:
+        outbreak_df['File Name'] = os.path.basename(file)
+        outbreak_df['Study'] = outbreak_df['File Name'].map(study_indices)
+        print(found_valid_sources)
+        if len(found_valid_sources) > 0:
+            outbreak_df['Source'] = ' | '.join(found_valid_sources)
+        else:
+            outbreak_df['Source'] = 'No identified sources'
+        print(outbreak_df.iloc[0]['Source'])
+
+        # Append the dataframe to the list
+        data_list.append(outbreak_df)
+
+        # Create individual csv file for this study
+        # file_name_no_extension = os.path.splitext(file)[0]
+        # csv_file_name = 'outbreak_data_' + file_name_no_extension + '.csv'
+        # excel_file_name = 'outbreak_data_' + file_name_no_extension + '.xlsx'
+        # outbreak_df.to_csv(csv_file_name, index=False)
+        # outbreak_df.to_excel(excel_file_name, index=False)
+
+    print(outbreak_df)
 
 #_________________________________________________________________________
 
 
 # set system_messages for each stage
+system_message_topic_checker = "You are a yes-or-no machine. This means that you only output 'yes' or 'no', and nothing else. You will be given an excerpt from a text, and you will determine if it includes any information about Spruce Budworms. Say 'yes' if it does and 'no' if it does not."
+
 system_message_stage_0 = "You are a list-maker making a comma-separated list of sources for research papers about spruce budworms. You are given an excerpt from the text and must determine where the data is coming from. Your possible list items are: Dendrochronological samples from tree cores, Dendrochronological samples from historical buildings, Pheromone traps, Aerial defoliation survey, Survey from insect laboratory, or Personal Communication with the Department of Lands and Forest representative. If the paper uses multiple sources, list each one separately, using commas as delimiters. If no information about the methods of data collection are given, simple output 'Unknown'. It is of the utmost importance that your output is a comma-separated list. Do not write headers or any additional information. Preface the information with 'Data collection method: '."
 
-system_message_stage_0b = "You are a scientist that is extracting the location of study sites from research papers about Spruce Budworm (SBW) outbreaks. You are given an excerpt from a text and must determine if the paper gives exact geographic coordinates of the study sites. You must output the geographic coordinates exactly how it is written, and nothing else. If you don't find the coordinates, output 'Unknown.' The coordinates MUST be numeric. Preface the information with 'Location: '. You must be concise because your output will be parsed as coordinates.\n\n"
+system_message_stage_0b = "You are a scientist that is extracting the location of study sites from research papers about Spruce Budworm (SBW) outbreaks. You are given an excerpt from a text and must determine if the paper gives exact geographic coordinates of the study sites. You must output the geographic coordinates exactly how it is written, and nothing else. If you don't find the coordinates, output 'Unknown.' The coordinates MUST be numeric. Preface the information with 'Location: '. You must be concise because your output will be parsed as coordinates."
 
-system_message_stage_0c = "You are a classification engine that determines the format of geocoordinate data for researchers. You are given a coordinate pulled from a research paper and you must guess whether it is a bounding box, an individual coordinate in degrees/minutes/seconds, an individual point in decimal degrees, or an invalid/incomplete location (i.e. it is not a two-dimensional bounding box, a single location, or it is not numeric geocoordinates, just a place). Valid coordinates must include latitude and longitude. Your options are 'bounding box', 'degrees/minutes', 'degrees/minutes/seconds', 'decimal degrees', and 'invalid'. Your output must be one of these options and NOTHING ELSE.\n\n"
+system_message_stage_0c = "You are a classification engine that determines the format of geocoordinate data for researchers. You are given a coordinate pulled from a research paper and you must guess whether it is a bounding box, an individual coordinate in degrees/minutes/seconds, an individual point in decimal degrees, or an invalid/incomplete location (i.e. it is not a two-dimensional bounding box, a single location, or it is not numeric geocoordinates, just a place). Valid coordinates must include latitude and longitude. Your options are 'bounding box', 'degrees/minutes', 'degrees/minutes/seconds', 'decimal degrees', and 'invalid'. Your output must be one of these options and NOTHING ELSE."
 
-system_message_stage_0c_boundingbox = "You are a formatting machine that takes unformatted bounding box coordinates and puts them into a standardized format. You will put all bounding boxes into this format: degree1°N-degree2°N, degree1°W-degree2°W. Each degree may be just a degree, or a decimal degree, a coordinate in degrees/minutes/seconds, etc. Just output this data in the right format. Your output must be this format and NOTHING ELSE.\n\n"
+system_message_stage_0c_boundingbox = "You are a formatting machine that takes unformatted bounding box coordinates and puts them into a standardized format. You will put all bounding boxes into this format: degree1°N-degree2°N, degree1°W-degree2°W. Each degree may be just a degree, or a decimal degree, a coordinate in degrees/minutes/seconds, etc. Just output this data in the right format. Your output must be this format and NOTHING ELSE."
 
-system_message_stage_0c_dm = "You are a formatting machine that takes unformatted coordinates in degrees/minutes and puts them into a standardized format. You will put all bounding boxes into this format: degree1°minute1'N, degree2°minute2'W. Just output this data in the right format. Your output must be this format and NOTHING ELSE.\n\n"
+system_message_stage_0c_dm = "You are a formatting machine that takes unformatted coordinates in degrees/minutes and puts them into a standardized format. You will put all bounding boxes into this format: degree1°minute1'N, degree2°minute2'W. Just output this data in the right format. Your output must be this format and NOTHING ELSE."
 
-system_message_stage_0c_dms = "You are a formatting machine that takes unformatted coordinates in degrees/minutes/seconds and puts them into a standardized format. You will put all bounding boxes into this format: degree1°minute1'second1\"N, degree2°minute2'second2\"W. Just output this data in the right format. Your output must be this format and NOTHING ELSE.\n\n"
+system_message_stage_0c_dms = "You are a formatting machine that takes unformatted coordinates in degrees/minutes/seconds and puts them into a standardized format. You will put all bounding boxes into this format: degree1°minute1'second1\"N, degree2°minute2'second2\"W. Just output this data in the right format. Your output must be this format and NOTHING ELSE."
 
-system_message_stage_0c_dd = "You are a formatting machine that takes unformatted coordinates in decimal degrees and puts them into a standardized format. You will put all bounding boxes into this format: degree1.decimal1°N, degree2.decimal2°W. Just output this data in the right format. Your output must be this format and NOTHING ELSE.\n\n"
+system_message_stage_0c_dd = "You are a formatting machine that takes unformatted coordinates in decimal degrees and puts them into a standardized format. You will put all bounding boxes into this format: degree1.decimal1°N, degree2.decimal2°W. Just output this data in the right format. Your output must be this format and NOTHING ELSE."
 
-system_message_stage_0d = "You are a scientist that is extracting the location of study sites from research papers about Spruce Budworm (SBW) outbreaks. You are given an excerpt from a text and must determine where the study site is located. The location you output must encompass the entire study area and must be locatable on a map using the GeoPy geoservice. If the text gives exact coordinates, output those coordinates exactly and stop. Otherwise, output the location in the following format: Province/State/Municipality, Country. If the study area takes place in the northern/southern/western/eastern part or a specific lake/town/landmark in the municipality/province/state, be sure to include that info. If there is not data about the study area or you only know the country or continent it takes place in, simply print 'Unknown'. Preface the information with 'Location: '. Be concise because your output will be parsed as csv data.\n\n"
+system_message_stage_0d = "You are a scientist that is extracting the location of study sites from research papers about Spruce Budworm (SBW) outbreaks. You are given an excerpt from a text and must determine where the study site is located. The location you output must encompass the entire study area and must be locatable on a map using the GeoPy geoservice. If the text gives exact coordinates, output those coordinates exactly and stop. Otherwise, output the location in the following format: Province/State/Municipality, Country. If the study area takes place in the northern/southern/western/eastern part or a specific lake/town/landmark in the municipality/province/state, be sure to include that info. If there is not data about the study area or you only know the country or continent it takes place in, simply print 'Unknown'. Preface the information with 'Location: '. Be concise because your output will be parsed as csv data."
 
 system_message_year_guesser = 'You are a text analysis machine that is inferring the dates from texts. Please output the year that you think it had most likely been published in. It is of the utmost importance that you only output the individual year, and nothing else. No punctuation.'
 
@@ -597,20 +1412,16 @@ stage_1_few_shot_examples = [
     {"role": "user", "content": "Earlier potential outbreaks were identified using dendro-\nchronological material from old buildings only. Three addi-\ntional and distinct growth reductions occurred between the\nbeginning of the 18th and the early 19th centuries in 1807–\n1817 (O5), 1754–1765 (O6), and 1706–1717 (O7) (Fig. 2). (Berguet 1954)"},
     {"role": "assistant", "content": "No specific instances of SBW outbreaks with geographic locations and years were mentioned in the text."},
     {"role": "user", "content": "Several points\n in the neighbourhood of Sioux Lookout and the\n eastern portion of Lac Seul show 1866 as the\n first year of suppression, indicating that the in-\n festation had its origin in this vicinity. Within\n this area, the first apparent year of suppression\n was as early as 1862 in two localities. However,\n in both these localities the white spruce trees\n sampled were very old and showed poor diameter\n growth for approximately the last 100 years, thus\nobscuring to some extent the initiation of suppres-\n sion caused by the spruce budworm (see data for\n Minnitaki Lake, Fig. 3). From this area of\n origin the infestation spread mostly westward un-\n til by 1870 and 1871 it reached points close to\n the Manitoba boundary."},
-    {"role": "assistant", "content": "1. Region: Sioux Lookout and the eastern portion of Lac Seul\n  Years: 1862-1871\n"}
+    {"role": "assistant", "content": "1. Region: Sioux Lookout and the eastern portion of Lac Seul\n  Years: 1862-1871\n"},
+    {"role": "user", "content": "Spruce beetle outbreaks have been re ported in the Rocky Mountains of western North America since the late 1800s. In their classic paper, Spruce Beetle in the Rockies,  Schmid and Frye reviewed the literature that emerged from the extensive outbreaks in Colorado in the 1940s."},
+    {"role": "assistant", "content": "No instances of Spruce Budworm outbreaks recorded in the text."}
 ]
 
 system_message_stage_2 = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbreak/infestation occured during a specific year or range of years and at a specific geographic location. Write every instance in the following format exactly: The geographic location, then the year, whether there was or was not an outbreak/infestation (always a yes or no), and then a new line. This data must be in csv file format, with commas in between and double quotes around each feature. Never include the header or any labels. The geographic location must be something like a city, a county, a specific lake, or anything that is locatable on a map. If an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'. It is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks. If the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'"
 
 system_message_stage_2 = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbreak/infestation occured during a specific year or range of years and at a specific geographic location. Present your findings in the following consistent format: '\"Geographic location\"', '\"Year or Year range\"', '\"Outbreak presence (Yes/No/Uncertain)\"'. For each instance, output should be a new line in this format, with no headers or labels included. The geographic location, encapsulated within double quotation marks, must be identifiable on a map and can be a city, county, specific lake, etc. It is of the utmost importance that the location must be provincial/state level level or smaller, AKA ONLY INCLUDE locations that are the size of provinces/states or SMALLER. Do not include nonspecific or nonidentifiable locations like 'study site'. If an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'. It is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks. If the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'."
 
-system_message_stage_2 = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbrea/infestation occured during a specific year or range of years and at a specific geographic location.\n\n\
-Present your findings in the following consistent format: '\"Geographic location\"', '\"Year or Year range\"', '\"Outbreak presence (Yes/No/Uncertain)\"'.\n\n\
-For each instance, output should be a new line in this format, with no headers or labels included.\n\n\
-The geographic location must be identifiable on a map and can be a city, county, specific lake, etc. Do not include nonspecific or nonidentifiable locations like 'study site'.\n\n\
-If an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'.\n\n\
-If the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'.\n\n\
-It is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks.\n"
+system_message_stage_2 = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbrea/infestation occured during a specific year or range of years and at a specific geographic location.\n\nFor each instance, output should be a new line in this format, with no headers or labels included.\n\nThe geographic location must be identifiable on a map and can be a city, county, specific lake, etc. Do not include nonspecific or nonidentifiable locations like 'study site'.\n\nIf an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'.\n\nIf the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'.\n\nIt is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks.\n"
 
 stage_2_few_shot_examples = [
     {"role": "user", "content": "Specific SBW Outbreaks:\n\n1. Outbreak: O1 (1905-1930)\n-Region: Eastern Quebec, east of the St. Lawrence River\n\n2. Outbreak: O2 (1935-1965)\n  -Region: Northern reach of southern Quebec\n\n3. Outbreak: O3 (1968-1988)\n-Region: Southwestern Quebec, along a southwest-northeast transect across central southern Quebec"},
@@ -618,364 +1429,88 @@ stage_2_few_shot_examples = [
     {"role": "user", "content": "Stage 1:\n-Outbreak: 1976-1991\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1946-1959\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1915-1929\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1872-1903\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1807-1817\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1754-1765\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1706-1717\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1664-1670\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1630-1638\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1647-1661 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1606-1619 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1564-1578 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec"},
     {"role": "assistant", "content": '"Northern limit of the temperate forest in southern Quebec", "1976-1991", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1946-1959", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1915-1929", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1872-1903", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1807-1817", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1754-1765", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1706-1717", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1664-1670", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1630-1638", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1647-1661", "Uncertain"\n"Northern limit of the temperate forest in southern Quebec", "1606-1619", "Uncertain"\n"Northern limit of the temperate forest in southern Quebec", "1564-1578", "Uncertain"'},
     {"role": "user", "content": "Specific SBW outbreaks in specific years and locations mentioned in the text are as follows:\n\n1. Outbreak in 1989: Two epicenters were identified during this outbreak.\n2. Outbreak in 1991: Four epicenters were identified during this outbreak.\n3. Outbreak in 1996: One epicenter was identified during this outbreak.\n4. Outbreak in 2006: Four epicenters were identified during this outbreak.\n5. Outbreak in 2011: One epicenter was identified during this outbreak.\n\nPlease note that the specific locations of these epicenters were not provided in the text."},
-    {"role": "assistant", "content": "No specific instances of SBW outbreaks with geographic locations and years were mentioned in the text."}
+    {"role": "assistant", "content": "No specific instances of SBW outbreaks with geographic locations and years were mentioned in the text."},
+    {"role": "user", "content": "-Spruce beetle outbreaks have been reported in the Rocky Mountains of western North America since the late 1800s.\n-A new wave of outbreaks has affected Rocky Mountain subalpine spruce-fir forests beginning in the mid-1980s and continuing to the present.\n-Recent spruce beetle outbreaks in Utah alone have resulted in the deaths of over 1 million spruce trees and the loss of over 90% of the large spruce component in affected stands.\n-Just over 500,000 ha of spruce forests have been affected in Colorado and Wyoming since 1996.\n-The frequency of outbreak initiation dates varied, on average, outbreaks within a given geographic area were first reported once every 19 years.\n-Four periods of broad-scale spruce beetle outbreaks occurring from 1843 to 1860, 1882 to 1889, 1931 to 1957, and 2004 to 2010 were evident in the northwestern Colorado chronology.\n-The unprecedented scale of the current outbreaks suggests that warming temperatures attributed to climate change and the region-wide susceptibility of spruce in the spruce-fir zone have had a significant impact on outbreak occurrence.\n-The occurrence of spruce beetle outbreaks and other disturbance events in Alaska and Colorado dating back to the 1700s has been determined from chronologies constructed by utilizing tree-ring release patterns, dates of spruce beetle-induced tree mortality, and years since stand establishment."},
+    {"role": "assistant", "content": "No specific instances of Spruce Budworm outbreaks with geographic locations and years were mentioned in the text."}
 ]
 
-system_message_stage_3 = "You are a computer made to give scientists town names within an area. You will be given a location in North America. Your task is to give a town that belongs at that location to be used as a locality string for GEOLocate software. If the area is very remote, give the nearest town. Put it in csv format as the following: \"city, state, country\". It is of the utmost importance that you print only the one piece of data, and absolutely nothing else. You must output a city name, even if the given area is very large or very remote."
+system_message_stage_3 = "You are a formatting machine that takes output from ChatGPT and ensures that it is formatted correctly. Each line must be in csv format as follows:\n\"Location\", \"Year(s)\", \"Outbreak (Always only a 'yes', 'no' or 'uncertain')\".\nEach feature must be enclosed by double quotes.\nIf the outbreak lasts multiple years, list the first year, then the last year with a '-' between them (first year-last year). Only list specific years and ranges.\nIf the last feature instead says there was any amount of defoliation or tree mortality, that is also considered a 'yes' for the outbreak feature.\nIt is of the utmost importance that you print only the one piece of data, and absolutely nothing else. Do not say anything other than returning the formatted line. Do not respond like a human. I need perfect CSV text format out of ChatGPT."
+
+stage_3_few_shot_examples = [
+    {"role": "user", "content": "Outbreak: 1946\nRegion: New Brunswick, Canada\n\nOutbreak: Unknown\nRegion: Algoma Forest, Ontario, Canada\n\nOutbreak: 1989\nRegion: Central New Brunswick, Canada\n\nOutbreak: Unknown\nRegion: Northern New Brunswick, Canada\n\nOutbreak: Unknown\nRegion: New Brunswick, Canada and northern New England, USA"},
+    {"role": "assistant", "content": '"New Brunswick, Canada", "1946", "yes"'},
+    {"role": "user", "content": 'No specific outbreaks of Spruce Budworm (SBW) were mentioned in the text.\n\n\nThe text does not provide enough information to generate a CSV line.'},
+    {"role":"assistant", "content": 'No specific outbreaks of Spruce Budworm (SBW) were mentioned in the text.'},
+    {"role": "user", "content": '"North American boreal forests", "several years", "Yes"\n"University of Quebec at Chicoutimi, Québec, Canada", "2015", "Yes"\n"University of Quebec at Chicoutimi, Québec, Canada", "2016", "Yes"'},
+    {"role": "assistant", "content": '"University of Quebec at Chicoutimi, Québec, Canada", "2015", "Yes"\n"University of Quebec at Chicoutimi, Québec, Canada", "2016", "Yes"'},
+    {"role": "user", "content": "\"Sioux Lookout area, Northwestern Ontario, Canada\", \"1858-1860\", \"Uncertain\""},
+    {"role": "assistant", "content": "\"Sioux Lookout area, Northwestern Ontario, Canada\", \"1858-1860\", \"Uncertain\""},
+    {"role": "user", "content": "\"Sioux Lookout area, Northwestern Ontario, Canada\", \"1945 onwards\", \"Yes\""},
+    {"role": "assistant", "content": "\"Sioux Lookout area, Northwestern Ontario, Canada\", \"1945-\", \"Yes\""},
+    # {"role": "user", "content": "\"Lac Seul area of Northwestern Ontario, Canada\", \"Late 19th century\", \"Yes\""},
+    # {"role": "assistant", "content": "No outbreaks of Spruce Budworm with specific years given in the text."}
+    {"role": "user", "content": "Outbreak: 1858-1865\nRegion: Sioux Lookout area, northwestern Ontario\nOutbreak: Uncertain\nRegion: Points close to the Manitoba boundary\nOutbreak: Uncertain\nRegion: International boundary, Lake of the Woods\nOutbreak: Current infestation\nRegion: Sioux Lookout and Wabaskang Lake area, northwestern Ontario\nOutbreak: Current infestation\nRegion: Approximately 10,000 square miles in northwestern Ontario\nOutbreak: Uncertain\nRegion: Clay Lake District\nOutbreak: Uncertain\nRegion: Cedar Lake District\nOutbreak: Uncertain\nRegion: Past outbreak area, northwestern Ontario\nOutbreak: Uncertain\nRegion: Forest stands with balsam fir dominance"},
+    {"role": "assistant", "content": "\"Sioux Lookout Area, Northwestern Ontario\", \"1858-1865\""},
+    {"role": "user", "content": "Outbreak: 1910-unknown\nRegion: Ottawa River Valley, Quebec, Canada\n\nOutbreak: 1940-unknown\nRegion: Ottawa River Valley, Quebec, Canada\n\nOutbreak: 1967-unknown\nRegion: Ottawa River Valley, Quebec, Canada\n\nOutbreak: 1783 (uncertain)\nRegion: Ottawa River Valley, Quebec, Canada"},
+    {"role": "assistant", "content": "\"Ottawa River Valley, Quebec, Canada\", \"1910\", \"yes\"\n\"Ottawa River Valley, Quebec, Canada\", \"1940\", \"yes\"\n\"Ottawa River Valley, Quebec, Canada\", \"1967\", \"yes\"\n\"Ottawa River Valley, Quebec, Canada\", \"1783\", \"uncertain\"\n"},
+    {"role": "user", "content": "Chicoutimi Cathedral, Chicoutimi, Quebec, Canada, 18th century: 1710-1716, 1754-1759\nChicoutimi Cathedral, Chicoutimi, Quebec, Canada, 19th century: 1811-1813, 1835-1841, 1868-1878"},
+    {"role": "assistant", "content": "\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1710-1716\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1754-1759\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1811-1813\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1835-1841\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1868-1878\", \"yes\""}
+]
+
+system_message_check_multiple_locations = "You are given a string and you must determine if the string represents one location or multiple locations. Answer with 'one' or 'multiple'. It is of the utmost importance that you print 'one' or 'multiple' and nothing else. Do not say anything other than returning the answer. Do not respond like a human."
+
+system_message_stage_4 = "You are a computer made to give scientists town names within an area. You will be given a location in North America. Your task is to give a town that belongs at that location to be used as a locality string for GEOLocate software. If the area is very remote, give the nearest town. Put it in csv format as the following: \"city, state, country\". It is of the utmost importance that you print only the one piece of data, and absolutely nothing else. You must output a city name, even if the given area is very large or very remote."
 
 end_message = " END\n\n"
 
 def main():
+    try:
 
-    # not including 5a, 6a, 8 because they are all Hardy et al.
-    # ChatGPT cannot read the pictures in Hardy et al. so we can't compare data
-    study_indices = {
-        "Bouchard et al. 2018 -1.pdf": 1, 
-        "Boulanger et al. 2012 SBW outbreaks 400 yrs.pdf": 2,
-        "Fraver et al. 2006 time series SBW Maine.pdf": 3,
-        "Navarro et al. 2018 space time SBW.pdf": 4,
-        "Elliot 1960.pdf": 5,
-        "Blais 1954.pdf": 6,
-        "Blais 1981.pdf": 7,
-        "Berguet et al. 2021 spatiotemp dyn 20th cent sbw.pdf": 9
-        }
+        # get folder path and file name of pdf, create pdf reader instance
+        pdf_files = glob.glob("papers/*.pdf")
 
-    valid_sources = [
-        'dendrochronological samples from tree cores', 
-        'dendrochronological samples from historical buildings', 
-        'pheromone traps', 
-        'aerial defoliation survey',
-        'survey from insect laboratory', 
-        'personal communication with the department of lands and forest representative'
-    ]
+        """# pdf_files = []
 
-    outbreak_occurence_values = {
-        'no': 0,
-        'yes': 1,
-        'uncertain': 2
-    }
+        # with open('final_test_1.txt', 'r') as f:
+        #     lines = [line.strip() for line in f]
+        #     for line in lines:
+        #         pdf_files.append(line)"""
 
-    general_locations = {
-        1: 'quebec, canada',
-        2: 'southern quebec'
-    }
+        # pdf_files = [pdf_files[6]]
 
-    general_coords = {
-        1: (46.907330, -71.389520),
-        2: (46.505566, -73.347985)
-    }
+        print("Processing all files in this directory. This may take a while!")
+        for file in pdf_files:
 
-    state_cache = {}
+            # if file != r'papers\Hardy et al. 1986 atlas of outbreaks.pdf':
+            #     continue
 
-    location_coordinates = {}
+            process_file(file)
 
-    max_boundary_percentage = .5
+        end_runtime()
+    
+    except Exception as e:
+        print(f"Error: {e}")
+        end_runtime()
 
-    file_name = "Testing/testing_data/test21"
+"""
+Defining global variables
+"""
 
-    use_gpt4 = False
+# for concatenating dataframes
+data_list = []
 
-    # for concatenating dataframes
-    data_list = []
+file_name = find_unused_filename(r"C:\Users\natal\OneDrive\Documents\GitHub\PDF-Parser\Testing\testing_data", "test")
+print(file_name)
 
-    # get folder path and file name of pdf, create pdf reader instance
-    pdf_files = glob.glob("papers/*.pdf")
-    pdf_files = []
+outbreak_occurence_values = {
+    'no': 0,
+    'yes': 1,
+    'uncertain': 2
+}
 
-    with open('for_analysis.txt', 'r') as f:
-        lines = [line.strip() for line in f]
-        for line in lines:
-            pdf_files.append(line)
+state_cache = {}
+location_coordinates = {}
 
-    print(pdf_files)
-
-    print("Processing all files in this directory. This may take a while!")
-    for file in pdf_files:
-
-        # if file != r'C:\Users\natal\OneDrive\Documents\GitHub\PDF-Parser\papers\Blais 1954.pdf':
-        #     continue
-
-        print(f"Currently Processing: {file}")
-
-        # file_name = input('Input the name of the file you would like to parse: ')
-        # file = open(file_name, 'rb')
-        pdf_reader = PyPDF2.PdfReader(file)
-        num_pages = len(pdf_reader.pages)
-
-        # concat all text into pdf_text string
-        pdf_text = ''
-        for page_number in range(num_pages):
-            page = pdf_reader.pages[page_number]
-            pdf_text += page.extract_text().replace("-\n", "").replace("\n", " ").replace(" -", "-")
-
-        # remove everything before abstract and after/on references page
-        pdf_text = extract_abstract_to_references(pdf_text)
-        pdf_text = cleanup_text(pdf_text)
-
-        print(pdf_text)
-
-
-        # set up openai api
-        openai_key = "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"
-        openai.api_key = openai_key
-        model_list = openai.Model.list()
-
-        # 1. get source of data
-        # build chunks
-        source_chunk_group = build_chunk_group(system_message_stage_0, pdf_text, end_message)
-        source_prefix = "data collection method: "
-
-        # iterate through each chunk until source is found
-        source = 'unknown'
-        for chunk in source_chunk_group:
-            system_message = chunk[0]
-            user_message = chunk[1]
-            temperature = 0
-            generated_text = get_chatgpt_response(system_message, user_message, temperature).lower()
-            if generated_text.startswith(source_prefix):
-                generated_text = generated_text[len(source_prefix):]
-            if generated_text.endswith('.'):
-                generated_text = generated_text[0:len(generated_text) - 1]
-            if not generated_text.startswith('unknown'):
-                print(generated_text)
-                source = generated_text
-            if source != 'unknown':
-                break
-
-        found_valid_sources = []
-        source = source.split(',')
-        for i in range(len(source)):
-            source[i] = source[i].strip().lower()
-            if source[i] in valid_sources:
-                found_valid_sources.append(source[i])
-        
-        print(found_valid_sources)
-
-        # 2. get location of data to use in case location cannot be found
-        stage0b_chunks = build_chunk_group(system_message_stage_0b, pdf_text, end_message)
-        location_prefix = 'location: '
-
-        found_coordinates = False
-        location = 'unknown'
-        latitude, longitude = None, None
-        coord_classification = ''
-        i = 0
-
-        study_index = get_study_index(file, study_indices)
-        gen_location = get_val_from_dict(study_index, general_locations)
-        gen_coords = get_val_from_dict(study_index, general_coords)
-
-        if gen_coords is None:
-            while i < len(stage0b_chunks) and 'unknown' in location.lower():
-                chunk = stage0b_chunks[i]
-                system_message = chunk[0]
-                user_message = chunk[1]
-                temperature = 0             
-
-                generated_text = get_chatgpt_response(system_message, user_message, temperature).lower()
-                print(generated_text)
-
-
-
-                if generated_text.startswith(location_prefix):
-                    generated_text = generated_text[len(location_prefix):]
-                if generated_text.endswith('.'):
-                    generated_text = generated_text[0:len(generated_text) - 1]
-                
-                latitude, longitude = clean_coordinates(generated_text)
-                if latitude is not None and longitude is not None:
-                    found_coordinates = True
-
-                i += 1
-
-            # if the coords are bounding boxes, we get the centroid
-            if coord_classification == 'bounding box':
-                latitude, longitude = get_centroid_of_bb(location)
-            if latitude is not None and longitude is not None:
-                print(f'\n\nBOUNDING BOX CENTROID: {latitude}, {longitude}\n')
-
-        else:
-            coord_classification = 'decimal degrees'
-            found_coordinates = True
-            latitude = gen_coords[0]
-            longitude = gen_coords[1]
-
-
-        # 2.25. try to guess the year the work was published to limit years we can record data from it
-        year_guess = None
-        year_guesser_chunk_group = build_chunk_group(system_message_year_guesser, pdf_text, end_message)
-        if len(year_guesser_chunk_group) > 0:
-            user_message = year_guesser_chunk_group[0][1]
-        
-            generated_text = get_chatgpt_response(system_message_year_guesser, user_message, temperature)
-
-            # Remove non-numeric characters from generated_text
-            generated_text = re.sub(r'\D', '', generated_text)
-
-            # Check if the resulting value is a 4 digit number
-            if len(generated_text) == 4:
-                year_guess = int(generated_text)
-                print(f"Inferred year: {year_guess}")
-
-        # 2.5. try to find the general area of the study and get coordinates from geopy if coordinates are not already found
-        if gen_location is None:
-
-            stage0c_chunks = build_chunk_group(system_message_stage_0d, pdf_text, end_message, use_gpt4)
-            location_prefix = 'location: '
-
-            location = 'unknown'
-            i = 0
-            while i < len(stage0c_chunks) and location == 'unknown':
-                chunk = stage0c_chunks[i]
-                system_message = chunk[0]
-                user_message = chunk[1]
-                temperature = 0
-
-                generated_text = get_chatgpt_response(system_message, user_message, temperature, use_gpt4).lower()
-                print(f'Generated General Location: {generated_text}')
-
-                if generated_text.startswith(location_prefix):
-                    generated_text = generated_text[len(location_prefix):]
-                if generated_text.endswith('.'):
-                    generated_text = generated_text[0:len(generated_text) - 1]
-                if 'unknown' not in generated_text:
-                    location = f'"{generated_text}"'
-                    if latitude is None or longitude is None:
-                        if location not in location_coordinates:
-                            latitude, longitude = location_to_coordinates(location, system_message_stage_3)
-                            if latitude is not None and longitude is not None:
-                                location_coordinates[location] = (latitude, longitude)
-                                found_coordinates = True
-                        else:
-                            latitude, longitude = location_coordinates[location][0], location_coordinates[location][1]
-                        latitude, longitude = location_to_coordinates(location, system_message_stage_3)
-                        if latitude is not None and longitude is not None:
-                            found_coordinates = True
-
-                i += 1
-
-        else:
-            location = gen_location
-
-        state = None
-        if found_coordinates:
-            print(latitude, longitude)
-            state = get_location_by_coordinates(latitude, longitude).lower()
-            print(state)
-        print(location)
-
-
-        # if not found_coordinates, then we need to do the chatgpt process to get coordinates from geopy
-
-        # set up dataframe for csv output
-        outbreak_df = pd.DataFrame(columns=['area', 'Latitude', 'Longitude', 'Year', 'Outbreak', 'Source'])
-
-        location_backup = ""
-        if 'unknown' not in location.lower():
-            location_backup = f"\n\nIn case the text doesn't provide a location for an outbreak, we've found that the outbreaks in this text take place at {location}"
-
-        # build prompt chunks
-        chunk_group = build_chunk_group(system_message_stage_1 + location_backup, pdf_text, end_message, use_gpt4, stage_1_few_shot_examples)
-
-        stage1_results = ''
-
-        # make api call for each chunk in each chunk_group, print response
-        for chunk in chunk_group:
-            system_message = chunk[0]
-            user_message = chunk[1]
-            temperature = 0
-
-            print(f'Text chunk: {user_message}')
-
-            # while True:
-            #     time.sleep(1)
-
-            generated_text = get_chatgpt_response(system_message, user_message, temperature, use_gpt4)
-            generated_text = cleanup_text(generated_text)
-            stage1_results += f'\n{generated_text}'
-
-        print(f"\nStage 1: {stage1_results}\n\n")
-
-        generated_text = get_chatgpt_response(system_message_stage_2, stage1_results, 0, use_gpt4, stage_2_few_shot_examples)
-        print(f"Stage 2:\n{generated_text}\n\n")    
-        
-        parsed_response, state_cache = parse_response(generated_text, outbreak_df, system_message_stage_3, general_state=state, state_cache=state_cache, publish_year=year_guess)
-        print(f"Parsed response: {parsed_response}")
-        if parsed_response is not None:
-            outbreak_df = parsed_response
-        else:
-            print("Error: Could not parse the response.")
-
-        # if there was data to be found, add it to dataframe list
-        if not outbreak_df.empty:
-            outbreak_df['File Name'] = os.path.basename(file)
-            outbreak_df['Study'] = outbreak_df['File Name'].map(study_indices)
-            print(found_valid_sources)
-            if len(found_valid_sources) > 0:
-                outbreak_df['Source'] = ' | '.join(found_valid_sources)
-            else:
-                outbreak_df['Source'] = 'No identified sources'
-            print(outbreak_df.iloc[0]['Source'])
-
-            # Append the dataframe to the list
-            data_list.append(outbreak_df)
-
-            # Create individual csv file for this study
-            # file_name_no_extension = os.path.splitext(file)[0]
-            # csv_file_name = 'outbreak_data_' + file_name_no_extension + '.csv'
-            # excel_file_name = 'outbreak_data_' + file_name_no_extension + '.xlsx'
-            # outbreak_df.to_csv(csv_file_name, index=False)
-            # outbreak_df.to_excel(excel_file_name, index=False)
-
-        print(outbreak_df)
-
-    # concatenate all dataframes
-    final_data = []
-    for df in data_list:
-
-        data = df
-        filename = data['File Name'].iloc[0]
-        source = data['Source'].iloc[0]
-        study = data['Study'].iloc[0]
-        list_data_filled = []
-        data = data.sort_values(['area', 'Year'])
-        
-        for area in data['area'].unique():
-            area_data = data[data['area'] == area].copy()
-            
-            # Convert 'Year' column to int
-            area_data['Year'] = area_data['Year'].astype(int)
-            
-            min_year = int(area_data['Year'].min())
-            max_year = int(area_data['Year'].max())
-            latitude = area_data['Latitude'].iloc[0]
-            longitude = area_data['Longitude'].iloc[0]
-            
-            all_years = pd.DataFrame({'Year': range(min_year - 1, max_year + 2)})
-            all_years['area'] = area
-            all_years['Latitude'] = latitude
-            all_years['Longitude'] = longitude
-            
-            # Convert 'area', 'Latitude', and 'Longitude' in both DataFrames to the same data type if needed
-            # e.g., all_years['area'] = all_years['area'].astype(str)
-            # area_data['area'] = area_data['area'].astype(str)
-            
-            merged_data = pd.merge(all_years, area_data, how='left', on=['Year', 'area', 'Latitude', 'Longitude'])
-            merged_data['Outbreak'].fillna('no', inplace=True)
-            merged_data['Study'] = study
-            merged_data['File Name'] = filename
-            merged_data['Source'] = source
-            list_data_filled.append(merged_data)
-
-        data = pd.concat(list_data_filled, ignore_index=True)
-
-        data['Outbreak'] = data['Outbreak'].map(outbreak_occurence_values)
-        final_data.append(data)
-
-    if len(final_data) > 0:
-        all_data = pd.concat(final_data, ignore_index=True)
-        all_data.to_csv(file_name + '.csv', index=False)
-        all_data.to_excel(file_name + '.xlsx', index=False)
 
 if __name__ == "__main__":
     main()
