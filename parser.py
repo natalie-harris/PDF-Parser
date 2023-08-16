@@ -491,10 +491,9 @@ def parse_response(response, outbreak_df, system_message_stage_4, general_latitu
 
         print(f"Slightly more formatted: {line}\nLocation: {location}, Year: {year}, Outbreak: {outbreak}")
 
-        # print(outbreak != 'yes' and outbreak != 'no' and outbreak != 'uncertain')
-        # print(any(char.isalpha() for char in year))
-        # print(len(year) != 4 and len(year) != 9)
-        # print(len(location) <= 3)
+        if check_for_multiple_locations(location):
+            print(f"{location} was determined to not be a valid location. Continuing to next line...")
+            continue
 
         if outbreak != 'yes' and outbreak != 'no' and outbreak != 'uncertain':
             continue
@@ -598,8 +597,6 @@ def parse_response(response, outbreak_df, system_message_stage_4, general_latitu
         print(f"{location}, {latitude}, {longitude}, {year}, {outbreak}")
         # print(outbreak_df)
         outbreak_df.loc[len(outbreak_df)] = [location, latitude, longitude, year, outbreak, '']
-
-
 
     return outbreak_df, state_cache
 
@@ -934,7 +931,7 @@ def wait():
 
 def yes_or_no(response):
     # for determining the response from chatgpt on yes/no tasks
-    print(response)
+    # print(response)
     if 'yes' in response.lower():
         return True
     return False
@@ -999,20 +996,21 @@ def end_runtime():
             latitude = area_data['Latitude'].iloc[0]
             longitude = area_data['Longitude'].iloc[0]
             
-            # Create DataFrame for all years within min and max range for this area
-            all_years = pd.DataFrame({'Year': range(min_year - 1, max_year + 2)})
-            all_years['area'] = area
-            all_years['Latitude'] = latitude
-            all_years['Longitude'] = longitude
+            # # Create DataFrame for all years within min and max range for this area
+            # all_years = pd.DataFrame({'Year': range(min_year - 1, max_year + 2)})
+            # all_years['area'] = area
+            # all_years['Latitude'] = latitude
+            # all_years['Longitude'] = longitude
             
-            # Merge all_years with the specific area data from area_data
-            merged_data = pd.merge(all_years, area_data, how='left', on=['Year', 'area', 'Latitude', 'Longitude'])
-            merged_data['Outbreak'].fillna('no', inplace=True)  # Fill NA 'Outbreak' with 'no'
-            merged_data['Study'] = study
-            merged_data['File Name'] = filename
-            merged_data['Source'] = source
+            # # Merge all_years with the specific area data from area_data
+            # merged_data = pd.merge(all_years, area_data, how='left', on=['Year', 'area', 'Latitude', 'Longitude'])
+            # merged_data['Outbreak'].fillna('no', inplace=True)  # Fill NA 'Outbreak' with 'no'
+            # merged_data['Study'] = study
+            # merged_data['File Name'] = filename
+            # merged_data['Source'] = source
             
-            list_data_filled.append(merged_data)  # Append processed data for this area
+            # list_data_filled.append(merged_data)  # Append processed data for this area
+            list_data_filled.append(area_data)
 
         # Concatenate processed data of all areas
         data = pd.concat(list_data_filled, ignore_index=True)
@@ -1061,6 +1059,8 @@ def extract_text_from_scanned_pdf(file_path, poppler_bin_path):
     str: Concatenated text content of the scanned PDF.
     """
     
+    print("Using OCR...")
+
     # Convert PDF to list of images
     images = pdf2image.convert_from_path(file_path, poppler_path=poppler_bin_path)
 
@@ -1118,7 +1118,7 @@ def set_ocr_metadata():
     return poppler_bin_path, tesseract_path
 
 def process_file(file):
-    print(f"Currently Processing: {file}")
+    print(f"\n\n\nCurrently Processing: {file}")
 
     global data_list
     global state_cache
@@ -1143,7 +1143,7 @@ def process_file(file):
     pdf_text = extract_abstract_to_references(pdf_text)
     pdf_text = cleanup_text(pdf_text)
 
-    print(pdf_text)
+    # print(pdf_text)
 
     # set up openai api
     openai_key = "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"
@@ -1152,9 +1152,7 @@ def process_file(file):
 
     # 0.5. get relevance of text
     relevance_chunk = build_chunk_group(system_message_topic_checker, pdf_text, just_one_chunk=True, always_4k_context=True)[0][1]
-    print('\n\n\n\n\n\n\n')
-    print(relevance_chunk)
-    print(relevance_chunk)
+    # print(relevance_chunk)
     relevance_response = get_chatgpt_response(system_message_topic_checker, relevance_chunk, use_gpt4=True)
     is_relevant = yes_or_no(relevance_response)
     print(f"Identified relevance: {is_relevant}")
@@ -1190,7 +1188,7 @@ def process_file(file):
         if source[i] in valid_sources:
             found_valid_sources.append(source[i])
     
-    print(found_valid_sources)
+    print(f"Found sources: {found_valid_sources}")
 
     # 2. get location of data to use in case location cannot be found
     stage0b_chunks = build_chunk_group(system_message_stage_0b, pdf_text, end_message)
@@ -1290,7 +1288,6 @@ def process_file(file):
                             found_coordinates = True
                     else:
                         latitude, longitude = location_coordinates[location][0], location_coordinates[location][1]
-                    latitude, longitude = location_to_coordinates(location, system_message_stage_4)
                     if latitude is not None and longitude is not None:
                         found_coordinates = True
 
@@ -1326,7 +1323,7 @@ def process_file(file):
         user_message = chunk[1]
         temperature = 0
 
-        print(f'Text chunk: {user_message}')
+        # print(f'Text chunk: {user_message}')
 
         # while True:
         #     time.sleep(1)
@@ -1351,7 +1348,7 @@ def process_file(file):
     # wait()
 
     parsed_response, state_cache = parse_response(generated_text, outbreak_df, system_message_stage_4, general_state=state, state_cache=state_cache, publish_year=year_guess)
-    print(f"Parsed response: {parsed_response}")
+    print(f"Parsed response:\n{parsed_response}")
     if parsed_response is not None:
         outbreak_df = parsed_response
     else:
@@ -1378,7 +1375,15 @@ def process_file(file):
         # outbreak_df.to_csv(csv_file_name, index=False)
         # outbreak_df.to_excel(excel_file_name, index=False)
 
-    print(outbreak_df)
+def check_for_multiple_locations(location):
+    # used to determine if a particular piece of location data refers to more than one location
+    # if it does, than the data is probably not accurate
+    # example: 1938-1980,"manitoba, ontario, quebec, new brunswick, nova scotia, prince edward island, newfoundland, maine, minnesota",49.8955367,-97.1384584,1,No identified sources,Hardy et al. 1986 atlas of outbreaks.pdf,
+    # ^ I doubt that there was a synchronized outbreak across half of canada. This data is bad :/
+
+    response = get_chatgpt_response(system_message_check_multiple_locations, location, 0, False, multiple_locations_few_shot_examples).lower()
+
+    return yes_or_no(response)
 
 #_________________________________________________________________________
 
@@ -1417,10 +1422,6 @@ stage_1_few_shot_examples = [
     {"role": "assistant", "content": "No instances of Spruce Budworm outbreaks recorded in the text."}
 ]
 
-system_message_stage_2 = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbreak/infestation occured during a specific year or range of years and at a specific geographic location. Write every instance in the following format exactly: The geographic location, then the year, whether there was or was not an outbreak/infestation (always a yes or no), and then a new line. This data must be in csv file format, with commas in between and double quotes around each feature. Never include the header or any labels. The geographic location must be something like a city, a county, a specific lake, or anything that is locatable on a map. If an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'. It is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks. If the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'"
-
-system_message_stage_2 = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbreak/infestation occured during a specific year or range of years and at a specific geographic location. Present your findings in the following consistent format: '\"Geographic location\"', '\"Year or Year range\"', '\"Outbreak presence (Yes/No/Uncertain)\"'. For each instance, output should be a new line in this format, with no headers or labels included. The geographic location, encapsulated within double quotation marks, must be identifiable on a map and can be a city, county, specific lake, etc. It is of the utmost importance that the location must be provincial/state level level or smaller, AKA ONLY INCLUDE locations that are the size of provinces/states or SMALLER. Do not include nonspecific or nonidentifiable locations like 'study site'. If an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'. It is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks. If the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'."
-
 system_message_stage_2 = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbrea/infestation occured during a specific year or range of years and at a specific geographic location.\n\nFor each instance, output should be a new line in this format, with no headers or labels included.\n\nThe geographic location must be identifiable on a map and can be a city, county, specific lake, etc. Do not include nonspecific or nonidentifiable locations like 'study site'.\n\nIf an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'.\n\nIf the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'.\n\nIt is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks.\n"
 
 stage_2_few_shot_examples = [
@@ -1457,7 +1458,24 @@ stage_3_few_shot_examples = [
     {"role": "assistant", "content": "\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1710-1716\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1754-1759\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1811-1813\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1835-1841\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1868-1878\", \"yes\""}
 ]
 
-system_message_check_multiple_locations = "You are given a string and you must determine if the string represents one location or multiple locations. Answer with 'one' or 'multiple'. It is of the utmost importance that you print 'one' or 'multiple' and nothing else. Do not say anything other than returning the answer. Do not respond like a human."
+system_message_check_multiple_locations = "You are a yes-or-no machine. This means that you only output 'yes' or 'no', and nothing else. You are given a string and you must determine if the string represents locations from more than one state/province. Answer with 'yes' if more than one state/province is represented and 'no' if only one state/province is represented. Sometimes locations are succeeded by the province and country they inhabit, like 'lac seul area, northwestern ontario, canada', and it is still located in only one province. It is of the utmost importance that you print 'yes' or 'no' and nothing else. Do not say anything other than returning the answer. Do not respond like a human."
+
+multiple_locations_few_shot_examples = [
+    {"role": "user", "content": "northern maine, usa"},
+    {"role": "assistant", "content": 'no'},
+    {"role": "user", "content": "chicoutimi cathedral, chicoutimi, quebec, canada"},
+    {"role": "assistant", "content": 'no'},
+    {"role": "user", "content": "lac seul and lake nipigon regions, northwestern ontario, canada"},
+    {"role": "assistant", "content": 'no'},
+    {"role": "user", "content": "manitoba, ontario, quebec, new brunswick, nova scotia, prince edward island, newfoundland, maine, minnesota"},
+    {"role": "assistant", "content": 'yes'},
+    {"role": "user", "content": "zone b (quebec, ontario, manitoba)"},
+    {"role": "assistant", "content": 'yes'},
+    {"role": "user", "content": "laurentide park, quebec"},
+    {"role": "assistant", "content": 'no'},    
+    {"role": "user", "content": "Saguenay and Quebec"},
+    {"role": "assistant", "content": 'no'}
+]
 
 system_message_stage_4 = "You are a computer made to give scientists town names within an area. You will be given a location in North America. Your task is to give a town that belongs at that location to be used as a locality string for GEOLocate software. If the area is very remote, give the nearest town. Put it in csv format as the following: \"city, state, country\". It is of the utmost importance that you print only the one piece of data, and absolutely nothing else. You must output a city name, even if the given area is very large or very remote."
 
@@ -1469,14 +1487,14 @@ def main():
         # get folder path and file name of pdf, create pdf reader instance
         pdf_files = glob.glob("papers/*.pdf")
 
-        """# pdf_files = []
+        # pdf_files = []
 
-        # with open('final_test_1.txt', 'r') as f:
+        # with open('for_analysis_3.txt', 'r') as f:
         #     lines = [line.strip() for line in f]
         #     for line in lines:
-        #         pdf_files.append(line)"""
+        #         pdf_files.append(line)
 
-        # pdf_files = [pdf_files[6]]
+        # pdf_files = [pdf_files[8]]
 
         print("Processing all files in this directory. This may take a while!")
         for file in pdf_files:
@@ -1487,9 +1505,14 @@ def main():
             process_file(file)
 
         end_runtime()
+
+    except KeyboardInterrupt:
+        print("\nKeyboardInterrupt\n")
     
     except Exception as e:
         print(f"Error: {e}")
+    
+    finally:
         end_runtime()
 
 """
