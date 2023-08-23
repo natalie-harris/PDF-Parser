@@ -508,6 +508,10 @@ def parse_response(response, outbreak_df, system_message_stage_4, general_latitu
             print(f"{location} was determined to not be a valid location. Continuing to next line...")
             continue
 
+        if is_unknown(location):
+            print("Location was not found. Continuing...")
+            continue
+
         if outbreak != 'yes' and outbreak != 'no' and outbreak != 'uncertain':
             continue
         if any(char.isalpha() for char in year):
@@ -544,7 +548,30 @@ def parse_response(response, outbreak_df, system_message_stage_4, general_latitu
             else:
                 continue
 
-        new_line = ", ".join([f"'{location}'", year, outbreak])
+        # create human check here to fix glaring errors
+        check = False
+        if check:
+            choice = 1
+            orig_location = location
+            orig_year = year
+            orig_outbreak = outbreak
+            while choice != '0' and choice != '':
+                print(f'\nLine: "{location}", "{year}", "{outbreak}"')
+                choice = input('Press 0 to continue\nPress 1 to change location\nPress 2 to change year\nPress 3 to change outbreak\nPress 4 to reset to original values\nPress 5 to skip this line entirely > ')
+                if choice == '1':
+                    location = input("New location: ")
+                elif choice == '2':
+                    year = input("New year: ")
+                elif choice == '3':
+                    outbreak = input("New outbreak")
+                elif choice == '4':
+                    location = orig_location
+                    year = orig_year
+                    outbreak = orig_outbreak
+                elif choice == '5':
+                    continue
+
+        new_line = ", ".join([f'"{location}"', year, outbreak])
 
         print("before range")
         # if data given as range of years, add every year to new list
@@ -1191,7 +1218,7 @@ def process_file(file):
     model_list = openai.Model.list()
 
     # 0.5. get relevance of text
-    relevance_chunk = build_chunk_group(system_message_topic_checker, pdf_text, just_one_chunk=True, max_context_length=8192)[0][1]
+    relevance_chunk = build_chunk_group(system_message_topic_checker, pdf_text, just_one_chunk=True, max_context_length=4096)[0][1]
     # print(relevance_chunk)
     relevance_response = get_chatgpt_response(system_message_topic_checker, relevance_chunk, use_gpt4=False)
     if relevance_response is None:
@@ -1204,7 +1231,7 @@ def process_file(file):
  
     # 1. get source of data
     # build chunks
-    source_chunk_group = build_chunk_group(system_message_stage_0, pdf_text, end_message)
+    source_chunk_group = build_chunk_group(system_message_stage_0, pdf_text, end_message, max_context_length=4096)
     source_prefix = "data collection method: "
 
     # iterate through each chunk until source is found
@@ -1237,7 +1264,7 @@ def process_file(file):
     print(f"Found sources: {found_valid_sources}")
 
     # 2. get location of data to use in case location cannot be found
-    stage0b_chunks = build_chunk_group(system_message_stage_0b, pdf_text, end_message)
+    stage0b_chunks = build_chunk_group(system_message_stage_0b, pdf_text, end_message, max_context_length=4096)
     location_prefix = 'location: '
 
     found_coordinates = False
@@ -1259,7 +1286,7 @@ def process_file(file):
 
             generated_text = get_chatgpt_response(system_message, user_message, temperature)
             if generated_text is None:
-                location = 'unknown'
+                generated_text = 'unknown'
             generated_text = generated_text.lower()
 
             print(generated_text)
@@ -1290,7 +1317,7 @@ def process_file(file):
 
     # 2.25. try to guess the year the work was published to limit years we can record data from it
     year_guess = None
-    year_guesser_chunk_group = build_chunk_group(system_message_year_guesser, pdf_text, end_message)
+    year_guesser_chunk_group = build_chunk_group(system_message_year_guesser, pdf_text, end_message, max_context_length=4096)
     if len(year_guesser_chunk_group) > 0:
         user_message = year_guesser_chunk_group[0][1]
     
