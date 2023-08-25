@@ -9,6 +9,7 @@ Note: https://arxiv.org/pdf/2306.11644.pdf
 """
 
 import os
+import platform
 import time
 import socket
 import re
@@ -576,8 +577,10 @@ def parse_response(response, outbreak_df, system_message_stage_4, general_latitu
         print("before range")
         # if data given as range of years, add every year to new list
         print(year)
+        print('hello')
         if (len(year) == 5 or len(year) == 9) and year[4] == '-':
             every_year = list_each_year(new_line, publish_year)
+            print('goodbye')
             if len(every_year) > 1:
                 for single_year in every_year:
                     new_split_response.append(single_year)
@@ -735,8 +738,8 @@ def dms_to_dd(dms):
 
         return dd
 
-    # If the input is not in DD format, assume it's in DMS format (e.g., "45°30'15\"N")
-    match = re.match(r"(\d+)°(\d+)?'?(?:([0-9.]+)?\"?)?([NSWE])", dms)
+    # If the input is not in DD format, assume it's in DMS format
+    match = re.match(r"(\d+)°(\d+)?'?(?:([0-9.]+)?\"?)?([NSWE])?", dms)
     if match:
         # Extract degrees, minutes, seconds, and direction from the string
         degrees, minutes, seconds, direction = match.groups()
@@ -745,7 +748,7 @@ def dms_to_dd(dms):
         dd = float(degrees) + (float(minutes) if minutes else 0)/60 + (float(seconds) if seconds else 0)/3600
 
         # If the direction is South (S) or West (W), make the degree value negative
-        if direction in 'SW':
+        if direction and direction in 'SW':
             dd *= -1
 
         return dd
@@ -777,7 +780,9 @@ def get_centroid_of_bb(bounding_box):
             # Extract coordinates from the bounding box string using regex
             lat1_str, lat2_str, lon1_str, lon2_str = re.match(r"(.+?)-(.+?),\s*(.+?)-(.+)", bounding_box).groups()
             
-            # Convert coordinate strings from DMS to decimal degrees (assumes a function dms_to_dd is defined)
+            # Convert coordinate strings from DMS to decimal degrees
+            print('bounding box')
+            print(f'{lat1_str} | {lat2_str} | {lon1_str} | {lon2_str}')
             lat1 = dms_to_dd(lat1_str)
             lat2 = dms_to_dd(lat2_str)
             lon1 = dms_to_dd(lon1_str)
@@ -1012,10 +1017,15 @@ def find_unused_filename(base_dir="Testing/testing_data", file_prefix="test"):
     str: A unique file name that does not currently exist in the specified directory.
     """
     
+    current_os = get_os()
+
     i = 1
     while True:
         # Generate a potential file name using the given directory, prefix, and current index
-        potential_name = f"{base_dir}/{file_prefix}{i}"
+        if current_os == 'Windows':
+            potential_name = f"{base_dir}\{file_prefix}{i}"
+        elif current_os == 'Darwin':
+            potential_name = f"{base_dir}/{file_prefix}{i}"
         
         # Check if a file with the generated name already exists
         if not os.path.exists(potential_name + ".csv"):
@@ -1025,7 +1035,7 @@ def find_unused_filename(base_dir="Testing/testing_data", file_prefix="test"):
         # Increment the index and try the next potential name
         i += 1
 
-def end_runtime(df):
+def end_runtime():
     """
     Consolidate and process dataframes, and save to CSV and Excel files.
     Expects dataframes in data_list with specific columns.
@@ -1035,9 +1045,19 @@ def end_runtime(df):
     global data_list
     global file_name
     global outbreak_occurence_values
+    global pdf_df
 
-    csv_filename = r'Results\all_pdfs.csv'
-    df.to_csv(csv_filename, index=False)
+    current_os = get_os()
+
+    if current_os == "Darwin":
+        csv_filename = r'Results/all_pdfs.csv'
+    elif current_os == "Windows":
+        csv_filename = r'Results\all_pdfs.csv'
+    else:
+        print("OS not supported")
+        exit()
+    
+    pdf_df.to_csv(csv_filename, index=False)
 
     print(data_list)
 
@@ -1092,7 +1112,7 @@ def end_runtime(df):
         all_data = pd.concat(final_df, ignore_index=True)  # Concatenate all processed dataframes
         all_data.to_csv(file_name + '.csv', index=False)  # Save to CSV
         all_data.to_excel(file_name + '.xlsx', index=False)  # Save to Excel
-        print(f"Written to {file_name}.csv/.xlsx")  # Print confirmation
+        print(f"Written to {file_name} (.csv and .xlsx)")  # Print confirmation
 
     # Exit the program
     exit()
@@ -1478,12 +1498,54 @@ def check_for_multiple_locations(location):
 
     return yes_or_no(response)
 
+def windows_to_mac_path(windows_path):
+    # Check if the input path contains the specified Windows prefix
+    if 'E:\\NIMBioS\\SBW\\SBW Literature\\' not in windows_path:
+        return windows_path
+    
+    # Replace the Windows prefix with the Mac prefix
+    mac_path = windows_path.replace('E:\\NIMBioS\\SBW\\SBW Literature\\', '/Volumes/ESD-USB/SBW Literature/')
+    
+    # Replace backslashes with slashes
+    mac_path = mac_path.replace('\\', '/')
+    
+    return mac_path
+
+def mac_to_windows_path(mac_path):
+    # Check if the input path contains the specified Mac prefix
+    if '/Volumes/ESD-USB/SBW Literature/' not in mac_path:
+        return mac_path
+    
+    # Replace the Mac prefix with the Windows prefix
+    windows_path = mac_path.replace('/Volumes/ESD-USB/SBW Literature/', 'E:\\NIMBioS\\SBW\\SBW Literature\\')
+    
+    # Replace slashes with backslashes
+    windows_path = windows_path.replace('/', '\\')
+    
+    return windows_path
+
+def get_os():
+    current_os = platform.system()
+    return current_os
+
 def get_n_pdfs(num_files=10):
     # Specify the name of the CSV file
-    csv_filename = r'Results\all_pdfs.csv'
+    current_os = get_os()
+    if current_os == "Darwin":
+        csv_filename = r'Results/all_pdfs.csv'
+    elif current_os == "Windows":
+        csv_filename = r'Results\all_pdfs.csv'
 
     # Read the CSV file into a DataFrame
     df = pd.read_csv(csv_filename)
+
+    if current_os == "Darwin":
+        df['file_name'] = df['file_name'].apply(windows_to_mac_path)
+    elif current_os == "Windows":
+        df['file_name'] = df['file_name'].apply(mac_to_windows_path)
+
+    # print(df)
+    # wait()
 
     # Filter the rows where 'been_processed' is equal to 0
     filtered_df = df[df['been_processed'] == 0]
@@ -1491,6 +1553,8 @@ def get_n_pdfs(num_files=10):
     # Get up to the first ten 'file_name' entries from the filtered DataFrame
     # and put them into a list
     file_names_to_process = filtered_df['file_name'].head(num_files).tolist()
+
+
 
     # Print the list of file names to process
     # print(file_names_to_process)
@@ -1599,6 +1663,8 @@ system_message_stage_4 = "You are a computer made to give scientists town names 
 end_message = " END\n\n"
 
 def main():
+    global pdf_df
+
     try:
         # get folder path and file name of pdf, create pdf reader instance
         # pdf_files = glob.glob("papers/*.pdf")
@@ -1612,11 +1678,16 @@ def main():
 
         # pdf_files = [pdf_files[8]]
 
-        pdf_files = get_n_pdfs(300)
+        pdf_files = get_n_pdfs(500)
         num_relevant = 0
 
-        csv_filename = r'Results\all_pdfs.csv'
-        df = pd.read_csv(csv_filename)
+        current_os = get_os()
+        if current_os == 'Darwin':
+            csv_filename = r'Results/all_pdfs.csv'
+        elif current_os == 'Windows':
+            csv_filename = r'Results\all_pdfs.csv'
+
+        pdf_df = pd.read_csv(csv_filename)
 
         print("Processing all files in this directory. This may take a while!")
 
@@ -1628,27 +1699,28 @@ def main():
             # if file != r'papers\Hardy et al. 1986 atlas of outbreaks.pdf':
             #     continue
 
+            windows_file = mac_to_windows_path(file)
+
             relevant = process_file(file)
-            df.loc[df['file_name'] == file, 'been_processed'] = 1
+            pdf_df.loc[pdf_df['file_name'] == windows_file, 'been_processed'] = 1
             if relevant:
                 num_relevant += 1
-                df.loc[df['file_name'] == file, 'relevance'] = 1
-
+                pdf_df.loc[pdf_df['file_name'] == windows_file, 'relevance'] = 1
         
         print(f"{num_relevant}/{len(pdf_files)} files were analyzed")
 
-        df.to_csv(csv_filename, index=False)
+        # df.to_csv(csv_filename, index=False)
 
-        end_runtime(df)
+        end_runtime()
 
     except KeyboardInterrupt:
         print("\nKeyboardInterrupt\n")
-    
+
     except Exception as e:
         print(f"Error: {e}")
     
     finally:
-        end_runtime(df)
+        end_runtime()
 
 """
 Defining global variables
@@ -1657,7 +1729,15 @@ Defining global variables
 # for concatenating dataframes
 data_list = []
 
-file_name = find_unused_filename(r"C:\Users\natal\OneDrive\Documents\GitHub\PDF-Parser\Results", "results")
+# used to rewrite all_pdfs.csv data (used for account which texts were analyzed, found to be relevant)
+pdf_df = pd.DataFrame()
+
+current_os = get_os()
+if current_os == 'Darwin':
+    parent_folder = r"/Users/natalieharris/UTK/NIMBioS/Spruce Budworms/Parser 2/Results"
+elif current_os == 'Windows':
+    parent_folder = r"C:\Users\natal\OneDrive\Documents\GitHub\PDF-Parser\Results"
+file_name = find_unused_filename(parent_folder, "results")
 print(file_name)
 
 outbreak_occurence_values = {
