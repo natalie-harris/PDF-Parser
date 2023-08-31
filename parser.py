@@ -2,14 +2,14 @@
 Natalie Harris, NIMBioS
 5/23/23
 
-This program extracts text from downloaded pdf, feeds it and a system_message to openai api, and retrieves information parsed by chatgpt
+This program extracts text from downloaded pdfs, feeds it and a system_message to openai api, and retrieves information parsed by chatgpt
 
-Note: https://arxiv.org/pdf/2306.11644.pdf
-        ^ this is a cool paper
 """
 
 import os
 import platform
+import traceback
+from pdfminer.high_level import extract_text
 import time
 import socket
 import re
@@ -103,7 +103,7 @@ def get_chatgpt_response(system_message, user_message, temp=0, use_gpt4=False, e
     
     # Continue trying until a response is generated
     retries = 0
-    max_retries = 5
+    max_retries = 10
     while not got_response and retries < max_retries:
         try:
             # Attempt to get a response from the GPT model
@@ -168,14 +168,16 @@ def get_latitude_longitude(town, state, country):
     
     # Counter for the number of retries
     retries = 0
-    
+    num_seconds = 10
+    max_attempts = 5
+
     # Container for the location object that will be returned by the geolocator
     location = None
     
     while not has_coords:
         try:
             # Introduce a delay before making a request to respect usage limits
-            time.sleep(1)
+            time.sleep(2)
             
             # Attempt to geolocate the query based on town, state, and country
             location = geolocator.geocode(query=f"{town}, {state}, {country}")
@@ -183,22 +185,25 @@ def get_latitude_longitude(town, state, country):
             
         except (AdapterHTTPError, socket.timeout) as e:
             # Handle HTTP and timeout errors
-            retries += 1
-            if retries > 5:
+            if retries > max_attempts:
                 print(f"Attempted {retries} retries. Moving on...")
                 end_runtime()  # Function to end the current runtime (assumed to be defined elsewhere)
                 return None, None
+            
+            print(f"Attempted {retries} retries. Waiting {num_seconds} seconds and trying again...")
+            time.sleep(num_seconds)
+            
             print("There was an HTTP error getting coordinates. Retrying...")
             
         except GeocoderUnavailable as e:
             # Handle geolocator unavailability errors
             retries += 1
-            if retries > 5:
+            if retries > max_attempts:
                 print(f"Attempted {retries} retries. Moving on...")
                 end_runtime()
                 return None, None
-            print("Geopy error. Waiting 5 seconds.")
-            time.sleep(5)
+            print(f"Attempted {retries} retries. Waiting {num_seconds} seconds and trying again...")
+            time.sleep(num_seconds)
             
         except GeocoderServiceError as e:
             # Handle geolocator service errors
@@ -860,7 +865,7 @@ def clean_coordinates(coordinates):
             return latitude, longitude
 
         # Get the classification of the coordinates format (e.g., bounding box, DMS, etc.)
-        coord_classification = get_chatgpt_response(system_message_stage_0c, coordinates, temperature)
+        coord_classification = get_chatgpt_response(system_messages["system_message_stage_0c"], coordinates, temperature)
         if coord_classification is None:
             return None, None
         coord_classification = coord_classification.lower().strip()
@@ -870,22 +875,22 @@ def clean_coordinates(coordinates):
 
             # Parse coordinates based on their classification
             if coord_classification == 'bounding box':
-                formatted_coords = get_chatgpt_response(system_message_stage_0c_boundingbox, coordinates, temperature)
+                formatted_coords = get_chatgpt_response(system_messages["system_message_stage_0c_boundingbox"], coordinates, temperature)
                 if formatted_coords is None:
                     return None, None
                 latitude, longitude = get_centroid_of_bb(formatted_coords)
             elif coord_classification == 'degrees/minutes':
-                formatted_coords = get_chatgpt_response(system_message_stage_0c_dm, coordinates, temperature)
+                formatted_coords = get_chatgpt_response(system_messages["system_message_stage_0c_dm"], coordinates, temperature)
                 if formatted_coords is None:
                     return None, None
                 latitude, longitude = parse_coordinates(formatted_coords)
             elif coord_classification == 'degrees/minutes/seconds':
-                formatted_coords = get_chatgpt_response(system_message_stage_0c_dms, coordinates, temperature)
+                formatted_coords = get_chatgpt_response(system_messages["system_message_stage_0c_dms"], coordinates, temperature)
                 if formatted_coords is None:
                     return None, None
                 latitude, longitude = parse_coordinates(formatted_coords)
             elif coord_classification == 'decimal degrees':
-                formatted_coords = get_chatgpt_response(system_message_stage_0c_dd, coordinates, temperature)
+                formatted_coords = get_chatgpt_response(system_messages["system_message_stage_0c_dd"], coordinates, temperature)
                 if formatted_coords is None:
                     return None, None
                 latitude, longitude = parse_coordinates(formatted_coords)
@@ -999,7 +1004,7 @@ def yes_or_no(response):
     return False
 
 def is_unknown(response):
-    synonyms = ['unknown', 'unspecified', 'not known']
+    synonyms = ['unknown', 'unspecifi', 'not known', 'not understood']
     for synonym in synonyms:
         if synonym in response.lower():
             return True
@@ -1116,8 +1121,8 @@ def end_runtime():
 
     # Exit the program
     exit()
-
-def extract_text(pdf_path):
+    
+def extract_text_from_pdf(pdf_path):
     """
     Extract and concatenate text content from all pages of a PDF file.
     
@@ -1128,10 +1133,9 @@ def extract_text(pdf_path):
     str: Concatenated text content of the PDF.
     """
     
-    with open(pdf_path, 'rb') as file:
-        pdf = PyPDF2.PdfReader(file)  # Create PdfReader object to read the PDF
-        text = " ".join(page.extract_text() for page in pdf.pages)  # Concatenate text extracted from all pages
-
+    # Use pdfminer's extract_text function
+    text = extract_text(pdf_path)
+    
     return text
 
 def extract_text_from_scanned_pdf(file_path, poppler_bin_path):
@@ -1150,6 +1154,7 @@ def extract_text_from_scanned_pdf(file_path, poppler_bin_path):
 
     # Convert PDF to list of images
     images = pdf2image.convert_from_path(file_path, poppler_path=poppler_bin_path)
+
 
     # Extract text from each image using pytesseract
     texts = [pytesseract.image_to_string(img) for img in images]
@@ -1198,8 +1203,13 @@ def set_ocr_metadata():
     global data_list
 
     # set up OCR variables
-    poppler_bin_path = r'C:\Users\natal\OneDrive\Documents\GitHub\References_Finder\windows_venv\poppler-23.08.0\Library\bin'
-    tesseract_path = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    current_os = get_os()
+    if current_os == 'Windows':
+        poppler_bin_path = r'C:\Users\natal\OneDrive\Documents\GitHub\References_Finder\windows_venv\poppler-23.08.0\Library\bin'
+        tesseract_path = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    elif current_os == 'Darwin':
+        poppler_bin_path = r'/usr/local/bin/'
+        tesseract_path = r'/usr/local/bin/tesseract'
     pytesseract.pytesseract.tesseract_cmd = tesseract_path
 
     return poppler_bin_path, tesseract_path
@@ -1211,15 +1221,13 @@ def process_file(file):
     global state_cache
     global location_coordinates
 
-    # not including 5a, 6a, 8 because they are all Hardy et al.
     # ChatGPT cannot read the pictures in Hardy et al. so we can't compare data
     study_indices, valid_sources, general_locations, general_coords, max_boundary_percentage, use_gpt4 = set_metadata()
 
     # get info for OCR analysis
     poppler_bin_path, tesseract_path = set_ocr_metadata()
 
-    # file_name = input('Input the name of the file you would like to parse: ')
-    # file = open(file_name, 'rb')
+    # get text from file
     pdf_text = extract_text(file)
 
     # if extracted text is short, try OCR
@@ -1230,17 +1238,14 @@ def process_file(file):
     pdf_text = extract_abstract_to_references(pdf_text)
     pdf_text = cleanup_text(pdf_text)
 
-    # print(pdf_text)
-
     # set up openai api
     openai_key = "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"
     openai.api_key = openai_key
     model_list = openai.Model.list()
 
-    # 0.5. get relevance of text
-    relevance_chunk = build_chunk_group(system_message_topic_checker, pdf_text, just_one_chunk=True, max_context_length=4096)[0][1]
-    # print(relevance_chunk)
-    relevance_response = get_chatgpt_response(system_message_topic_checker, relevance_chunk, use_gpt4=False)
+    # Get relevance of text
+    relevance_chunk = build_chunk_group(system_messages["system_message_topic_checker"], pdf_text, just_one_chunk=True, max_context_length=4096)[0][1]
+    relevance_response = get_chatgpt_response(system_messages["ystem_message_topic_checker"], relevance_chunk, use_gpt4=False)
     if relevance_response is None:
         is_relevant = False
     else:
@@ -1249,9 +1254,9 @@ def process_file(file):
     if not is_relevant:
         return
  
-    # 1. get source of data
+    # get source of data
     # build chunks
-    source_chunk_group = build_chunk_group(system_message_stage_0, pdf_text, end_message, max_context_length=4096)
+    source_chunk_group = build_chunk_group(system_messages["system_message_stage_0"], pdf_text, end_message, max_context_length=4096)
     source_prefix = "data collection method: "
 
     # iterate through each chunk until source is found
@@ -1283,8 +1288,8 @@ def process_file(file):
     
     print(f"Found sources: {found_valid_sources}")
 
-    # 2. get location of data to use in case location cannot be found
-    stage0b_chunks = build_chunk_group(system_message_stage_0b, pdf_text, end_message, max_context_length=4096)
+    # get location of data to use in case location cannot be found
+    stage0b_chunks = build_chunk_group(system_messages["system_message_stage_0b"], pdf_text, end_message, max_context_length=4096)
     location_prefix = 'location: '
 
     found_coordinates = False
@@ -1335,13 +1340,13 @@ def process_file(file):
         longitude = gen_coords[1]
 
 
-    # 2.25. try to guess the year the work was published to limit years we can record data from it
+    # try to guess the year the work was published to limit years we can record data from it
     year_guess = None
-    year_guesser_chunk_group = build_chunk_group(system_message_year_guesser, pdf_text, end_message, max_context_length=4096)
+    year_guesser_chunk_group = build_chunk_group(system_messages["system_message_year_guesser"], pdf_text, end_message, max_context_length=4096)
     if len(year_guesser_chunk_group) > 0:
         user_message = year_guesser_chunk_group[0][1]
     
-        generated_text = get_chatgpt_response(system_message_year_guesser, user_message, temperature)
+        generated_text = get_chatgpt_response(system_messages["system_message_year_guesser"], user_message, temperature)
         
         if generated_text is not None:
             # Remove non-numeric characters from generated_text
@@ -1353,10 +1358,10 @@ def process_file(file):
                 print(f"Inferred year: {year_guess}")
 
 
-    # 2.5. try to find the general area of the study and get coordinates from geopy if coordinates are not already found
+    # try to find the general area of the study and get coordinates from geopy if coordinates are not already found
     if gen_location is None:
 
-        stage0c_chunks = build_chunk_group(system_message_stage_0d, pdf_text, end_message, use_gpt4)
+        stage0c_chunks = build_chunk_group(system_messages["system_message_stage_0d"], pdf_text, end_message, use_gpt4)
         location_prefix = 'location: '
 
         location = 'unknown'
@@ -1380,7 +1385,7 @@ def process_file(file):
                     location = f'"{generated_text}"'
                     if latitude is None or longitude is None:
                         if location not in location_coordinates:
-                            latitude, longitude = location_to_coordinates(location, system_message_stage_4)
+                            latitude, longitude = location_to_coordinates(location, system_messages["system_message_stage_4"])
                             if latitude is not None and longitude is not None:
                                 location_coordinates[location] = (latitude, longitude)
                                 found_coordinates = True
@@ -1411,7 +1416,7 @@ def process_file(file):
         location_backup = f"\n\nIn case the text doesn't provide a location for an outbreak, we've found that the outbreaks in this text take place at {location}"
 
     # build prompt chunks
-    chunk_group = build_chunk_group(system_message_stage_1 + location_backup, pdf_text, end_message, use_gpt4, stage_1_few_shot_examples, max_context_length=4196)
+    chunk_group = build_chunk_group(system_messages["system_message_stage_1"] + location_backup, pdf_text, end_message, use_gpt4, few_shot_examples["stage_1_few_shot_examples"], max_context_length=4196)
 
     stage1_results = ''
 
@@ -1437,7 +1442,7 @@ def process_file(file):
 
     print(f"\nStage 1: {stage1_results}\n\n")
 
-    generated_text = get_chatgpt_response(system_message_stage_2, stage1_results, 0, use_gpt4, stage_2_few_shot_examples)
+    generated_text = get_chatgpt_response(system_messages["system_message_stage_2"], stage1_results, 0, use_gpt4, few_shot_examples["stage_2_few_shot_examples"])
     if generated_text is None:
         return is_relevant
     
@@ -1445,17 +1450,15 @@ def process_file(file):
 
     if year_guess is not None:
         addition = f"\nIn case this is helpful, the data that your input comes from was published in {year_guess}"
-        generated_text = get_chatgpt_response(system_message_stage_3 + addition, generated_text, 0, use_gpt4=False, examples=stage_3_few_shot_examples)
+        generated_text = get_chatgpt_response(system_messages["system_message_stage_3"] + addition, generated_text, 0, use_gpt4=False, examples=few_shot_examples["stage_3_few_shot_examples"])
     else:
-        generated_text = get_chatgpt_response(system_message_stage_3, generated_text, 0, use_gpt4=False, examples=stage_3_few_shot_examples)
+        generated_text = get_chatgpt_response(system_messages["system_message_stage_3"], generated_text, 0, use_gpt4=False, examples=few_shot_examples["stage_3_few_shot_examples"])
 
     print(f"Stage 3: \n{generated_text}")
     if generated_text is None:
         return is_relevant
 
-    # wait()
-
-    parsed_response, state_cache = parse_response(generated_text, outbreak_df, system_message_stage_4, general_state=state, state_cache=state_cache, publish_year=year_guess)
+    parsed_response, state_cache = parse_response(generated_text, outbreak_df, system_messages["system_message_stage_4"], general_state=state, state_cache=state_cache, publish_year=year_guess)
     print(f"Parsed response:\n{parsed_response}")
     if parsed_response is not None:
         outbreak_df = parsed_response
@@ -1476,13 +1479,6 @@ def process_file(file):
         # Append the dataframe to the list
         data_list.append(outbreak_df)
 
-        # Create individual csv file for this study
-        # file_name_no_extension = os.path.splitext(file)[0]
-        # csv_file_name = 'outbreak_data_' + file_name_no_extension + '.csv'
-        # excel_file_name = 'outbreak_data_' + file_name_no_extension + '.xlsx'
-        # outbreak_df.to_csv(csv_file_name, index=False)
-        # outbreak_df.to_excel(excel_file_name, index=False)
-
     return is_relevant
 
 def check_for_multiple_locations(location):
@@ -1491,7 +1487,7 @@ def check_for_multiple_locations(location):
     # example: 1938-1980,"manitoba, ontario, quebec, new brunswick, nova scotia, prince edward island, newfoundland, maine, minnesota",49.8955367,-97.1384584,1,No identified sources,Hardy et al. 1986 atlas of outbreaks.pdf,
     # ^ I doubt that there was a synchronized outbreak across half of canada. This data is bad :/
 
-    response = get_chatgpt_response(system_message_check_multiple_locations, location, 0, False, multiple_locations_few_shot_examples)
+    response = get_chatgpt_response(system_messages["system_message_check_multiple_locations"], location, 0, False, few_shot_examples["multiple_locations_few_shot_examples"])
     if response is None:
         return False
     response = response.lower()
@@ -1570,95 +1566,98 @@ def get_n_pdfs(num_files=10):
 
 
 # set system_messages for each stage
-system_message_topic_checker = "You are a yes-or-no machine. This means that you only output 'yes' or 'no', and nothing else. You will be given an excerpt from a text, and you will determine if it includes any information about Eastern Spruce Budworms, sometimes written as just Spruce Budworm, or SBW. Only Eastern spruce budworm counts, NOT WESTERN. Say 'yes' if it includes information and 'no' if it does not."
+system_messages = {
+    "system_message_topic_checker": "You are a yes-or-no machine. This means that you only output 'yes' or 'no', and nothing else. You will be given an excerpt from a text, and you will determine if it includes any information about Eastern Spruce Budworms, sometimes written as just Spruce Budworm, or SBW. Only Eastern spruce budworm counts, NOT WESTERN. Say 'yes' if it includes information and 'no' if it does not.",
 
-system_message_stage_0 = "You are a list-maker making a comma-separated list of sources for research papers about spruce budworms. You are given an excerpt from the text and must determine where the data is coming from. Your possible list items are: Dendrochronological samples from tree cores, Dendrochronological samples from historical buildings, Pheromone traps, Aerial defoliation survey, Survey from insect laboratory, or Personal Communication with the Department of Lands and Forest representative. If the paper uses multiple sources, list each one separately, using commas as delimiters. If no information about the methods of data collection are given, simple output 'Unknown'. It is of the utmost importance that your output is a comma-separated list. Do not write headers or any additional information. Preface the information with 'Data collection method: '."
+    "system_message_stage_0": "You are a list-maker making a comma-separated list of sources for research papers about spruce budworms. You are given an excerpt from the text and must determine where the data is coming from. Your possible list items are: Dendrochronological samples from tree cores, Dendrochronological samples from historical buildings, Pheromone traps, Aerial defoliation survey, Survey from insect laboratory, or Personal Communication with the Department of Lands and Forest representative. If the paper uses multiple sources, list each one separately, using commas as delimiters. If no information about the methods of data collection are given, simple output 'Unknown'. It is of the utmost importance that your output is a comma-separated list. Do not write headers or any additional information. Preface the information with 'Data collection method: '.",
 
-system_message_stage_0b = "You are a scientist that is extracting the location of study sites from research papers about Spruce Budworm (SBW) outbreaks. You are given an excerpt from a text and must determine if the paper gives exact geographic coordinates of the study sites. You must output the geographic coordinates exactly how it is written, and nothing else. If you don't find the coordinates, output 'Unknown.' The coordinates MUST be numeric. Preface the information with 'Location: '. You must be concise because your output will be parsed as coordinates."
+    "system_message_stage_0b": "You are a scientist that is extracting the location of study sites from research papers about Spruce Budworm (SBW) outbreaks. You are given an excerpt from a text and must determine if the paper gives exact geographic coordinates of the study sites. You must output the geographic coordinates exactly how it is written, and nothing else. If you don't find the coordinates, output 'Unknown.' The coordinates MUST be numeric. Preface the information with 'Location: '. You must be concise because your output will be parsed as coordinates.",
 
-system_message_stage_0c = "You are a classification engine that determines the format of geocoordinate data for researchers. You are given a coordinate pulled from a research paper and you must guess whether it is a bounding box, an individual coordinate in degrees/minutes/seconds, an individual point in decimal degrees, or an invalid/incomplete location (i.e. it is not a two-dimensional bounding box, a single location, or it is not numeric geocoordinates, just a place). Valid coordinates must include latitude and longitude. Your options are 'bounding box', 'degrees/minutes', 'degrees/minutes/seconds', 'decimal degrees', and 'invalid'. Your output must be one of these options and NOTHING ELSE."
+    "system_message_stage_0c": "You are a classification engine that determines the format of geocoordinate data for researchers. You are given a coordinate pulled from a research paper and you must guess whether it is a bounding box, an individual coordinate in degrees/minutes/seconds, an individual point in decimal degrees, or an invalid/incomplete location (i.e. it is not a two-dimensional bounding box, a single location, or it is not numeric geocoordinates, just a place). Valid coordinates must include latitude and longitude. Your options are 'bounding box', 'degrees/minutes', 'degrees/minutes/seconds', 'decimal degrees', and 'invalid'. Your output must be one of these options and NOTHING ELSE.",
 
-system_message_stage_0c_boundingbox = "You are a formatting machine that takes unformatted bounding box coordinates and puts them into a standardized format. You will put all bounding boxes into this format: degree1°N-degree2°N, degree1°W-degree2°W. Each degree may be just a degree, or a decimal degree, a coordinate in degrees/minutes/seconds, etc. Just output this data in the right format. Your output must be this format and NOTHING ELSE."
+    "system_message_stage_0c_boundingbox": "You are a formatting machine that takes unformatted bounding box coordinates and puts them into a standardized format. You will put all bounding boxes into this format: degree1°N-degree2°N, degree1°W-degree2°W. Each degree may be just a degree, or a decimal degree, a coordinate in degrees/minutes/seconds, etc. Just output this data in the right format. Your output must be this format and NOTHING ELSE.",
 
-system_message_stage_0c_dm = "You are a formatting machine that takes unformatted coordinates in degrees/minutes and puts them into a standardized format. You will put all bounding boxes into this format: degree1°minute1'N, degree2°minute2'W. Just output this data in the right format. Your output must be this format and NOTHING ELSE."
+    "system_message_stage_0c_dm": "You are a formatting machine that takes unformatted coordinates in degrees/minutes and puts them into a standardized format. You will put all bounding boxes into this format: degree1°minute1'N, degree2°minute2'W. Just output this data in the right format. Your output must be this format and NOTHING ELSE.",
 
-system_message_stage_0c_dms = "You are a formatting machine that takes unformatted coordinates in degrees/minutes/seconds and puts them into a standardized format. You will put all bounding boxes into this format: degree1°minute1'second1\"N, degree2°minute2'second2\"W. Just output this data in the right format. Your output must be this format and NOTHING ELSE."
+    "system_message_stage_0c_dms": "You are a formatting machine that takes unformatted coordinates in degrees/minutes/seconds and puts them into a standardized format. You will put all bounding boxes into this format: degree1°minute1'second1\"N, degree2°minute2'second2\"W. Just output this data in the right format. Your output must be this format and NOTHING ELSE.",
 
-system_message_stage_0c_dd = "You are a formatting machine that takes unformatted coordinates in decimal degrees and puts them into a standardized format. You will put all bounding boxes into this format: degree1.decimal1°N, degree2.decimal2°W. Just output this data in the right format. Your output must be this format and NOTHING ELSE."
+    "system_message_stage_0c_dd": "You are a formatting machine that takes unformatted coordinates in decimal degrees and puts them into a standardized format. You will put all bounding boxes into this format: degree1.decimal1°N, degree2.decimal2°W. Just output this data in the right format. Your output must be this format and NOTHING ELSE.",
 
-system_message_stage_0d = "You are a scientist that is extracting the location of study sites from research papers about Spruce Budworm (SBW) outbreaks. You are given an excerpt from a text and must determine where the study site is located. The location you output must encompass the entire study area and must be locatable on a map using the GeoPy geoservice. If the text gives exact coordinates, output those coordinates exactly and stop. Otherwise, output the location in the following format: Province/State/Municipality, Country. If the study area takes place in the northern/southern/western/eastern part or a specific lake/town/landmark in the municipality/province/state, be sure to include that info. If there is not data about the study area or you only know the country or continent it takes place in, simply print 'Unknown'. Preface the information with 'Location: '. Be concise because your output will be parsed as csv data."
+    "system_message_stage_0d": "You are a scientist that is extracting the location of study sites from research papers about Spruce Budworm (SBW) outbreaks. You are given an excerpt from a text and must determine where the study site is located. The location you output must encompass the entire study area and must be locatable on a map using the GeoPy geoservice. If the text gives exact coordinates, output those coordinates exactly and stop. Otherwise, output the location in the following format: Province/State/Municipality, Country. If the study area takes place in the northern/southern/western/eastern part or a specific lake/town/landmark in the municipality/province/state, be sure to include that info. If there is not data about the study area or you only know the country or continent it takes place in, simply print 'Unknown'. Preface the information with 'Location: '. Be concise because your output will be parsed as csv data.",
 
-system_message_year_guesser = 'You are a text analysis machine that is inferring the dates from texts. Please output the year that you think it had most likely been published in. It is of the utmost importance that you only output the individual year, and nothing else. No punctuation.'
+    "system_message_year_guesser": 'You are a text analysis machine that is inferring the dates from texts. Please output the year that you think it had most likely been published in. It is of the utmost importance that you only output the individual year, and nothing else. No punctuation.',
 
-system_message_stage_1 = "You are a scientist extracting data from research papers about Spruce Budworm (SBW) infestations and outbreaks. You are to log every instance in which the text refers to a Spruce Budworm outbreak during any years and region. You must only include the SPECIFIC ranges of years and the SPECIFIC region of the data. The region must be locatable on a map. Be as specific as possible. General locations like 'study site' or 'tree stand #3' are not relevant. Include outbreaks whose existence is uncertain. Never include research citations from the text. Only report information related to specific SBW outbreaks in specific years and locations. ALL INFORMATION MUST BE ABOUT SPRUCE BUDWORMS"
+    "system_message_stage_1": "You are a scientist extracting data from research papers about Spruce Budworm (SBW) infestations and outbreaks. You are to log every instance in which the text refers to a Spruce Budworm outbreak during any years and region. You must only include the SPECIFIC ranges of years and the SPECIFIC region of the data. The region must be locatable on a map. Be as specific as possible. General locations like 'study site' or 'tree stand #3' are not relevant. Include outbreaks whose existence is uncertain. Never include research citations from the text. Only report information related to specific SBW outbreaks in specific years and locations. ALL INFORMATION MUST BE ABOUT SPRUCE BUDWORMS",
 
-stage_1_few_shot_examples = [
-    {"role": "user", "content": "We reconstructed the SBW outbreak history at the northern limit of the temperate forest in southern Quebec using dendrochronological material from old buildings and five old-growth stands. Nine potential outbreaks were identified (1976–1991, 1946–1959, 1915–1929, 1872–1903, 1807–1817, 1754–1765, 1706–1717, 1664–1670, and 1630–1638) with three additional uncertain outbreaks (1647–1661, 1606–1619, and 1564–1578)."},
-    {"role": "assistant", "content": "-Outbreak: 1976-1991\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1946-1959\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1915-1929\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1872-1903\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1807-1817\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1754-1765\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1706-1717\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1664-1670\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1630-1638\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1647-1661 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1606-1619 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1564-1578 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec"},
-    {"role": "user", "content": "Earlier potential outbreaks were identified using dendro-\nchronological material from old buildings only. Three addi-\ntional and distinct growth reductions occurred between the\nbeginning of the 18th and the early 19th centuries in 1807–\n1817 (O5), 1754–1765 (O6), and 1706–1717 (O7) (Fig. 2). (Berguet 1954)"},
-    {"role": "assistant", "content": "No specific instances of SBW outbreaks with geographic locations and years were mentioned in the text."},
-    {"role": "user", "content": "Several points\n in the neighbourhood of Sioux Lookout and the\n eastern portion of Lac Seul show 1866 as the\n first year of suppression, indicating that the in-\n festation had its origin in this vicinity. Within\n this area, the first apparent year of suppression\n was as early as 1862 in two localities. However,\n in both these localities the white spruce trees\n sampled were very old and showed poor diameter\n growth for approximately the last 100 years, thus\nobscuring to some extent the initiation of suppres-\n sion caused by the spruce budworm (see data for\n Minnitaki Lake, Fig. 3). From this area of\n origin the infestation spread mostly westward un-\n til by 1870 and 1871 it reached points close to\n the Manitoba boundary."},
-    {"role": "assistant", "content": "1. Region: Sioux Lookout and the eastern portion of Lac Seul\n  Years: 1862-1871\n"},
-    {"role": "user", "content": "Spruce beetle outbreaks have been re ported in the Rocky Mountains of western North America since the late 1800s. In their classic paper, Spruce Beetle in the Rockies,  Schmid and Frye reviewed the literature that emerged from the extensive outbreaks in Colorado in the 1940s."},
-    {"role": "assistant", "content": "No instances of Spruce Budworm outbreaks recorded in the text."}
-]
+    "system_message_stage_2": "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbrea/infestation occured during a specific year or range of years and at a specific geographic location.\n\nFor each instance, output should be a new line in this format, with no headers or labels included.\n\nThe geographic location must be identifiable on a map and can be a city, county, specific lake, etc. Do not include nonspecific or nonidentifiable locations like 'study site'.\n\nIf an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'.\n\nIf the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'. If there was a Spruce Budworm management or control operation in a region, that means that there was a Spruce Budworm outbreak there.\n\nIt is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks.\n",
 
-system_message_stage_2 = "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbrea/infestation occured during a specific year or range of years and at a specific geographic location.\n\nFor each instance, output should be a new line in this format, with no headers or labels included.\n\nThe geographic location must be identifiable on a map and can be a city, county, specific lake, etc. Do not include nonspecific or nonidentifiable locations like 'study site'.\n\nIf an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'.\n\nIf the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'. If there was a Spruce Budworm management or control operation in a region, that means that there was a Spruce Budworm outbreak there.\n\nIt is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks.\n"
+    "system_message_stage_3": "You are a formatting machine that takes output from ChatGPT and ensures that it is formatted correctly. Each line must be in csv format as follows:\n\"Location\", \"Year(s)\", \"Outbreak (Always only a 'yes', 'no' or 'uncertain')\".\nEach feature must be enclosed by double quotes.\nIf the outbreak lasts multiple years, list the first year, then the last year with a '-' between them (first year-last year). Only list specific years and ranges.\nIf the last feature instead says there was any amount of defoliation or tree mortality, that is also considered a 'yes' for the outbreak feature.\nIt is of the utmost importance that you print only the one piece of data, and absolutely nothing else. Do not say anything other than returning the formatted line. Do not respond like a human. I need perfect CSV text format out of ChatGPT.",
 
-stage_2_few_shot_examples = [
-    {"role": "user", "content": "Specific SBW Outbreaks:\n\n1. Outbreak: O1 (1905-1930)\n-Region: Eastern Quebec, east of the St. Lawrence River\n\n2. Outbreak: O2 (1935-1965)\n  -Region: Northern reach of southern Quebec\n\n3. Outbreak: O3 (1968-1988)\n-Region: Southwestern Quebec, along a southwest-northeast transect across central southern Quebec"},
-    {"role": "assistant", "content": 'Stage 2:\n"Eastern Quebec, east of the St. Lawrence River", "1905-1930", "Yes"\n"Northern reach of southern Quebec", "1935-1965", "Yes"\n"Southwestern Quebec, along a southwest-northeast transect across central southern Quebec", "1968-1988", "Yes"'},
-    {"role": "user", "content": "Stage 1:\n-Outbreak: 1976-1991\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1946-1959\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1915-1929\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1872-1903\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1807-1817\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1754-1765\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1706-1717\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1664-1670\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1630-1638\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1647-1661 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1606-1619 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1564-1578 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec"},
-    {"role": "assistant", "content": '"Northern limit of the temperate forest in southern Quebec", "1976-1991", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1946-1959", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1915-1929", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1872-1903", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1807-1817", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1754-1765", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1706-1717", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1664-1670", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1630-1638", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1647-1661", "Uncertain"\n"Northern limit of the temperate forest in southern Quebec", "1606-1619", "Uncertain"\n"Northern limit of the temperate forest in southern Quebec", "1564-1578", "Uncertain"'},
-    {"role": "user", "content": "Specific SBW outbreaks in specific years and locations mentioned in the text are as follows:\n\n1. Outbreak in 1989: Two epicenters were identified during this outbreak.\n2. Outbreak in 1991: Four epicenters were identified during this outbreak.\n3. Outbreak in 1996: One epicenter was identified during this outbreak.\n4. Outbreak in 2006: Four epicenters were identified during this outbreak.\n5. Outbreak in 2011: One epicenter was identified during this outbreak.\n\nPlease note that the specific locations of these epicenters were not provided in the text."},
-    {"role": "assistant", "content": "No specific instances of SBW outbreaks with geographic locations and years were mentioned in the text."},
-    {"role": "user", "content": "-Spruce beetle outbreaks have been reported in the Rocky Mountains of western North America since the late 1800s.\n-A new wave of outbreaks has affected Rocky Mountain subalpine spruce-fir forests beginning in the mid-1980s and continuing to the present.\n-Recent spruce beetle outbreaks in Utah alone have resulted in the deaths of over 1 million spruce trees and the loss of over 90% of the large spruce component in affected stands.\n-Just over 500,000 ha of spruce forests have been affected in Colorado and Wyoming since 1996.\n-The frequency of outbreak initiation dates varied, on average, outbreaks within a given geographic area were first reported once every 19 years.\n-Four periods of broad-scale spruce beetle outbreaks occurring from 1843 to 1860, 1882 to 1889, 1931 to 1957, and 2004 to 2010 were evident in the northwestern Colorado chronology.\n-The unprecedented scale of the current outbreaks suggests that warming temperatures attributed to climate change and the region-wide susceptibility of spruce in the spruce-fir zone have had a significant impact on outbreak occurrence.\n-The occurrence of spruce beetle outbreaks and other disturbance events in Alaska and Colorado dating back to the 1700s has been determined from chronologies constructed by utilizing tree-ring release patterns, dates of spruce beetle-induced tree mortality, and years since stand establishment."},
-    {"role": "assistant", "content": "No specific instances of Spruce Budworm outbreaks with geographic locations and years were mentioned in the text."}
-]
+    "system_message_check_multiple_locations": "You are a yes-or-no machine. This means that you only output 'yes' or 'no', and nothing else. You are given a string and you must determine if the string represents locations from more than one state/province. Answer with 'yes' if more than one state/province is represented and 'no' if only one state/province is represented. Sometimes locations are succeeded by the province and country they inhabit, like 'lac seul area, northwestern ontario, canada', and it is still located in only one province. It is of the utmost importance that you print 'yes' or 'no' and nothing else. Do not say anything other than returning the answer. Do not respond like a human.",
 
-system_message_stage_3 = "You are a formatting machine that takes output from ChatGPT and ensures that it is formatted correctly. Each line must be in csv format as follows:\n\"Location\", \"Year(s)\", \"Outbreak (Always only a 'yes', 'no' or 'uncertain')\".\nEach feature must be enclosed by double quotes.\nIf the outbreak lasts multiple years, list the first year, then the last year with a '-' between them (first year-last year). Only list specific years and ranges.\nIf the last feature instead says there was any amount of defoliation or tree mortality, that is also considered a 'yes' for the outbreak feature.\nIt is of the utmost importance that you print only the one piece of data, and absolutely nothing else. Do not say anything other than returning the formatted line. Do not respond like a human. I need perfect CSV text format out of ChatGPT."
+    "system_message_stage_4": "You are a computer made to give scientists town names within an area. You will be given a location in North America. Your task is to give a town that belongs at that location to be used as a locality string for GEOLocate software. If the area is very remote, give the nearest town. Put it in csv format as the following: \"city, state, country\". It is of the utmost importance that you print only the one piece of data, and absolutely nothing else. You must output a city name, even if the given area is very large or very remote."
+}
 
-stage_3_few_shot_examples = [
-    {"role": "user", "content": "Outbreak: 1946\nRegion: New Brunswick, Canada\n\nOutbreak: Unknown\nRegion: Algoma Forest, Ontario, Canada\n\nOutbreak: 1989\nRegion: Central New Brunswick, Canada\n\nOutbreak: Unknown\nRegion: Northern New Brunswick, Canada\n\nOutbreak: Unknown\nRegion: New Brunswick, Canada and northern New England, USA"},
-    {"role": "assistant", "content": '"New Brunswick, Canada", "1946", "yes"'},
-    {"role": "user", "content": 'No specific outbreaks of Spruce Budworm (SBW) were mentioned in the text.\n\n\nThe text does not provide enough information to generate a CSV line.'},
-    {"role":"assistant", "content": 'No specific outbreaks of Spruce Budworm (SBW) were mentioned in the text.'},
-    {"role": "user", "content": '"North American boreal forests", "several years", "Yes"\n"University of Quebec at Chicoutimi, Québec, Canada", "2015", "Yes"\n"University of Quebec at Chicoutimi, Québec, Canada", "2016", "Yes"'},
-    {"role": "assistant", "content": '"University of Quebec at Chicoutimi, Québec, Canada", "2015", "Yes"\n"University of Quebec at Chicoutimi, Québec, Canada", "2016", "Yes"'},
-    {"role": "user", "content": "\"Sioux Lookout area, Northwestern Ontario, Canada\", \"1858-1860\", \"Uncertain\""},
-    {"role": "assistant", "content": "\"Sioux Lookout area, Northwestern Ontario, Canada\", \"1858-1860\", \"Uncertain\""},
-    {"role": "user", "content": "\"Sioux Lookout area, Northwestern Ontario, Canada\", \"1945 onwards\", \"Yes\""},
-    {"role": "assistant", "content": "\"Sioux Lookout area, Northwestern Ontario, Canada\", \"1945-\", \"Yes\""},
-    # {"role": "user", "content": "\"Lac Seul area of Northwestern Ontario, Canada\", \"Late 19th century\", \"Yes\""},
-    # {"role": "assistant", "content": "No outbreaks of Spruce Budworm with specific years given in the text."}
-    {"role": "user", "content": "Outbreak: 1858-1865\nRegion: Sioux Lookout area, northwestern Ontario\nOutbreak: Uncertain\nRegion: Points close to the Manitoba boundary\nOutbreak: Uncertain\nRegion: International boundary, Lake of the Woods\nOutbreak: Current infestation\nRegion: Sioux Lookout and Wabaskang Lake area, northwestern Ontario\nOutbreak: Current infestation\nRegion: Approximately 10,000 square miles in northwestern Ontario\nOutbreak: Uncertain\nRegion: Clay Lake District\nOutbreak: Uncertain\nRegion: Cedar Lake District\nOutbreak: Uncertain\nRegion: Past outbreak area, northwestern Ontario\nOutbreak: Uncertain\nRegion: Forest stands with balsam fir dominance"},
-    {"role": "assistant", "content": "\"Sioux Lookout Area, Northwestern Ontario\", \"1858-1865\""},
-    {"role": "user", "content": "Outbreak: 1910-unknown\nRegion: Ottawa River Valley, Quebec, Canada\n\nOutbreak: 1940-unknown\nRegion: Ottawa River Valley, Quebec, Canada\n\nOutbreak: 1967-unknown\nRegion: Ottawa River Valley, Quebec, Canada\n\nOutbreak: 1783 (uncertain)\nRegion: Ottawa River Valley, Quebec, Canada"},
-    {"role": "assistant", "content": "\"Ottawa River Valley, Quebec, Canada\", \"1910\", \"yes\"\n\"Ottawa River Valley, Quebec, Canada\", \"1940\", \"yes\"\n\"Ottawa River Valley, Quebec, Canada\", \"1967\", \"yes\"\n\"Ottawa River Valley, Quebec, Canada\", \"1783\", \"uncertain\"\n"},
-    {"role": "user", "content": "Chicoutimi Cathedral, Chicoutimi, Quebec, Canada, 18th century: 1710-1716, 1754-1759\nChicoutimi Cathedral, Chicoutimi, Quebec, Canada, 19th century: 1811-1813, 1835-1841, 1868-1878"},
-    {"role": "assistant", "content": "\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1710-1716\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1754-1759\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1811-1813\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1835-1841\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1868-1878\", \"yes\""}
-]
+few_shot_examples = {
+    "stage_1_few_shot_examples": [
+        {"role": "user", "content": "We reconstructed the SBW outbreak history at the northern limit of the temperate forest in southern Quebec using dendrochronological material from old buildings and five old-growth stands. Nine potential outbreaks were identified (1976–1991, 1946–1959, 1915–1929, 1872–1903, 1807–1817, 1754–1765, 1706–1717, 1664–1670, and 1630–1638) with three additional uncertain outbreaks (1647–1661, 1606–1619, and 1564–1578)."},
+        {"role": "assistant", "content": "-Outbreak: 1976-1991\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1946-1959\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1915-1929\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1872-1903\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1807-1817\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1754-1765\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1706-1717\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1664-1670\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1630-1638\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1647-1661 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1606-1619 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1564-1578 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec"},
+        {"role": "user", "content": "Earlier potential outbreaks were identified using dendro-\nchronological material from old buildings only. Three addi-\ntional and distinct growth reductions occurred between the\nbeginning of the 18th and the early 19th centuries in 1807–\n1817 (O5), 1754–1765 (O6), and 1706–1717 (O7) (Fig. 2). (Berguet 1954)"},
+        {"role": "assistant", "content": "No specific instances of SBW outbreaks with geographic locations and years were mentioned in the text."},
+        {"role": "user", "content": "Several points\n in the neighbourhood of Sioux Lookout and the\n eastern portion of Lac Seul show 1866 as the\n first year of suppression, indicating that the in-\n festation had its origin in this vicinity. Within\n this area, the first apparent year of suppression\n was as early as 1862 in two localities. However,\n in both these localities the white spruce trees\n sampled were very old and showed poor diameter\n growth for approximately the last 100 years, thus\nobscuring to some extent the initiation of suppres-\n sion caused by the spruce budworm (see data for\n Minnitaki Lake, Fig. 3). From this area of\n origin the infestation spread mostly westward un-\n til by 1870 and 1871 it reached points close to\n the Manitoba boundary."},
+        {"role": "assistant", "content": "1. Region: Sioux Lookout and the eastern portion of Lac Seul\n  Years: 1862-1871\n"},
+        {"role": "user", "content": "Spruce beetle outbreaks have been re ported in the Rocky Mountains of western North America since the late 1800s. In their classic paper, Spruce Beetle in the Rockies,  Schmid and Frye reviewed the literature that emerged from the extensive outbreaks in Colorado in the 1940s."},
+        {"role": "assistant", "content": "No instances of Spruce Budworm outbreaks recorded in the text."}
+    ],
+    "stage_2_few_shot_examples": [
+        {"role": "user", "content": "Specific SBW Outbreaks:\n\n1. Outbreak: O1 (1905-1930)\n-Region: Eastern Quebec, east of the St. Lawrence River\n\n2. Outbreak: O2 (1935-1965)\n  -Region: Northern reach of southern Quebec\n\n3. Outbreak: O3 (1968-1988)\n-Region: Southwestern Quebec, along a southwest-northeast transect across central southern Quebec"},
+        {"role": "assistant", "content": 'Stage 2:\n"Eastern Quebec, east of the St. Lawrence River", "1905-1930", "Yes"\n"Northern reach of southern Quebec", "1935-1965", "Yes"\n"Southwestern Quebec, along a southwest-northeast transect across central southern Quebec", "1968-1988", "Yes"'},
+        {"role": "user", "content": "Stage 1:\n-Outbreak: 1976-1991\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1946-1959\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1915-1929\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1872-1903\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1807-1817\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1754-1765\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1706-1717\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1664-1670\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1630-1638\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1647-1661 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1606-1619 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec\n-Outbreak: 1564-1578 (uncertain)\n-Region: Northern limit of the temperate forest in southern Quebec"},
+        {"role": "assistant", "content": '"Northern limit of the temperate forest in southern Quebec", "1976-1991", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1946-1959", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1915-1929", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1872-1903", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1807-1817", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1754-1765", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1706-1717", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1664-1670", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1630-1638", "Yes"\n"Northern limit of the temperate forest in southern Quebec", "1647-1661", "Uncertain"\n"Northern limit of the temperate forest in southern Quebec", "1606-1619", "Uncertain"\n"Northern limit of the temperate forest in southern Quebec", "1564-1578", "Uncertain"'},
+        {"role": "user", "content": "Specific SBW outbreaks in specific years and locations mentioned in the text are as follows:\n\n1. Outbreak in 1989: Two epicenters were identified during this outbreak.\n2. Outbreak in 1991: Four epicenters were identified during this outbreak.\n3. Outbreak in 1996: One epicenter was identified during this outbreak.\n4. Outbreak in 2006: Four epicenters were identified during this outbreak.\n5. Outbreak in 2011: One epicenter was identified during this outbreak.\n\nPlease note that the specific locations of these epicenters were not provided in the text."},
+        {"role": "assistant", "content": "No specific instances of SBW outbreaks with geographic locations and years were mentioned in the text."},
+        {"role": "user", "content": "-Spruce beetle outbreaks have been reported in the Rocky Mountains of western North America since the late 1800s.\n-A new wave of outbreaks has affected Rocky Mountain subalpine spruce-fir forests beginning in the mid-1980s and continuing to the present.\n-Recent spruce beetle outbreaks in Utah alone have resulted in the deaths of over 1 million spruce trees and the loss of over 90% of the large spruce component in affected stands.\n-Just over 500,000 ha of spruce forests have been affected in Colorado and Wyoming since 1996.\n-The frequency of outbreak initiation dates varied, on average, outbreaks within a given geographic area were first reported once every 19 years.\n-Four periods of broad-scale spruce beetle outbreaks occurring from 1843 to 1860, 1882 to 1889, 1931 to 1957, and 2004 to 2010 were evident in the northwestern Colorado chronology.\n-The unprecedented scale of the current outbreaks suggests that warming temperatures attributed to climate change and the region-wide susceptibility of spruce in the spruce-fir zone have had a significant impact on outbreak occurrence.\n-The occurrence of spruce beetle outbreaks and other disturbance events in Alaska and Colorado dating back to the 1700s has been determined from chronologies constructed by utilizing tree-ring release patterns, dates of spruce beetle-induced tree mortality, and years since stand establishment."},
+        {"role": "assistant", "content": "No specific instances of Spruce Budworm outbreaks with geographic locations and years were mentioned in the text."}
+    ],
+    "stage_3_few_shot_examples": [
+        {"role": "user", "content": "Outbreak: 1946\nRegion: New Brunswick, Canada\n\nOutbreak: Unknown\nRegion: Algoma Forest, Ontario, Canada\n\nOutbreak: 1989\nRegion: Central New Brunswick, Canada\n\nOutbreak: Unknown\nRegion: Northern New Brunswick, Canada\n\nOutbreak: Unknown\nRegion: New Brunswick, Canada and northern New England, USA"},
+        {"role": "assistant", "content": '"New Brunswick, Canada", "1946", "yes"'},
+        {"role": "user", "content": 'No specific outbreaks of Spruce Budworm (SBW) were mentioned in the text.\n\n\nThe text does not provide enough information to generate a CSV line.'},
+        {"role":"assistant", "content": 'No specific outbreaks of Spruce Budworm (SBW) were mentioned in the text.'},
+        {"role": "user", "content": '"North American boreal forests", "several years", "Yes"\n"University of Quebec at Chicoutimi, Québec, Canada", "2015", "Yes"\n"University of Quebec at Chicoutimi, Québec, Canada", "2016", "Yes"'},
+        {"role": "assistant", "content": '"University of Quebec at Chicoutimi, Québec, Canada", "2015", "Yes"\n"University of Quebec at Chicoutimi, Québec, Canada", "2016", "Yes"'},
+        {"role": "user", "content": "\"Sioux Lookout area, Northwestern Ontario, Canada\", \"1858-1860\", \"Uncertain\""},
+        {"role": "assistant", "content": "\"Sioux Lookout area, Northwestern Ontario, Canada\", \"1858-1860\", \"Uncertain\""},
+        {"role": "user", "content": "\"Sioux Lookout area, Northwestern Ontario, Canada\", \"1945 onwards\", \"Yes\""},
+        {"role": "assistant", "content": "\"Sioux Lookout area, Northwestern Ontario, Canada\", \"1945-\", \"Yes\""},
+        # {"role": "user", "content": "\"Lac Seul area of Northwestern Ontario, Canada\", \"Late 19th century\", \"Yes\""},
+        # {"role": "assistant", "content": "No outbreaks of Spruce Budworm with specific years given in the text."}
+        {"role": "user", "content": "Outbreak: 1858-1865\nRegion: Sioux Lookout area, northwestern Ontario\nOutbreak: Uncertain\nRegion: Points close to the Manitoba boundary\nOutbreak: Uncertain\nRegion: International boundary, Lake of the Woods\nOutbreak: Current infestation\nRegion: Sioux Lookout and Wabaskang Lake area, northwestern Ontario\nOutbreak: Current infestation\nRegion: Approximately 10,000 square miles in northwestern Ontario\nOutbreak: Uncertain\nRegion: Clay Lake District\nOutbreak: Uncertain\nRegion: Cedar Lake District\nOutbreak: Uncertain\nRegion: Past outbreak area, northwestern Ontario\nOutbreak: Uncertain\nRegion: Forest stands with balsam fir dominance"},
+        {"role": "assistant", "content": "\"Sioux Lookout Area, Northwestern Ontario\", \"1858-1865\""},
+        {"role": "user", "content": "Outbreak: 1910-unknown\nRegion: Ottawa River Valley, Quebec, Canada\n\nOutbreak: 1940-unknown\nRegion: Ottawa River Valley, Quebec, Canada\n\nOutbreak: 1967-unknown\nRegion: Ottawa River Valley, Quebec, Canada\n\nOutbreak: 1783 (uncertain)\nRegion: Ottawa River Valley, Quebec, Canada"},
+        {"role": "assistant", "content": "\"Ottawa River Valley, Quebec, Canada\", \"1910\", \"yes\"\n\"Ottawa River Valley, Quebec, Canada\", \"1940\", \"yes\"\n\"Ottawa River Valley, Quebec, Canada\", \"1967\", \"yes\"\n\"Ottawa River Valley, Quebec, Canada\", \"1783\", \"uncertain\"\n"},
+        {"role": "user", "content": "Chicoutimi Cathedral, Chicoutimi, Quebec, Canada, 18th century: 1710-1716, 1754-1759\nChicoutimi Cathedral, Chicoutimi, Quebec, Canada, 19th century: 1811-1813, 1835-1841, 1868-1878"},
+        {"role": "assistant", "content": "\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1710-1716\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1754-1759\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1811-1813\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1835-1841\", \"yes\"\n\"Chicoutimi Cathedral, Chicoutimi, Quebec, Canada\", \"1868-1878\", \"yes\""}
+    ],
+    "multiple_locations_few_shot_examples": [
+        {"role": "user", "content": "northern maine, usa"},
+        {"role": "assistant", "content": 'no'},
+        {"role": "user", "content": "chicoutimi cathedral, chicoutimi, quebec, canada"},
+        {"role": "assistant", "content": 'no'},
+        {"role": "user", "content": "lac seul and lake nipigon regions, northwestern ontario, canada"},
+        {"role": "assistant", "content": 'no'},
+        {"role": "user", "content": "manitoba, ontario, quebec, new brunswick, nova scotia, prince edward island, newfoundland, maine, minnesota"},
+        {"role": "assistant", "content": 'yes'},
+        {"role": "user", "content": "zone b (quebec, ontario, manitoba)"},
+        {"role": "assistant", "content": 'yes'},
+        {"role": "user", "content": "laurentide park, quebec"},
+        {"role": "assistant", "content": 'no'},    
+        {"role": "user", "content": "Saguenay and Quebec"},
+        {"role": "assistant", "content": 'no'}
+    ]
 
-system_message_check_multiple_locations = "You are a yes-or-no machine. This means that you only output 'yes' or 'no', and nothing else. You are given a string and you must determine if the string represents locations from more than one state/province. Answer with 'yes' if more than one state/province is represented and 'no' if only one state/province is represented. Sometimes locations are succeeded by the province and country they inhabit, like 'lac seul area, northwestern ontario, canada', and it is still located in only one province. It is of the utmost importance that you print 'yes' or 'no' and nothing else. Do not say anything other than returning the answer. Do not respond like a human."
 
-multiple_locations_few_shot_examples = [
-    {"role": "user", "content": "northern maine, usa"},
-    {"role": "assistant", "content": 'no'},
-    {"role": "user", "content": "chicoutimi cathedral, chicoutimi, quebec, canada"},
-    {"role": "assistant", "content": 'no'},
-    {"role": "user", "content": "lac seul and lake nipigon regions, northwestern ontario, canada"},
-    {"role": "assistant", "content": 'no'},
-    {"role": "user", "content": "manitoba, ontario, quebec, new brunswick, nova scotia, prince edward island, newfoundland, maine, minnesota"},
-    {"role": "assistant", "content": 'yes'},
-    {"role": "user", "content": "zone b (quebec, ontario, manitoba)"},
-    {"role": "assistant", "content": 'yes'},
-    {"role": "user", "content": "laurentide park, quebec"},
-    {"role": "assistant", "content": 'no'},    
-    {"role": "user", "content": "Saguenay and Quebec"},
-    {"role": "assistant", "content": 'no'}
-]
-
-system_message_stage_4 = "You are a computer made to give scientists town names within an area. You will be given a location in North America. Your task is to give a town that belongs at that location to be used as a locality string for GEOLocate software. If the area is very remote, give the nearest town. Put it in csv format as the following: \"city, state, country\". It is of the utmost importance that you print only the one piece of data, and absolutely nothing else. You must output a city name, even if the given area is very large or very remote."
+}
 
 end_message = " END\n\n"
 
@@ -1666,61 +1665,55 @@ def main():
     global pdf_df
 
     try:
-        # get folder path and file name of pdf, create pdf reader instance
-        # pdf_files = glob.glob("papers/*.pdf")
-
-        # pdf_files = [r'E:\NIMBioS\SBW\SBW Literature\Canadian Entomologist\Chemical_control_in_forest_pest_management.pdf']
-
-        # with open('for_analysis_3.txt', 'r') as f:
-        #     lines = [line.strip() for line in f]
-        #     for line in lines:
-        #         pdf_files.append(line)
-
-        # pdf_files = [pdf_files[8]]
-
+        # Fetch the list of PDF files to process
         pdf_files = get_n_pdfs(500)
+
+        # Initialize the count for relevant files
         num_relevant = 0
 
+        # Determine the OS to set the appropriate CSV file path
         current_os = get_os()
-        if current_os == 'Darwin':
-            csv_filename = r'Results/all_pdfs.csv'
-        elif current_os == 'Windows':
-            csv_filename = r'Results\all_pdfs.csv'
+        csv_filename = 'Results/all_pdfs.csv' if current_os == 'Darwin' else 'Results\\all_pdfs.csv'
 
+        # Load existing CSV data into DataFrame
         pdf_df = pd.read_csv(csv_filename)
 
         print("Processing all files in this directory. This may take a while!")
 
-        file_num = 1
-        for file in pdf_files:
+        # Iterate over each PDF file
+        for file_num, file in enumerate(pdf_files, start=1):
             print(f"File {file_num}/{len(pdf_files)}")
-            file_num += 1
 
-            # if file != r'papers\Hardy et al. 1986 atlas of outbreaks.pdf':
-            #     continue
-
+            # Convert the file path based on OS
             windows_file = mac_to_windows_path(file)
 
+            # Process individual file
             relevant = process_file(file)
+
+            # Mark the file as processed in the DataFrame
             pdf_df.loc[pdf_df['file_name'] == windows_file, 'been_processed'] = 1
+
+            # Update DataFrame if the file is relevant
             if relevant:
                 num_relevant += 1
                 pdf_df.loc[pdf_df['file_name'] == windows_file, 'relevance'] = 1
-        
+
+        # Print summary statistics
         print(f"{num_relevant}/{len(pdf_files)} files were analyzed")
 
-        # df.to_csv(csv_filename, index=False)
-
-        end_runtime()
-
+    # Handle keyboard interruption
     except KeyboardInterrupt:
         print("\nKeyboardInterrupt\n")
 
+    # Handle other exceptions
     except Exception as e:
+        traceback.print_exc()
         print(f"Error: {e}")
-    
+
+    # Always execute cleanup
     finally:
         end_runtime()
+
 
 """
 Defining global variables
