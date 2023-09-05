@@ -13,7 +13,6 @@ from pdfminer.high_level import extract_text
 import time
 import socket
 import re
-import PyPDF2
 import openai
 import tiktoken
 import glob
@@ -160,8 +159,10 @@ def get_latitude_longitude(town, state, country):
     - tuple: (latitude, longitude) of the given location, or (None, None) if not found.
     """
     
+    valid_sources, outbreak_occurence_values, use_gpt4, results_folder, user_agent = set_metadata()
+
     # Initialize the geolocator with a custom user_agent
-    geolocator = Nominatim(user_agent="research_paper_parser mzg857@vols.utk.edu")
+    geolocator = Nominatim(user_agent=user_agent)
     
     # Flag to indicate if the coordinates have been found
     has_coords = False
@@ -1162,20 +1163,6 @@ def extract_text_from_scanned_pdf(file_path, poppler_bin_path):
     return "\n".join(texts)  # Join and return the extracted text from all pages
 
 def set_metadata():
-    study_indices = {
-        "Bouchard et al. 2018 -1.pdf": 1, 
-        "Boulanger et al. 2012 SBW outbreaks 400 yrs.pdf": 2,
-        "Fraver et al. 2006 time series SBW Maine.pdf": 3,
-        "Navarro et al. 2018 space time SBW.pdf": 4,
-        "Elliot 1960.pdf": 5,
-        "Blais 1954.pdf": 6,
-        "Blais 1981.pdf": 7,
-        # "Berguet et al. 2021 spatiotemp dyn 20th cent sbw.pdf": 9,
-        "Morin et al. 1993 outbreak data from Quebec.pdf": 9,
-        "Morin & LaPrise 1990 outbreaks in Quebec.pdf": 10,
-        "Blais 1965 outbreaks in Quebec.pdf": 11,
-        "Krause 1997 tree rings & budworm outbreaks.pdf": 12
-        }
     valid_sources = [
         'dendrochronological samples from tree cores', 
         'dendrochronological samples from historical buildings',
@@ -1185,17 +1172,15 @@ def set_metadata():
         'survey from insect laboratory', 
         'personal communication with the department of lands and forest representative'
     ]
-    general_locations = {
-        1: 'quebec, canada',
-        2: 'southern quebec'
+    outbreak_occurence_values = {
+        'no': 0,
+        'yes': 1,
+        'uncertain': 2
     }
-    general_coords = {
-        1: (46.907330, -71.389520),
-        2: (46.505566, -73.347985)
-    }
-    max_boundary_percentage = .5
     use_gpt4 = False
-    return study_indices, valid_sources, general_locations, general_coords, max_boundary_percentage, use_gpt4
+    results_folder = r"/Users/natalieharris/UTK/NIMBioS/Spruce Budworms/Parser 2/Results"
+    user_agent = "research_paper_parser mzg857@vols.utk.edu"
+    return valid_sources, outbreak_occurence_values, use_gpt4, results_folder, user_agent
 
 def set_ocr_metadata():
 
@@ -1213,6 +1198,11 @@ def set_ocr_metadata():
     pytesseract.pytesseract.tesseract_cmd = tesseract_path
 
     return poppler_bin_path, tesseract_path
+
+def read_api_key(file_name):
+    with open(file_name, 'r') as file:
+        api_key = file.read().strip()  # Read the content and remove any leading or trailing whitespaces
+    return api_key
 
 def process_file(file):
     print(f"\n\n\nCurrently Processing: {file}")
@@ -1239,7 +1229,11 @@ def process_file(file):
     pdf_text = cleanup_text(pdf_text)
 
     # set up openai api
-    openai_key = "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"
+    # you must set your own openai key in new_openai_key.txt
+    openai_key = read_api_key("new_openai_key.txt")
+    if len(openai_key) <= 0:
+        print("You must set your own openai key in new_openai_key.txt")
+        end_runtime()
     openai.api_key = openai_key
     model_list = openai.Model.list()
 
@@ -1274,7 +1268,6 @@ def process_file(file):
         if generated_text.endswith('.'):
             generated_text = generated_text[0:len(generated_text) - 1]
         if not generated_text.startswith('unknown'):
-            print(generated_text)
             source = generated_text
         if not is_unknown(source):
             break
@@ -1524,43 +1517,57 @@ def get_os():
     current_os = platform.system()
     return current_os
 
-def get_n_pdfs(num_files=10):
+def get_n_pdfs(to_parse_df, num_files):
+    """
+    Returns a list of up to 'num_files' unprocessed PDF file names from a given DataFrame.
+
+    Arguments:
+    to_parse_df : pandas.DataFrame
+        The DataFrame must contain the following columns:
+            - 'file_name': Indicates the name or path of the file.
+            - 'been_processed': Indicates if the file has been processed (1) or not (0).
+        The 'file_name' may contain either Windows or macOS file paths depending on the underlying OS.
+        
+    num_files : int
+        The number of unprocessed files to return. If there are fewer unprocessed files than 'num_files', 
+        all available unprocessed files will be returned.
+
+    Requirements:
+    - The DataFrame should not be empty.
+    - 'file_name' and 'been_processed' must exist as columns.
+    - 'been_processed' should only contain binary values (0 or 1).
+
+    Returns:
+    list
+        A list containing the file names (or paths) of up to 'num_files' unprocessed PDFs.
+    """
+    
     # Specify the name of the CSV file
     current_os = get_os()
-    if current_os == "Darwin":
-        csv_filename = r'Results/all_pdfs.csv'
-    elif current_os == "Windows":
-        csv_filename = r'Results\all_pdfs.csv'
-
-    # Read the CSV file into a DataFrame
-    df = pd.read_csv(csv_filename)
 
     if current_os == "Darwin":
-        df['file_name'] = df['file_name'].apply(windows_to_mac_path)
+        to_parse_df['file_name'] = to_parse_df['file_name'].apply(windows_to_mac_path)
     elif current_os == "Windows":
-        df['file_name'] = df['file_name'].apply(mac_to_windows_path)
-
-    # print(df)
-    # wait()
+        to_parse_df['file_name'] = to_parse_df['file_name'].apply(mac_to_windows_path)
 
     # Filter the rows where 'been_processed' is equal to 0
-    filtered_df = df[df['been_processed'] == 0]
+    filtered_df = to_parse_df[to_parse_df['been_processed'] == 0]
 
-    # Get up to the first ten 'file_name' entries from the filtered DataFrame
+    # Get up to the first 'num_files' 'file_name' entries from the filtered DataFrame
     # and put them into a list
     file_names_to_process = filtered_df['file_name'].head(num_files).tolist()
 
-
-
-    # Print the list of file names to process
-    # print(file_names_to_process)
-
-    # # Mark the selected files as processed (set 'been_processed' to 1)
-    # df.loc[df['file_name'].isin(file_names_to_process), 'been_processed'] = 1
-
-    # df.to_csv(csv_filename, index=False)
-
     return file_names_to_process
+
+def list_all_pdfs(folder_path):
+    # Use os.path.join and '**' to search within the folder and all its subdirectories.
+    # '*.pdf' matches all pdf files.
+    search_path = os.path.join(folder_path, '**', '*.pdf')
+    
+    # Use glob to find all the pdf files matching the search_path
+    pdf_files = glob.glob(search_path, recursive=True)
+    
+    return pdf_files
 
 #_________________________________________________________________________
 
@@ -1665,18 +1672,34 @@ def main():
     global pdf_df
 
     try:
-        # Fetch the list of PDF files to process
-        pdf_files = get_n_pdfs(500)
+
+        # get metadata
+        valid_sources, outbreak_occurence_values, use_gpt4, results_folder, user_agent = set_metadata()
+        
+        # check metadata
+        if len(results_folder) <= 0:
+            raise ValueError("Results folder must be defined in the set_metadata() function")
+        if len(user_agent) <= 0:
+            raise ValueError("User_agent variable must be defined in the set_metadata() function")
+
+        file_name = find_unused_filename(results_folder, "results")
+        print(file_name)
+
 
         # Initialize the count for relevant files
         num_relevant = 0
 
         # Determine the OS to set the appropriate CSV file path
         current_os = get_os()
-        csv_filename = 'Results/all_pdfs.csv' if current_os == 'Darwin' else 'Results\\all_pdfs.csv'
+
+        # Where I stored the info about which pdfs have/have not been parsed
+        csv_filename = f'{results_folder}/all_pdfs.csv' if current_os == 'Darwin' else f'{results_folder}\\all_pdfs.csv'
 
         # Load existing CSV data into DataFrame
         pdf_df = pd.read_csv(csv_filename)
+
+        # Fetch a list of PDF files to process
+        pdf_files = get_n_pdfs(pdf_df, 500)
 
         print("Processing all files in this directory. This may take a while!")
 
@@ -1725,23 +1748,8 @@ data_list = []
 # used to rewrite all_pdfs.csv data (used for account which texts were analyzed, found to be relevant)
 pdf_df = pd.DataFrame()
 
-current_os = get_os()
-if current_os == 'Darwin':
-    parent_folder = r"/Users/natalieharris/UTK/NIMBioS/Spruce Budworms/Parser 2/Results"
-elif current_os == 'Windows':
-    parent_folder = r"C:\Users\natal\OneDrive\Documents\GitHub\PDF-Parser\Results"
-file_name = find_unused_filename(parent_folder, "results")
-print(file_name)
-
-outbreak_occurence_values = {
-    'no': 0,
-    'yes': 1,
-    'uncertain': 2
-}
-
 state_cache = {}
 location_coordinates = {}
-
 
 if __name__ == "__main__":
     main()
