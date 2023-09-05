@@ -1178,8 +1178,8 @@ def set_metadata():
         'uncertain': 2
     }
     use_gpt4 = False
-    results_folder = r"/Users/natalieharris/UTK/NIMBioS/Spruce Budworms/Parser 2/Results"
-    user_agent = "research_paper_parser mzg857@vols.utk.edu"
+    results_folder = r""
+    user_agent = ""
     return valid_sources, outbreak_occurence_values, use_gpt4, results_folder, user_agent
 
 def set_ocr_metadata():
