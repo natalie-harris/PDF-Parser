@@ -1,0 +1,161 @@
+Currently Processing: /Volumes/ESD-USB/SBW Literature/Google Scholar/Wing wear and body size measurements of adult spruce budworms captured at light traps_ inference on seasonal patterns related to reproduction.pdf
+Identified relevance: True
+Found sources: []
+location: new brunswick (nb) in 2012, québec (qc) in 2013, and newfoundland (nl) in 2014
+location: unknown.
+location: unknown.
+Inferred year: 2015
+Generated General Location: Location: New Brunswick (NB), Québec (QC), Newfoundland (NL), Canada
+location to coords
+More specific location: Edmundston, NB, Canada
+47.364409 -68.328094
+new brunswick / nouveau-brunswick
+"new brunswick (nb), québec (qc), newfoundland (nl), canada"
+
+Stage 1: 
+Text chunk 1: [Spruce Budworm outbreaks were observed in the following years and regions:
+
+-2012 in New Brunswick (NB)
+-2013 in Québec (QC)
+-2014 in Newfoundland (NL)]
+Text chunk 2: [There is no specific information about Spruce Budworm outbreaks in this text.]
+Text chunk 3: [Spruce Budworm outbreaks were reported in the following locations and years:
+
+-Kedgwick, New Brunswick in 2012
+-Bas Saint-Laurent, Quebec in 2013
+-Rocky Harbor, Newfoundland in 2014]
+Text chunk 4: [There is no specific information about Spruce Budworm outbreaks in this text.]
+
+
+Stage 2:
+"New Brunswick (NB)", "2012", "Yes"
+"Québec (QC)", "2013", "Yes"
+"Newfoundland (NL)", "2014", "Yes"
+"Kedgwick, New Brunswick", "2012", "Yes"
+"Bas Saint-Laurent, Quebec", "2013", "Yes"
+"Rocky Harbor, Newfoundland", "2014", "Yes"
+
+
+Stage 3: 
+"New Brunswick (NB)", "2012", "Yes"
+"Québec (QC)", "2013", "Yes"
+"Newfoundland (NL)", "2014", "Yes"
+"Kedgwick, New Brunswick", "2012", "Yes"
+"Bas Saint-Laurent, Quebec", "2013", "Yes"
+"Rocky Harbor, Newfoundland", "2014", "Yes"
+
+
+beginning split line: ['New Brunswick (NB)', '2012', 'Yes']
+Slightly more formatted: "New Brunswick (NB)", "2012", "Yes"
+Location: new brunswick (nb), Year: 2012, Outbreak: yes
+Got here
+before range
+2012
+hello
+after range
+Successfully split response!
+
+
+beginning split line: ['Québec (QC)', '2013', 'Yes']
+Slightly more formatted: "Québec (QC)", "2013", "Yes"
+Location: québec (qc), Year: 2013, Outbreak: yes
+Got here
+before range
+2013
+hello
+after range
+Successfully split response!
+
+
+beginning split line: ['Newfoundland (NL)', '2014', 'Yes']
+Slightly more formatted: "Newfoundland (NL)", "2014", "Yes"
+Location: newfoundland (nl), Year: 2014, Outbreak: yes
+Got here
+before range
+2014
+hello
+after range
+Successfully split response!
+
+
+beginning split line: ['Kedgwick, New Brunswick', '2012', 'Yes']
+Slightly more formatted: "Kedgwick, New Brunswick", "2012", "Yes"
+Location: kedgwick, new brunswick, Year: 2012, Outbreak: yes
+Got here
+before range
+2012
+hello
+after range
+Successfully split response!
+
+
+beginning split line: ['Bas Saint-Laurent, Quebec', '2013', 'Yes']
+Slightly more formatted: "Bas Saint-Laurent, Quebec", "2013", "Yes"
+Location: bas saint-laurent, quebec, Year: 2013, Outbreak: yes
+Got here
+before range
+2013
+hello
+after range
+Successfully split response!
+
+
+beginning split line: ['Rocky Harbor, Newfoundland', '2014', 'Yes']
+Slightly more formatted: "Rocky Harbor, Newfoundland", "2014", "Yes"
+Location: rocky harbor, newfoundland, Year: 2014, Outbreak: yes
+Got here
+before range
+2014
+hello
+after range
+Successfully split response!
+line from NSR: "new brunswick (nb)", 2012, yes
+['new brunswick (nb)', '2012', 'yes']
+location to coords
+More specific location: Miramichi, NB, Canada
+47.032695 -65.494995
+got here
+new brunswick (nb), 47.032695, -65.494995, 2012, yes
+line from NSR: "québec (qc)", 2013, yes
+['québec (qc)', '2013', 'yes']
+location to coords
+More specific location: Val-d'Or, Quebec, Canada
+48.1023356 -77.7875715
+got here
+québec (qc), 48.1023356, -77.7875715, 2013, yes
+line from NSR: "newfoundland (nl)", 2014, yes
+['newfoundland (nl)', '2014', 'yes']
+location to coords
+More specific location: Deer Lake, NL, Canada
+49.1830366 -57.4320002
+got here
+newfoundland (nl), 49.1830366, -57.4320002, 2014, yes
+line from NSR: "kedgwick, new brunswick", 2012, yes
+['kedgwick, new brunswick', '2012', 'yes']
+location to coords
+More specific location: Kedgwick, New Brunswick, Canada
+47.6463746 -67.3468372
+got here
+kedgwick, new brunswick, 47.6463746, -67.3468372, 2012, yes
+line from NSR: "bas saint-laurent, quebec", 2013, yes
+['bas saint-laurent, quebec', '2013', 'yes']
+location to coords
+More specific location: Rimouski, Quebec, Canada
+48.450155 -68.529968
+got here
+bas saint-laurent, quebec, 48.450155, -68.529968, 2013, yes
+line from NSR: "rocky harbor, newfoundland", 2014, yes
+['rocky harbor, newfoundland', '2014', 'yes']
+location to coords
+More specific location: Rocky Harbor, Newfoundland, Canada
+47.4792396 -55.7928527
+got here
+rocky harbor, newfoundland, 47.4792396, -55.7928527, 2014, yes
+Parsed response:
+                         area   Latitude  Longitude  Year Outbreak Source
+0          new brunswick (nb)  47.032695 -65.494995  2012      yes       
+1                 québec (qc)  48.102336 -77.787571  2013      yes       
+2           newfoundland (nl)  49.183037 -57.432000  2014      yes       
+3     kedgwick, new brunswick  47.646375 -67.346837  2012      yes       
+4   bas saint-laurent, quebec  48.450155 -68.529968  2013      yes       
+5  rocky harbor, newfoundland  47.479240 -55.792853  2014      yes       

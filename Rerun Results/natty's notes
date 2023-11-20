@@ -1,0 +1,11 @@
+What information should be in the new dataframe?
+Stage 1-3 results
+
+I'm going to make a separate df because it would be easier than modifying current df logic
+
+Here's the current df format:
+area,Latitude,Longitude,Year,Outbreak,Source,File Name
+
+Stage 1-3 Results File Name Format: output<x> (where <x> is a unique number like with the results<x> files)
+New df should have this format:
+File Name, Stage 1 Results, Stage 2 Results, Stage 3 Results

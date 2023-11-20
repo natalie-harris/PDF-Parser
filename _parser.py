@@ -965,7 +965,7 @@ def cleanup_text(text):
 
     return text
 
-def get_study_index(file, study_indices):
+def get_study_index(file): #, study_indices):
     """
     Retrieve the study index associated with a given file from a dictionary of study indices.
     
@@ -981,8 +981,8 @@ def get_study_index(file, study_indices):
     file = file.rsplit('/', 1)[-1]
     
     # Check if the file name exists in the study_indices dictionary and return the corresponding value if it does
-    if file in study_indices:
-        return study_indices[file]
+    # if file in study_indices:
+    #     return study_indices[file]
     
     # Return None if the file name is not found in the study_indices dictionary
     return None
@@ -1049,16 +1049,18 @@ def end_runtime():
     Maps 'Outbreak' values using the global variable outbreak_occurence_values.
     """
     global data_list
-    global file_name
+    global stage_output_list
+    global results_file_name
+    global source_output_file_name
     global outbreak_occurence_values
     global pdf_df
 
     current_os = get_os()
 
     if current_os == "Darwin":
-        csv_filename = r'Results/all_pdfs.csv'
+        csv_filename = r'Rerun Results/all_pdfs.csv'
     elif current_os == "Windows":
-        csv_filename = r'Results\all_pdfs.csv'
+        csv_filename = r'Rerun Results\all_pdfs.csv'
     else:
         print("OS not supported")
         exit()
@@ -1066,15 +1068,17 @@ def end_runtime():
     pdf_df.to_csv(csv_filename, index=False)
 
     print(data_list)
+    print(stage_output_list)
 
-    final_df = []  # Initialize list to store the final processed dataframes
+    final_outbreak_df = []  # Initialize list to store the final processed dataframes
+    final_source_df = []
 
     # Iterate through each dataframe in data_list
     for df in data_list:
         data = df.copy()
         filename = data['File Name'].iloc[0]
         source = data['Source'].iloc[0]
-        study = data['Study'].iloc[0]
+        # study = data['Study'].iloc[0]
         list_data_filled = []
 
         data = data.sort_values(['area', 'Year'])  # Sort by area and year
@@ -1111,14 +1115,24 @@ def end_runtime():
         # Map 'Outbreak' column values using predefined mapping
         data['Outbreak'] = data['Outbreak'].map(outbreak_occurence_values)
         
-        final_df.append(data)  # Append the fully processed dataframe to final_df list
+        final_outbreak_df.append(data)  # Append the fully processed dataframe to final_outbreak_df list
+
+    for df in stage_output_list:
+        data = df.copy()
+        final_source_df.append(data)
 
     # Save data to CSV and Excel if there are any processed dataframes
-    if len(final_df) > 0:
-        all_data = pd.concat(final_df, ignore_index=True)  # Concatenate all processed dataframes
-        all_data.to_csv(file_name + '.csv', index=False)  # Save to CSV
-        all_data.to_excel(file_name + '.xlsx', index=False)  # Save to Excel
-        print(f"Written to {file_name} (.csv and .xlsx)")  # Print confirmation
+    if len(final_outbreak_df) > 0:
+        all_data = pd.concat(final_outbreak_df, ignore_index=True)  # Concatenate all processed dataframes
+        all_data.to_csv(results_file_name + '.csv', index=False)  # Save to CSV
+        all_data.to_excel(results_file_name + '.xlsx', index=False)  # Save to Excel
+        print(f"Written to {results_file_name} (.csv and .xlsx)")  # Print confirmation
+
+    if len(final_source_df) > 0:
+        all_stage_data = pd.concat(final_source_df, ignore_index=True)
+        all_stage_data.to_csv(source_output_file_name + '.csv', index=False)  # Save to CSV
+        all_stage_data.to_excel(source_output_file_name + '.xlsx', index=False)  # Save to Excel
+        print(f"Written to {source_output_file_name} (.csv and .xlsx)")  # Print confirmation
 
     # Exit the program
     exit()
@@ -1178,8 +1192,8 @@ def set_metadata():
         'uncertain': 2
     }
     use_gpt4 = False
-    results_folder = r""
-    user_agent = ""
+    results_folder = r"/Users/natalieharris/UTK/NIMBioS/Spruce Budworms/Parser 2/Rerun Results"
+    user_agent = "research_paper_parser mzg857@vols.utk.edu"
     return valid_sources, outbreak_occurence_values, use_gpt4, results_folder, user_agent
 
 def set_ocr_metadata():
@@ -1212,7 +1226,7 @@ def process_file(file):
     global location_coordinates
 
     # ChatGPT cannot read the pictures in Hardy et al. so we can't compare data
-    study_indices, valid_sources, general_locations, general_coords, max_boundary_percentage, use_gpt4 = set_metadata()
+    valid_sources, outbreak_occurence_values, use_gpt4, results_folder, user_agent = set_metadata()
 
     # get info for OCR analysis
     poppler_bin_path, tesseract_path = set_ocr_metadata()
@@ -1223,6 +1237,8 @@ def process_file(file):
     # if extracted text is short, try OCR
     if len(pdf_text) < 100:
         pdf_text = extract_text_from_scanned_pdf(file, poppler_bin_path)
+
+    # pdf_text = "We reconstructed the SBW outbreak history at the northern limit of the temperate forest in southern Quebec using dendrochronological material from old buildings and five old-growth stands. Our regional tree-ring chronology (1551–1995) represents one of the longest and most replicated insect outbreak reconstructions in North America. Nine potential outbreaks were identified (1976–1991, 1946–1959, 1915–1929, 1872–1903, 1807–1817, 1754–1765, 1706–1717, 1664–1670, and 1630–1638) with three additional uncertain outbreaks (1647–1661, 1606–1619, and 1564–1578)"
 
     # remove everything before abstract and after/on references page
     pdf_text = extract_abstract_to_references(pdf_text)
@@ -1239,7 +1255,7 @@ def process_file(file):
 
     # Get relevance of text
     relevance_chunk = build_chunk_group(system_messages["system_message_topic_checker"], pdf_text, just_one_chunk=True, max_context_length=4096)[0][1]
-    relevance_response = get_chatgpt_response(system_messages["ystem_message_topic_checker"], relevance_chunk, use_gpt4=False)
+    relevance_response = get_chatgpt_response(system_messages["system_message_topic_checker"], relevance_chunk, use_gpt4=False)
     if relevance_response is None:
         is_relevant = False
     else:
@@ -1291,9 +1307,11 @@ def process_file(file):
     coord_classification = ''
     i = 0
 
-    study_index = get_study_index(file, study_indices)
-    gen_location = get_val_from_dict(study_index, general_locations)
-    gen_coords = get_val_from_dict(study_index, general_coords)
+    # study_index = get_study_index(file, study_indices)
+    gen_location = None
+    gen_coords = None
+    # gen_location = get_val_from_dict(study_index, general_locations)
+    # gen_coords = get_val_from_dict(study_index, general_coords)
 
     if gen_coords is None:
         while i < len(stage0b_chunks) and is_unknown(location.lower()):
@@ -1403,6 +1421,7 @@ def process_file(file):
 
     # set up dataframe for csv output
     outbreak_df = pd.DataFrame(columns=['area', 'Latitude', 'Longitude', 'Year', 'Outbreak', 'Source'])
+    stage_output_df = pd.DataFrame(columns=['File Name', 'Stage 1', 'Stage 2', 'Stage 3'])
 
     location_backup = ""
     if 'unknown' not in location.lower():
@@ -1439,7 +1458,9 @@ def process_file(file):
     if generated_text is None:
         return is_relevant
     
-    print(f"Stage 2:\n{generated_text}\n\n") 
+    stage1_results = stage1_results.replace('\n', ' ').replace(',', '')
+    stage2_results = generated_text.replace('\n', ' ').replace(',', '')
+    print(f"Stage 2:\n{stage2_results}\n\n") 
 
     if year_guess is not None:
         addition = f"\nIn case this is helpful, the data that your input comes from was published in {year_guess}"
@@ -1447,7 +1468,8 @@ def process_file(file):
     else:
         generated_text = get_chatgpt_response(system_messages["system_message_stage_3"], generated_text, 0, use_gpt4=False, examples=few_shot_examples["stage_3_few_shot_examples"])
 
-    print(f"Stage 3: \n{generated_text}")
+    stage3_results = generated_text.replace('\n', ' ').replace(',', '')
+    print(f"Stage 3: \n{stage3_results}")
     if generated_text is None:
         return is_relevant
 
@@ -1458,10 +1480,12 @@ def process_file(file):
     else:
         print("Error: Could not parse the response.")
 
+    stage_output_df.loc[len(stage_output_df)] = [file, stage1_results, stage2_results, stage3_results]
+
     # if there was data to be found, add it to dataframe list
     if not outbreak_df.empty:
         outbreak_df['File Name'] = os.path.basename(file)
-        outbreak_df['Study'] = outbreak_df['File Name'].map(study_indices)
+        # outbreak_df['Study'] = outbreak_df['File Name'].map(study_indices)
         print(found_valid_sources)
         if len(found_valid_sources) > 0:
             outbreak_df['Source'] = ' | '.join(found_valid_sources)
@@ -1471,6 +1495,9 @@ def process_file(file):
 
         # Append the dataframe to the list
         data_list.append(outbreak_df)
+
+    if len(stage_output_df) > 0:
+        stage_output_list.append(stage_output_df)
 
     return is_relevant
 
@@ -1596,7 +1623,7 @@ system_messages = {
 
     "system_message_stage_1": "You are a scientist extracting data from research papers about Spruce Budworm (SBW) infestations and outbreaks. You are to log every instance in which the text refers to a Spruce Budworm outbreak during any years and region. You must only include the SPECIFIC ranges of years and the SPECIFIC region of the data. The region must be locatable on a map. Be as specific as possible. General locations like 'study site' or 'tree stand #3' are not relevant. Include outbreaks whose existence is uncertain. Never include research citations from the text. Only report information related to specific SBW outbreaks in specific years and locations. ALL INFORMATION MUST BE ABOUT SPRUCE BUDWORMS",
 
-    "system_message_stage_2": "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbrea/infestation occured during a specific year or range of years and at a specific geographic location.\n\nFor each instance, output should be a new line in this format, with no headers or labels included.\n\nThe geographic location must be identifiable on a map and can be a city, county, specific lake, etc. Do not include nonspecific or nonidentifiable locations like 'study site'.\n\nIf an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'.\n\nIf the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'. If there was a Spruce Budworm management or control operation in a region, that means that there was a Spruce Budworm outbreak there.\n\nIt is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks.\n",
+    "system_message_stage_2": "You are a computer analyzing a text for scientists on spruce budworm (SBW) outbreaks/infestations. You are to log every instance where the text mentions whether or not an outbrea/infestation occured during a specific year or range of years and at a specific geographic location.\n\nEach line must be in csv format as follows:\n\"Location\", \"Year(s)\", \"Outbreak (Always only a 'yes', 'no' or 'uncertain')\".\n\nFor each instance, output should be a new line in this format, with no headers or labels included.\n\nThe geographic location must be identifiable on a map and can be a city, county, specific lake, etc. Do not include nonspecific or nonidentifiable locations like 'study site'.\n\nIf an outbreak lasts multiple years, write the 'year' feature as 'first_year-last_year'. There MUST be a dash in between the two years. The year section must have no alphabetic characters. For example, it cannot say 'approximately *year*' or 'unknown'.\n\nIf the authors are uncertain of an outbreak's existence, the 'outbreak' column for that outbreak should be 'uncertain'. If there was a Spruce Budworm management or control operation in a region, that means that there was a Spruce Budworm outbreak there.\n\nIt is of the utmost importance that we have as many years and locations of data as possible. References to other authors and papers are irrelevant. Only log specific instances of SBW outbreaks.\n",
 
     "system_message_stage_3": "You are a formatting machine that takes output from ChatGPT and ensures that it is formatted correctly. Each line must be in csv format as follows:\n\"Location\", \"Year(s)\", \"Outbreak (Always only a 'yes', 'no' or 'uncertain')\".\nEach feature must be enclosed by double quotes.\nIf the outbreak lasts multiple years, list the first year, then the last year with a '-' between them (first year-last year). Only list specific years and ranges.\nIf the last feature instead says there was any amount of defoliation or tree mortality, that is also considered a 'yes' for the outbreak feature.\nIt is of the utmost importance that you print only the one piece of data, and absolutely nothing else. Do not say anything other than returning the formatted line. Do not respond like a human. I need perfect CSV text format out of ChatGPT.",
 
@@ -1699,27 +1726,27 @@ def main():
         pdf_df = pd.read_csv(csv_filename)
 
         # Fetch a list of PDF files to process
-        pdf_files = get_n_pdfs(pdf_df, 500)
+        pdf_files = get_n_pdfs(pdf_df, 2000)
 
         print("Processing all files in this directory. This may take a while!")
 
         # Iterate over each PDF file
-        for file_num, file in enumerate(pdf_files, start=1):
+        for file_num, file in pdf_files:
             print(f"File {file_num}/{len(pdf_files)}")
 
             # Convert the file path based on OS
-            windows_file = mac_to_windows_path(file)
+            # windows_file = mac_to_windows_path(file)
 
             # Process individual file
             relevant = process_file(file)
 
             # Mark the file as processed in the DataFrame
-            pdf_df.loc[pdf_df['file_name'] == windows_file, 'been_processed'] = 1
+            pdf_df.loc[pdf_df['file_name'] == file, 'been_processed'] = 1
 
             # Update DataFrame if the file is relevant
             if relevant:
                 num_relevant += 1
-                pdf_df.loc[pdf_df['file_name'] == windows_file, 'relevance'] = 1
+                pdf_df.loc[pdf_df['file_name'] == file, 'relevance'] = 1
 
         # Print summary statistics
         print(f"{num_relevant}/{len(pdf_files)} files were analyzed")
@@ -1742,11 +1769,18 @@ def main():
 Defining global variables
 """
 
+valid_sources, outbreak_occurence_values, use_gpt4, results_folder, user_agent = set_metadata()
+
+results_file_name = find_unused_filename("Rerun Results", "results")
+source_output_file_name = find_unused_filename("Rerun Results", "source_output")
+
 # for concatenating dataframes
 data_list = []
+stage_output_list = []
 
 # used to rewrite all_pdfs.csv data (used for account which texts were analyzed, found to be relevant)
 pdf_df = pd.DataFrame()
+
 
 state_cache = {}
 location_coordinates = {}

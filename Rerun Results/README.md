@@ -1,0 +1,1 @@
+This folder is for storing results from my next batch of parsing. The goal of reparsing the paper set is to also store every interim stage output
